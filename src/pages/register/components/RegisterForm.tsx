@@ -247,6 +247,11 @@ const RegisterTop = styled.div`
     font-family: ${pr => pr.theme.font.family.primary};
     font-size: ${pr => pr.theme.font.size.md};
 
+    @media (max-width: 768px) {
+        font-size: ${pr => pr.theme.font.size.sm};
+    }
+
+
 `;
 
 

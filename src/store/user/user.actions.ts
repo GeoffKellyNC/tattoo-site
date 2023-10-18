@@ -1,11 +1,46 @@
-import axios from 'axios'
-import * as notifyTypes from '../notifications/notify.types'
-import * as userTypes from './user.types'
+import axios from 'axios';
+import { axiosWithAuth } from '../../api/axiosWithAuth';
+import * as notifyTypes from '../notifications/notify.types';
+import * as userTypes from './user.types';
+import { Dispatch } from 'redux';  
+import { SetUserDataAction } from './user.reducer';
+
+// Define data types
+interface RegisterData {
+    username?: string; 
+    password?: string; 
+}
+
+interface LoginData {
+    username: string;
+    password: string;
+    // ... any other fields
+}
+
+// Define action types
+interface NotifyAction {
+    type: typeof notifyTypes.SET_NOTIFY;
+    payload: {
+        type: 'info';
+        message: string;
+    };
+}
+
+interface UserAction {
+    type: typeof userTypes.SET_USER_DATA | typeof userTypes.SET_USER_AUTHENTICATED;
+    payload: boolean;
+}
 
 
-export const registerUser =  (data: unknown) => async (dispatch: (arg0: { type: string; payload: { type: string; message: string } }) => void )=>  {
+
+// Define return types
+type RegisterReturnType = void;
+type LoginReturnType = { state: boolean; unxid: string | null } | boolean;
+type VerifyUserReturnType = boolean;
+
+export const registerUser = (data: RegisterData) => async (dispatch: Dispatch<NotifyAction>): Promise<RegisterReturnType> => {
     try {
-        const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/create-user`, data)
+        const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/register`, data);
 
         dispatch({
             type: notifyTypes.SET_NOTIFY,
@@ -13,24 +48,27 @@ export const registerUser =  (data: unknown) => async (dispatch: (arg0: { type: 
                 type: 'info',
                 message: 'User Created Successfully'
             }
-        })
+        });
 
-        console.log('Crete User Res: ', res)
+        console.log('Create User Res: ', res);
     } catch (error) {
-        console.log('Error Registering User: ', error) //!TODO: Handle This error
+        console.log('Error Registering User: ', error); // TODO: Handle This error
     }
-}
+};
 
-export const loginUser = (data: unknown) => async (dispatch: (arg0: { type: string; payload: { type: string; message: string } }) => boolean ) => {
+export const loginUser = (data: LoginData) => async (dispatch: Dispatch<UserAction | NotifyAction | SetUserDataAction>): Promise<LoginReturnType> => {
     try {
-        const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/login`, data)
-        console.log('Login User Res: ', res) //!REMOVE
+        const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/auth/login`, data);
 
         if(res.status === 200) {
+            sessionStorage.setItem('user_data', JSON.stringify(res.data.userData));
+            sessionStorage.setItem('isAuthenticated', 'true');
+            sessionStorage.setItem('jwtToken', res.data.jwtToken);
+            
             dispatch({
                 type: userTypes.SET_USER_DATA,
-                payload: res.data.user
-            })
+                payload: res.data.userData
+            });
     
             dispatch({
                 type: notifyTypes.SET_NOTIFY,
@@ -38,15 +76,87 @@ export const loginUser = (data: unknown) => async (dispatch: (arg0: { type: stri
                     type: 'info',
                     message: 'User Logged In Successfully'
                 }
-            })
+            });
 
-            return true
+            dispatch({
+                type: userTypes.SET_USER_AUTHENTICATED,
+                payload: true
+            });
+
+            return { state: true, unxid: res.data.unxid };
         }
 
-        return false
-
+        return { state: false, unxid: null };
     } catch (error) {
-        console.log('Error Logging In User: ', error) //!TODO: Handle This error
-        return false
+        console.log('Error Logging In User: ', error); // TODO: Handle This error
+        return false;
+    }
+};
+
+
+export const logoutUser = () => async (dispatch: Dispatch<UserAction | NotifyAction>): Promise<void> => {
+    try {
+        const res = await axiosWithAuth().post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/auth/logout`);
+        console.log('Logout User Res: ', res.data); // REMOVE
+
+        if(res.status === 200) {
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('user_data');
+            sessionStorage.removeItem('isAuthenticated');
+
+            dispatch({
+                type: userTypes.SET_USER_DATA,
+                payload: false
+            });
+    
+            dispatch({
+                type: notifyTypes.SET_NOTIFY,
+                payload: {
+                    type: 'info',
+                    message: 'User Logged Out Successfully'
+                }
+            });
+
+            dispatch({
+                type: userTypes.SET_USER_AUTHENTICATED,
+                payload: false
+            });
+
+            window.location.href = '/';
+            return
+        }
+    } catch (error) {
+        console.log('Error Logging Out User: ', error); // TODO: Handle This error
+        return
     }
 }
+
+export const verifyUserAccess = () => async (dispatch: Dispatch<UserAction>): Promise<VerifyUserReturnType> => {
+    try {
+        const res = await axiosWithAuth().get(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/auth/verify-user-access`);
+        console.log('Verify User Res: ', res.data); // REMOVE
+
+        if(res.status === 200) {
+            dispatch({
+                type: userTypes.SET_USER_AUTHENTICATED,
+                payload: true
+            });
+
+            return true;
+        }
+
+        dispatch({
+            type: userTypes.SET_USER_AUTHENTICATED,
+            payload: false
+        });
+
+        return false;
+    } catch (error) {
+        dispatch({
+            type: userTypes.SET_USER_AUTHENTICATED,
+            payload: false
+        });
+        console.log('Error Verifying User: ', error); // TODO: Handle This error
+        return false;
+    }
+};
