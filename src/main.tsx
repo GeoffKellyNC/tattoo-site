@@ -1,6 +1,5 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './styles/main.css';
+import './main.css';
 import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom'
 
@@ -10,6 +9,8 @@ import { applyMiddleware, compose, legacy_createStore as createStore } from 'red
 import thunk from 'redux-thunk';
 import rootReducer from './store/root.reducer';
 
+import { ThemeProvider } from 'styled-components';
+import theme from './theme/theme'
 
 declare global {
     interface Window {
@@ -23,9 +24,11 @@ const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)))
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
+  <ThemeProvider theme={theme}>
     <Provider store={store}>
         <Router>
             <App />
         </Router>
     </Provider>
+  </ThemeProvider>
 );
