@@ -72,7 +72,7 @@ export interface SetClientProfileDetailsAction {
     payload: ClientProfileDetailsType;
 }
 
-interface ContactDetail {
+export interface ContactDetail {
     public: boolean;
     value: string | null;
 }
@@ -125,7 +125,7 @@ export function profileImages(state = null, action: SetUserProfileImageAction ) 
         case userTypes.GET_USER_PROFILE_IMG:
             return state;
         default:
-            return state;
+            return sessionStorage.getItem('profile_image') ? JSON.parse(sessionStorage.getItem('profile_image') as string) : state;
     }
 }
 
@@ -134,7 +134,7 @@ export function userProfileDetails(state = {}, action: SetClientProfileDetailsAc
         case userTypes.SET_USER_PROFILE_DETAILS:
             return action.payload;
         default:
-            return state;
+            return sessionStorage.getItem('userProfileDetails') ? JSON.parse(sessionStorage.getItem('userProfileDetails') as string) : state;
     }
 }
 
@@ -143,6 +143,6 @@ export function userContactProfile(state = {}, action: SetUserContactProfileActi
         case userTypes.SET_USER_CONTACT_PROFILE:
             return action.payload;
         default:
-            return state;
+            return sessionStorage.getItem('userContactProfile') ? JSON.parse(sessionStorage.getItem('userContactProfile') as string) : state;
     }
 }

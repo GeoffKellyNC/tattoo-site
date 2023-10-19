@@ -191,6 +191,9 @@ export const uploadProfileImage = (file: File) => async (dispatch: Dispatch<Uplo
 
         const res = await axiosWithAuth().post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/upload-profile-image`, formData, config);
 
+
+        sessionStorage.setItem('profile_image', JSON.stringify(res.data.data));
+
         dispatch({
             type: userTypes.ADD_USER_PROFILE_IMG,
             payload: res.data.data
@@ -220,6 +223,9 @@ export const uploadProfileImage = (file: File) => async (dispatch: Dispatch<Uplo
 export const getProfileImage = () => async (dispatch: Dispatch<UploadImageAction | NotifyAction>) => {
     try {
         const res = await axiosWithAuth().get(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/get-profile-image`);
+
+        sessionStorage.setItem('profile_image', JSON.stringify(res.data.data));
+
 
         dispatch({
             type: userTypes.ADD_USER_PROFILE_IMG,

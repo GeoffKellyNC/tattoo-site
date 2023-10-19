@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import * as userActions from '../../store/user/user.actions'
 
 import ClientProfileBasic from './components/ClientProfileBasic'
+import ClientProfileDetails from './components/ClientProfileDetails'
 
 interface UserProfileProps {
     userData: RootState['userData'],
@@ -36,6 +37,7 @@ const UserProfileClient: React.FC<UserProfileProps> = ({
     <UserProfileStyled>
         <button onClick={handleLogout}> Logout </button>
         <ClientProfileBasic data={userData} profImage = {profileImages} />
+        <ClientProfileDetails />
     </UserProfileStyled>
   )
 }
