@@ -4,6 +4,7 @@ import * as notifyTypes from '../notifications/notify.types';
 import * as userTypes from './user.types';
 import { Dispatch } from 'redux';  
 import { SetUserDataAction } from './user.reducer';
+import { SetUserContactProfileAction, SetClientProfileDetailsAction } from './user.reducer';    
 
 // Define data types
 interface RegisterData {
@@ -61,7 +62,7 @@ export const registerUser = (data: RegisterData) => async (dispatch: Dispatch<No
     }
 };
 
-export const loginUser = (data: LoginData) => async (dispatch: Dispatch<UserAction | NotifyAction | SetUserDataAction>): Promise<LoginReturnType> => {
+export const loginUser = (data: LoginData) => async (dispatch: Dispatch<UserAction | NotifyAction | SetUserDataAction | SetClientProfileDetailsAction | SetUserContactProfileAction>): Promise<LoginReturnType> => {
     try {
         const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/auth/login`, data);
 
@@ -69,10 +70,22 @@ export const loginUser = (data: LoginData) => async (dispatch: Dispatch<UserActi
             sessionStorage.setItem('user_data', JSON.stringify(res.data.userData));
             sessionStorage.setItem('isAuthenticated', 'true');
             sessionStorage.setItem('jwtToken', res.data.jwtToken);
+            sessionStorage.setItem('userProfileDetails', JSON.stringify(res.data.userProfileDetails));
+            sessionStorage.setItem('userContactProfile', JSON.stringify(res.data.userContactDetails));
             
             dispatch({
                 type: userTypes.SET_USER_DATA,
                 payload: res.data.userData
+            });
+
+            dispatch({
+                type: userTypes.SET_USER_PROFILE_DETAILS,
+                payload: res.data.userProfileDetails
+            });
+
+            dispatch({
+                type: userTypes.SET_USER_CONTACT_PROFILE,
+                payload: res.data.userContactDetails
             });
     
             dispatch({

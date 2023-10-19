@@ -46,6 +46,54 @@ interface SetUserProfileImageAction {
     };
 }
 
+enum Preferred_size_range {
+    Small = 'Small',
+    Medium = 'Medium',
+    Large = 'Large',
+    FullSleeveBack = 'Full-Sleeve/Back'
+}
+
+
+export interface ClientProfileDetailsType {
+    user_unxid: string; // 
+    location_city?: string | null;
+    location_state?: string | null;
+    location_zip?: string | null;
+    profile_tagline?: string | null;
+    profile_description?: string | null;
+    number_of_tattoos?: number | null; 
+    tattoo_style_preferences?: string[] | null;  
+    preferred_size_range?: Preferred_size_range | null;
+    personal_tattoo_story?: string | null;
+}
+
+export interface SetClientProfileDetailsAction {
+    type: string;
+    payload: ClientProfileDetailsType;
+}
+
+interface ContactDetail {
+    public: boolean;
+    value: string | null;
+}
+
+export interface UserContactProfileType {
+    user_unxid: string; // Assuming unxid is a string, adjust if needed
+    contact_phone: ContactDetail;
+    contact_instagram: ContactDetail;
+    contact_snapchat: ContactDetail;
+    contact_x: ContactDetail; // Rename 'contact_x' to a more descriptive name if needed
+    contact_discord: ContactDetail;
+    contact_website: ContactDetail;
+    other_1: ContactDetail;
+    other_2: ContactDetail;
+}
+
+export interface SetUserContactProfileAction {
+    type: string;
+    payload: UserContactProfileType;
+}
+
 
 
 export function userData(state = {}, action: SetUserDataAction) {
@@ -76,6 +124,24 @@ export function profileImages(state = null, action: SetUserProfileImageAction ) 
             return action.payload;
         case userTypes.GET_USER_PROFILE_IMG:
             return state;
+        default:
+            return state;
+    }
+}
+
+export function userProfileDetails(state = {}, action: SetClientProfileDetailsAction) {
+    switch(action.type) {
+        case userTypes.SET_USER_PROFILE_DETAILS:
+            return action.payload;
+        default:
+            return state;
+    }
+}
+
+export function userContactProfile(state = {}, action: SetUserContactProfileAction) {
+    switch(action.type) {
+        case userTypes.SET_USER_CONTACT_PROFILE:
+            return action.payload;
         default:
             return state;
     }
