@@ -2,7 +2,6 @@ import React from 'react'
 import { UserData } from '../../../store/user/user.reducer'
 import styled from 'styled-components'
 
-import UploadProfileImg from './UploadProfileImg'
 
 interface ProfileImageObj {
     user_unxid: string,
@@ -21,29 +20,11 @@ interface ClientProfileBasicProps {
     profImage: ProfileImageObj
     }
 
-const ClientProfileBasic: React.FC<ClientProfileBasicProps> = ({ data, profImage }) => {
+const ClientProfileBasic: React.FC<ClientProfileBasicProps> = ({ profImage }) => {
   return (
     <ClientProfileBasicStyled>
-            <img className='profile-image' src={profImage ? profImage.image_url : 'https://picsum.photos/200'} alt="User Profile" />
         <div className = 'profile-header'>
-            <div className = 'user-name'>
-                <span className = 'label-text'> User Name: </span>
-                <span className = 'user-text'> {data.user_name} </span>
-            </div>
-            <div className = 'display-name'>
-                <span className = 'label-text'> Display Name: </span>
-                <span className = 'user-text'> {data.display_name} </span>
-            </div>
-            <div className = 'email'>
-                <span className = 'label-text'> Email: </span>
-                <span className = 'user-text'> {data.user_email} </span>
-            </div>
-            <div className = 'account-type'>
-                <span className = 'user-text client-text'> {data.account_type} </span>
-            </div>
-            <div className = 'upload-image'>
-                <UploadProfileImg />
-            </div>
+            <img className='profile-image' src={profImage ? profImage.image_url : 'https://picsum.photos/200'} alt="User Profile" />   
         </div>
 
     </ClientProfileBasicStyled>
@@ -68,18 +49,6 @@ const ClientProfileBasicStyled = styled.div`
         justify-content: space-evenly;
         align-items: center;
     }
-
-    .label-text {
-        font-size: 1.2rem;
-        color: ${pr => pr.theme.color.pink};
-    }
-
-    .client-text {
-        font-size: 1.5rem;
-        color: ${pr => pr.theme.color.yellow};
-        text-transform: uppercase;
-    }
-
 
     .profile-image {
         width: 10rem;

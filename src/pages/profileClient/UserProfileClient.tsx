@@ -53,9 +53,6 @@ export default connect((st: RootState ) => ({
 
 const UserProfileStyled = styled.div`
     color: ${pr => pr.theme.color.white};   
-    width: 75%;
-    margin: 0 auto;
-    margin-top: 5rem;
-    background-color: #232223;
+    width: 100%;
 
 `
