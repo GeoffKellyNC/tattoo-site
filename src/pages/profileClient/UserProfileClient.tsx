@@ -5,28 +5,28 @@ import { RootState } from '../../store/root.reducer'
 import styled from 'styled-components'
 import * as userActions from '../../store/user/user.actions'
 
+import ClientProfileBasic from './components/ClientProfileBasic'
+
 interface UserProfileProps {
     userData: RootState['userData'],
+    profileImages: RootState['profileImages'],
     verifyUserAccess: () => Promise<boolean>,
-    logoutUser: () => Promise<void>
+    logoutUser: () => Promise<void>,
 }
 
-// interface LoadingState {
-//     loading: boolean
-// }
-
-const UserProfile: React.FC<UserProfileProps> = ({
+const UserProfileClient: React.FC<UserProfileProps> = ({
     userData,
     verifyUserAccess,
-    logoutUser
+    logoutUser,
+    profileImages
 }) => {
-    // const [loading, setLoading] = useState<LoadingState['loading']>(false)
 
 
     useEffect(() => {
         verifyUserAccess()
+        
     }
-    ,[verifyUserAccess])
+    ,[ verifyUserAccess])
 
     const handleLogout = () => {
         logoutUser()
@@ -34,21 +34,26 @@ const UserProfile: React.FC<UserProfileProps> = ({
 
   return (
     <UserProfileStyled>
-        <span> Welcome {userData.user_name} </span>
         <button onClick={handleLogout}> Logout </button>
+        <ClientProfileBasic data={userData} profImage = {profileImages} />
     </UserProfileStyled>
   )
 }
 
 export default connect((st: RootState ) => ({
-    userData: st.userData
+    userData: st.userData,
+    profileImages: st.profileImages
 }),{
     verifyUserAccess: userActions.verifyUserAccess,
-    logoutUser: userActions.logoutUser
-}) (UserProfile)
+    logoutUser: userActions.logoutUser,
+}) (UserProfileClient)
 
 
 const UserProfileStyled = styled.div`
     color: ${pr => pr.theme.color.white};   
+    width: 75%;
+    margin: 0 auto;
+    margin-top: 5rem;
+    background-color: #232223;
 
 `

@@ -1,16 +1,16 @@
-import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { RootState } from "../store/root.reducer";
+import * as userActions from "../store/user/user.actions";
 
 interface Props {
     isAuthenticated: boolean;
+    logoutUser: () => Promise<void>;
     children: React.ReactNode;
 }
 
-const ProtectedRoutes: React.FC<Props> = ({ isAuthenticated, children }) => {
-    const navigate = useNavigate();
+const ProtectedRoutes: React.FC<Props> = ({ isAuthenticated, children, logoutUser }) => {
     if (!isAuthenticated) {
-        navigate("/", { replace: true });
+        logoutUser();
         return null;
     }
     return children;
@@ -20,4 +20,6 @@ const mapStateToProps = (state: RootState) => ({
     isAuthenticated: state.isAuthenticated // Adjust this path according to your state structure
 });
 
-export default connect(mapStateToProps, null)(ProtectedRoutes);
+export default connect(mapStateToProps, {
+    logoutUser: userActions.logoutUser
+})(ProtectedRoutes);

@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import * as notifyActions from '../../../store/notifications/notify.actions'
 import * as userActions from '../../../store/user/user.actions'
 import { connect } from 'react-redux'
@@ -123,6 +124,8 @@ const RegisterForm: React.FC<RegisterProps> = ({
 }) => {
     const [formValues, setFormValues] = useState<FormValues>(initFormValues)
 
+    const nav = useNavigate()
+
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {{
         const { name, value } = e.target
 
@@ -146,11 +149,10 @@ const RegisterForm: React.FC<RegisterProps> = ({
         const checks = await performChecks(formValues, setNotification)
 
         if (checks.case && checks.item === 'success') {
-            console.log('Form passed checks')
             console.log(formValues)
             registerUser(formValues)
-            console.log('Form Sent!')
             setFormValues(initFormValues)
+            nav('/login')
             return
         }
         console.log('Form failed checks')

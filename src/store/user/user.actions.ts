@@ -21,7 +21,7 @@ interface LoginData {
 interface NotifyAction {
     type: typeof notifyTypes.SET_NOTIFY;
     payload: {
-        type: 'info';
+        type: 'info' | 'error' | 'warning' | 'success';
         message: string;
     };
 }
@@ -29,6 +29,11 @@ interface NotifyAction {
 interface UserAction {
     type: typeof userTypes.SET_USER_DATA | typeof userTypes.SET_USER_AUTHENTICATED;
     payload: boolean;
+}
+
+interface UploadImageAction {
+    type: string; // You'll need to define SET_PROFILE_IMAGE in user.types.ts
+    payload: string; // URL of the uploaded image
 }
 
 
@@ -100,9 +105,7 @@ export const logoutUser = () => async (dispatch: Dispatch<UserAction | NotifyAct
         console.log('Logout User Res: ', res.data); // REMOVE
 
         if(res.status === 200) {
-            sessionStorage.removeItem('token');
-            sessionStorage.removeItem('user_data');
-            sessionStorage.removeItem('isAuthenticated');
+            sessionStorage.clear();
 
             dispatch({
                 type: userTypes.SET_USER_DATA,
@@ -160,3 +163,74 @@ export const verifyUserAccess = () => async (dispatch: Dispatch<UserAction>): Pr
         return false;
     }
 };
+
+
+export const uploadProfileImage = (file: File) => async (dispatch: Dispatch<UploadImageAction | NotifyAction>) => {
+    try {
+        const formData = new FormData();
+        formData.append('profile-image', file);  // This name matches with the middleware's expected name
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        };
+
+        const res = await axiosWithAuth().post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/upload-profile-image`, formData, config);
+
+        dispatch({
+            type: userTypes.ADD_USER_PROFILE_IMG,
+            payload: res.data.data
+        })
+
+
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'info',
+                message: 'Image uploaded successfully!'
+            }
+        });
+
+    } catch (error) {
+        console.error("Error uploading image:", error);
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error uploading the image!'
+            }
+        });
+    }
+};
+
+export const getProfileImage = () => async (dispatch: Dispatch<UploadImageAction | NotifyAction>) => {
+    try {
+        const res = await axiosWithAuth().get(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/get-profile-image`);
+
+        dispatch({
+            type: userTypes.ADD_USER_PROFILE_IMG,
+            payload: res.data.data
+        })
+
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'info',
+                message: 'Image fetched successfully!'
+            }
+        });
+
+        return 
+    } catch (error) {
+        console.error("Error fetching image:", error);
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error fetching the image!'
+            }
+        });
+    }
+}
+

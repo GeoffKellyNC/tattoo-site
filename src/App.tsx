@@ -7,8 +7,9 @@ import Home from './pages/home/Home'
 import Login from './pages/login/Login'
 import Notifications from './components/Notifications'
 import ProtectedRoute from './util/ProtectedRoute'
+import Redirect from './pages/redirect/Redirect'
 import Register from './pages/register/Register'
-import UserProfile from './pages/profile/UserProfile'
+import UserProfileClient from './pages/profileClient/UserProfileClient'
 
 
 function App() {
@@ -20,9 +21,14 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path = '/register' element = { <Register />} />
         <Route path = '/login' element = { <Login />} />
-        <Route path = '/user/:unxid' element = {
+        <Route path = '/user/client/:unxid' element = {
           <ProtectedRoute>
-            <UserProfile />
+            <UserProfileClient />
+          </ProtectedRoute>
+        } />
+        <Route path = '/redirect' element = {
+          <ProtectedRoute>
+            <Redirect />
           </ProtectedRoute>
         } />
       </Routes>

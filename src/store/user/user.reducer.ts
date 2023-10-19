@@ -10,7 +10,7 @@ interface SetUserAuthenticatedAction {
     payload: boolean;
 }
 
-interface UserData {
+export interface UserData {
     _id: string;
     unxid: string;
     first_name: string;
@@ -38,6 +38,14 @@ interface UserData {
     attr8: string | null;
 }
 
+interface SetUserProfileImageAction {
+    type: string;
+    payload: {
+        image: string;
+        image_id: string;
+    };
+}
+
 
 
 export function userData(state = {}, action: SetUserDataAction) {
@@ -58,5 +66,17 @@ export function isAuthenticated(state = false, action: SetUserAuthenticatedActio
             const storedValue = sessionStorage.getItem('isAuthenticated');
             return storedValue === 'true' ? true : state;
         }
+    }
+}
+
+
+export function profileImages(state = null, action: SetUserProfileImageAction ) {
+    switch(action.type) {
+        case userTypes.ADD_USER_PROFILE_IMG:
+            return action.payload;
+        case userTypes.GET_USER_PROFILE_IMG:
+            return state;
+        default:
+            return state;
     }
 }

@@ -37,8 +37,7 @@ const Login = ({ loginUser, setNotification }) => {
             return
         }
 
-        const unxid = loggedIn.unxid
-        nav(`/user/:${unxid}`);
+        nav(`/redirect`);
 
         return;
     }

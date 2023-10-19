@@ -7,7 +7,8 @@ export default {
         accent: 'rgba(0, 210,131, 1)',
         pink: 'rgba(255,20,147)',
         black: 'rgba(0,0,0,1)',
-        white: 'rgba(255, 255, 255, 1)'
+        white: 'rgba(255, 255, 255, 1)',
+        yellow: 'rgba(255, 255, 0, 1)',
 
     },
     font : {

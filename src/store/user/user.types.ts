@@ -1,2 +1,5 @@
 export const SET_USER_DATA: string = 'SET_USER_DATA';
 export const SET_USER_AUTHENTICATED: string = 'SET_USER_AUTHENTICATED';
+
+export const ADD_USER_PROFILE_IMG: string = 'ADD_USER_PROFILE_IMG';
+export const GET_USER_PROFILE_IMG: string = 'GET_USER_PROFILE_IMG';
