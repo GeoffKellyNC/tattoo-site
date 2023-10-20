@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-refresh/only-export-components */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
