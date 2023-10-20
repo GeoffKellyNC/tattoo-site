@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-refresh/only-export-components */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import * as notifyActions from '../../store/notifications/notify.actions';
 import * as userActions from '../../store/user/user.actions';
 import loginBG from '../../assets/login-bg.jpg'
@@ -15,32 +16,43 @@ const initFormValues = {
     password: ''
 }
 
-const Login = ({ loginUser, setNotification }) => {
+const connector = connect(null, {
+    loginUser: userActions.loginUser,
+    setNotification: notifyActions.setNotification
+});
+
+type LoginReturnType = {state: boolean, unxid: string | null};
+
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+const Login: React.FC<PropsFromRedux> = ({ loginUser, setNotification }) => {
     const [formValues, setFormValues] = useState(initFormValues);
 
     const nav = useNavigate();
 
-    const onChange = (e) => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormValues({
             ...formValues,
             [e.target.name]: e.target.value
         });
     }
 
-    const onSubmit = async (e) => {
+    const onSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        const loggedIn = await loginUser(formValues);
-
+        const loggedIn = await loginUser(formValues) as LoginReturnType;
+    
         if (!loggedIn.state) {
             setNotification('error', 'Invalid Username or Password');
             setFormValues(initFormValues);
             return
         }
-
+    
         nav(`/redirect`);
-
+    
         return;
     }
+    
 
     return (
         <LoginBackground>
@@ -77,12 +89,7 @@ const Login = ({ loginUser, setNotification }) => {
         </LoginBackground>
     );
 }
-export default connect((st) => ({
-    appNotifications: st.appNotifications
-}), {
-    loginUser: userActions.loginUser,
-    setNotification: notifyActions.setNotification
-})(Login)
+export default connector(Login);
 
 const LoginBackground = styled.div`
     background-image: url(${loginBG});

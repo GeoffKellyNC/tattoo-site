@@ -12,12 +12,6 @@ interface RegisterData {
     password?: string; 
 }
 
-interface LoginData {
-    username: string;
-    password: string;
-    // ... any other fields
-}
-
 // Define action types
 interface NotifyAction {
     type: typeof notifyTypes.SET_NOTIFY;
@@ -62,7 +56,7 @@ export const registerUser = (data: RegisterData) => async (dispatch: Dispatch<No
     }
 };
 
-export const loginUser = (data: LoginData) => async (dispatch: Dispatch<UserAction | NotifyAction | SetUserDataAction | SetClientProfileDetailsAction | SetUserContactProfileAction>): Promise<LoginReturnType> => {
+export const loginUser = (data: {user_name: string, password: string}) => async (dispatch: Dispatch<UserAction | NotifyAction | SetUserDataAction | SetClientProfileDetailsAction | SetUserContactProfileAction>): Promise<LoginReturnType> => {
     try {
         const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/auth/login`, data, {
             withCredentials: true
@@ -115,7 +109,7 @@ export const loginUser = (data: LoginData) => async (dispatch: Dispatch<UserActi
         return { state: false, unxid: null };
     } catch (error) {
         console.log('Error Logging In User: ', error); // TODO: Handle This error
-        return false;
+        return {state: false, unxid: null};
     }
 };
 

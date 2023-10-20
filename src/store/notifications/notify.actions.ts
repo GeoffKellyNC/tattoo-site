@@ -11,4 +11,12 @@ export const setNotification = (type: string, message: string) => (dispatch: Dis
             message
         }
     })
+    
+    setTimeout(() => {
+        dispatch({
+            type: notifyTypes.CLEAR_NOTIFY
+        })
+    }, 3000)
+
+    return
 }
