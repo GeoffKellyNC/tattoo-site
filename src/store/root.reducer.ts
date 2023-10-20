@@ -5,9 +5,11 @@ import { isAuthenticated } from "./user/user.reducer";
 import { profileImages } from "./user/user.reducer";
 import { userProfileDetails } from "./user/user.reducer";
 import { userContactProfile } from "./user/user.reducer";
+import { clientUserImages } from "./user/user.reducer";
 
 const rootReducer = combineReducers({
     appNotifications,
+    clientUserImages,
     isAuthenticated,
     profileImages,
     userData,

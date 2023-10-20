@@ -146,3 +146,16 @@ export function userContactProfile(state = {}, action: SetUserContactProfileActi
             return sessionStorage.getItem('userContactProfile') ? JSON.parse(sessionStorage.getItem('userContactProfile') as string) : state;
     }
 }
+
+export function clientUserImages(state = [], action: SetUserProfileImageAction) {
+    console.log('clientUserImages reducer triggered with action:', action); //!REMOVE
+
+    switch(action.type) {
+        case userTypes.GET_USER_CLIENT_IMAGES:
+            return action.payload;
+        case userTypes.SET_USER_CLIENT_IMAGES:
+            return [...state, action.payload];
+        default:
+            return sessionStorage.getItem('userClientImages') ? JSON.parse(sessionStorage.getItem('userClientImages') as string) : state;
+    }
+}

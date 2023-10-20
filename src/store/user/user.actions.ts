@@ -3,7 +3,7 @@ import { axiosWithAuth } from '../../api/axiosWithAuth';
 import * as notifyTypes from '../notifications/notify.types';
 import * as userTypes from './user.types';
 import { Dispatch } from 'redux';  
-import { SetUserDataAction } from './user.reducer';
+import { SetUserDataAction, ClientProfileDetailsType } from './user.reducer';
 import { SetUserContactProfileAction, SetClientProfileDetailsAction } from './user.reducer';    
 
 // Define data types
@@ -64,7 +64,9 @@ export const registerUser = (data: RegisterData) => async (dispatch: Dispatch<No
 
 export const loginUser = (data: LoginData) => async (dispatch: Dispatch<UserAction | NotifyAction | SetUserDataAction | SetClientProfileDetailsAction | SetUserContactProfileAction>): Promise<LoginReturnType> => {
     try {
-        const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/auth/login`, data);
+        const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/auth/login`, data, {
+            withCredentials: true
+        });
 
         if(res.status === 200) {
             sessionStorage.setItem('user_data', JSON.stringify(res.data.userData));
@@ -72,6 +74,12 @@ export const loginUser = (data: LoginData) => async (dispatch: Dispatch<UserActi
             sessionStorage.setItem('jwtToken', res.data.jwtToken);
             sessionStorage.setItem('userProfileDetails', JSON.stringify(res.data.userProfileDetails));
             sessionStorage.setItem('userContactProfile', JSON.stringify(res.data.userContactDetails));
+            sessionStorage.setItem('userClientImages', JSON.stringify(res.data.clientUploadedImages));
+
+            dispatch({
+                type: userTypes.GET_USER_CLIENT_IMAGES,
+                payload: res.data.clientUploadedImages
+            });
             
             dispatch({
                 type: userTypes.SET_USER_DATA,
@@ -248,6 +256,111 @@ export const getProfileImage = () => async (dispatch: Dispatch<UploadImageAction
             payload: {
                 type: 'error',
                 message: 'Error fetching the image!'
+            }
+        });
+    }
+}
+
+export const updateClientProfileDetails = (data: ClientProfileDetailsType ) => async (dispatch: Dispatch<SetClientProfileDetailsAction | NotifyAction>) => {
+    try {
+        const res = await axiosWithAuth().post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/update-client-profile-details`, data);
+
+
+        sessionStorage.setItem('userProfileDetails', JSON.stringify(res.data.data));
+
+        dispatch({
+            type: userTypes.SET_USER_PROFILE_DETAILS,
+            payload: res.data.data
+        })
+
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'info',
+                message: 'Profile Details Updated Successfully!'
+            }
+        });
+
+        return 
+    } catch (error) {
+        console.error("Error updating profile details:", error);
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error updating profile details!'
+            }
+        });
+        return
+    }
+}
+
+export const getClientUploadedImages = () => async (dispatch: Dispatch<UploadImageAction | NotifyAction>) => {
+    try {
+        const res = await axiosWithAuth().get(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/get-client-images`);
+
+        sessionStorage.setItem('userClientImages', JSON.stringify(res.data.data));
+
+        dispatch({
+            type: userTypes.GET_USER_CLIENT_IMAGES,
+            payload: res.data.data
+        })
+
+        return
+    } catch (error) {
+        console.error("Error fetching client images:", error);
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error fetching client images!'
+            }
+        });
+    }
+}
+
+export const uploadClientUserImage = (file: File) => async (dispatch: Dispatch<UploadImageAction | NotifyAction>) => {
+    try {
+        const formData = new FormData();
+        formData.append('client-user-image', file);  // This name matches with the middleware's expected name
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        };
+
+        const res = await axiosWithAuth().post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/upload-client-images`, formData, config);
+
+
+        const savedArray = sessionStorage.getItem('userClientImages') ? JSON.parse(sessionStorage.getItem('userClientImages') as string) : [];
+
+        savedArray.push(res.data.data);
+
+        sessionStorage.setItem('userClientImages', JSON.stringify(savedArray));
+
+        dispatch({
+            type: userTypes.SET_USER_CLIENT_IMAGES,
+            payload: res.data.data
+        })
+
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'info',
+                message: 'Image uploaded successfully!'
+            }
+        });
+
+        return
+
+    } catch (error) {
+        console.error("Error uploading image:", error);
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error uploading the image!'
             }
         });
     }

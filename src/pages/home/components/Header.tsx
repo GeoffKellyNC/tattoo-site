@@ -125,7 +125,6 @@ height: 100vh;
     }
 
     @media (max-width: ${pr => pr.theme.media.tablet}) {
-        background: ${pr => pr.theme.color.black};
         .title {
             font-size: 1${pr => pr.theme.font.size.tablet_title};
         }

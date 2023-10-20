@@ -10,6 +10,8 @@ export default {
         white: 'rgba(255, 255, 255, 1)',
         yellow: 'rgba(255, 255, 0, 1)',
         red: '#D11226',
+        text_black: '#808080',
+        
 
     },
     font : {

@@ -16,6 +16,5 @@ export const axiosWithAuth = () => {
             'auth-token': jwtToken
  
         },
-        withCredentials: true,
     }); 
 };

@@ -93,8 +93,56 @@ export default ClientContactDetails
 
 
 const ContactDetails = styled.div`
-    .contact-details-header {
-        font-size: 2rem;
-        font-weight: 700;
+  color: ${(pr) => pr.theme.color.white};
+  font-family: ${(pr) => pr.theme.font.family.primary};
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.15);
+
+  .contact-details-header {
+    border-bottom: 2px solid ${(pr) => pr.theme.color.primary};
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+
+  .header-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .con-label {
+    color: ${(pr) => pr.theme.color.text_black};
+    font-size: 0.9rem;
+    margin-right: 10px;
+  }
+
+  .con-text {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .con-privacy-icon {
+    margin-left: 10px;
+    vertical-align: middle;
+    color: ${(pr) => pr.theme.color.secondary};
+    cursor: pointer;
+  }
+
+  .contact-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: center;
+
+    @media (max-width: ${(pr) => pr.theme.media.phone}) {
+      grid-template-columns: 1fr;
     }
-`
+  }
+
+  .con-detail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+`;
+

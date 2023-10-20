@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { ClientProfileDetailsType, UserContactProfileType } from '../../../store/user/user.reducer';
 
 import ClientContactDetails from './ClientContactDetails';
+import EditProfileDrawer from './EditProfileDrawer';
 
 interface ClientProfileProps {
     userProfileDetails: ClientProfileDetailsType;
@@ -24,7 +25,8 @@ const ClientProfileDetails: React.FC<ClientProfileProps> = ({
   return (
     <ClientProfileDetailsStyled>
         <div className = 'profile-details-header'>
-            <span className = 'header-text label'> Profile Details </span>
+            <span className = 'header-text'> Profile Details </span>
+            <EditProfileDrawer />
         </div>
 
 
@@ -110,11 +112,75 @@ export default connect(
 )(ClientProfileDetails as React.FC<Matching<{ userProfileDetails: unknown, userContactProfile: unknown }, ClientProfileProps>>);
 
 const ClientProfileDetailsStyled = styled.div`
+  background-color: rgba(20, 20, 20, 0.7);
   color: ${(pr) => pr.theme.color.white};
   font-family: ${(pr) => pr.theme.font.family.primary};
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.15);
+  margin-bottom: 20px;
+
+  .profile-details-header,
+  .contact-details-header {
+    border-bottom: 2px solid ${(pr) => pr.theme.color.primary};
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
 
   .header-text {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 700;
   }
-`
+
+  .label {
+    color: ${(pr) => pr.theme.color.text_black};
+    font-size: 1rem;
+    margin-right: 10px;
+  }
+
+  .user-text, .loc-text, .detail-text, .con-text {
+    font-size: 1rem;
+    font-weight: 500;
+    display: inline-block;
+  }
+
+  .con-privacy-icon {
+    margin-left: 10px;
+    vertical-align: middle;
+    color: ${(pr) => pr.theme.color.secondary};
+    cursor: pointer;
+  }
+
+  .basic-info-container,
+  .location-details,
+  .personal-details-container,
+  .contact-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+
+    @media (max-width: ${(pr) => pr.theme.media.phone}) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .loc-cantainer,
+  .detail-container,
+  .con-detail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .account-type {
+    text-align: center;
+    font-size: 1.2rem;
+    color: ${(pr) => pr.theme.color.accent};
+    font-weight: 700;
+    grid-column: span 2;
+    border-top: 1px solid ${(pr) => pr.theme.color.secondary};
+    padding-top: 20px;
+  }
+`;

@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { UserData } from '../../../store/user/user.reducer'
 import styled from 'styled-components'
+
+import UploadProfileImg from './UploadProfileImg'
+import { LiaEditSolid } from 'react-icons/lia'
 
 
 interface ProfileImageObj {
@@ -21,12 +24,29 @@ interface ClientProfileBasicProps {
     }
 
 const ClientProfileBasic: React.FC<ClientProfileBasicProps> = ({ profImage }) => {
+    const [wantsEdit, setWantsEdit] = useState<boolean>(false)
+
+    const handleWantsEdit = () => {
+        setWantsEdit(!wantsEdit)
+    }
+
   return (
     <ClientProfileBasicStyled>
         <div className = 'profile-header'>
             <img className='profile-image' src={profImage ? profImage.image_url : 'https://picsum.photos/200'} alt="User Profile" />   
+            <LiaEditSolid 
+            onClick={handleWantsEdit}
+            style={{
+                fontSize: '3rem', 
+                color: 'black', 
+                cursor: 'pointer'
+            }}
+        />
         </div>
 
+        {
+            wantsEdit && <UploadProfileImg />
+        }
     </ClientProfileBasicStyled>
   )
 }
@@ -40,23 +60,35 @@ const ClientProfileBasicStyled = styled.div`
     flex-direction: column;
     align-items: center;
 
-
     .profile-header {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        width: 100%;
-        justify-content: space-evenly;
-        align-items: center;
-    }
-
-    .profile-image {
+        position: relative;
         width: 10rem;
         height: 10rem;
         overflow: hidden;
         border-radius: 50%;
         margin: 1rem;
-      }
+    }
+
+    .profile-image {
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    svg {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        border-radius: 50%;
+        padding: 5px;
+        color: orange;
+    }
+`;
 
 
-`
