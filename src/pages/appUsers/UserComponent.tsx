@@ -80,8 +80,8 @@ const UserContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 450px; 
-    height: 550px;
+    width: 350px; 
+    height: 450px;
     margin: 1rem;
     padding: 1rem;
     color: ${props => props.theme.color.white};

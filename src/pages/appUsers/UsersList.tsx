@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { fetchUsers } from '../../api/fetchUsersPage'; 
-import styled from 'styled-components';
 
 import UserComponent from './UserComponent'
+import styled from 'styled-components';
 
 
 
@@ -40,6 +40,7 @@ interface User {
     };
     location_city: string;
     location_state: string;
+
 }
 
 const UsersList: React.FC = () => {
@@ -87,38 +88,36 @@ const UsersList: React.FC = () => {
     }, [isLoading, hasMore]);
 
     return (
-        <UsersContainer>
+        <UserContainer>
             {users.map(user => (
-                <UserComponent key={user.unxid} user={user} />
+              <UserComponent key={user.unxid} user={user} />
             ))}
-            {isLoading && <LoadingContainer>Loading...</LoadingContainer>}
-            {!hasMore && <EndContainer>No more users to fetch.</EndContainer>}
-        </UsersContainer>
+            {isLoading && <div>Loading...</div>}
+            {!hasMore && <div>No more users to fetch.</div>}
+        </UserContainer>
     );
 }
 
 export default UsersList;
 
 
-
-const UsersContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
+const UserContainer = styled.div`
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); // default to 4 profiles in a row
     gap: 1rem;
-    justify-content: space-between;
+    padding: 1rem;
+    width: 100%; 
+    border-bottom: 1px solid ${pr => pr.theme.color.lightGray};
 
-    @media (max-width: 768px) {
-        flex-direction: column;
+    @media (max-width: 1200px) {
+        grid-template-columns: repeat(3, 1fr); // 3 profiles in a row for screens smaller than 1200px
     }
-`;
 
-const LoadingContainer = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 1rem 0;
-`;
+    @media (max-width: 900px) {
+        grid-template-columns: repeat(2, 1fr); // 2 profiles in a row for screens smaller than 900px
+    }
 
-const EndContainer = styled(LoadingContainer)`
-    color: ${props => props.theme.color.gray};
+    @media (max-width: 600px) {
+        grid-template-columns: repeat(1, 1fr); // 1 profile in a row (i.e., a column) for screens smaller than 600px
+    }
 `;
