@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from '../../store/root.reducer'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import * as userActions from '../../store/user/user.actions'
 import clientProfileBg from '../../assets/client-profile-bg.jpg'
@@ -30,7 +31,7 @@ const UserProfileClient: React.FC<UserProfileProps> = ({
 }) => {
     const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
-
+    const nav = useNavigate()
 
     useEffect(() => {
         verifyUserAccess()
@@ -53,6 +54,7 @@ const UserProfileClient: React.FC<UserProfileProps> = ({
         {
             mobileNavOpen && <MobileNav logoutUser={ logoutUser } setMobileNavOpen = { setMobileNavOpen } />
         }
+        <button className = 'view-users' onClick={() => nav('/user-list')}> View Users </button>
         <button className='logout-btn' onClick={handleLogout}> Logout </button>
         <ClientProfileBasic data={userData} profImage = {profileImages} />
         <ClientProfileDetails />

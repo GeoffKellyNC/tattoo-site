@@ -23,7 +23,7 @@ const Redirect: React.FC<RedirectProps> = ({
         console.log('Handling redirect') //! REMOVE
         getProfileImage()
         setTimeout(() => {
-            if(userData.unxid.length > 0 && userData.account_type ==='client'){
+            if(userData.unxid.length > 0 && userData.account_type ==='client' || userData.account_type === 'artist'){
                 console.log('Redirecting to user profile') //! REMOVE
                 nav(`/user/client/:${userData.unxid}`)
                 return;

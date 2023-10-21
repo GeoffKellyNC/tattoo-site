@@ -1,0 +1,72 @@
+{
+    "_id": "6532ba2720896c6225ae19bb",
+    "unxid": "72347595-aca3-4f93-bbea-248a4ba0b3d0",
+    "first_name": "Geoff",
+    "last_name": "Kelly",
+    "user_name": "Cloudy",
+    "display_name": "Cloudy",
+    "user_email": "geoff@geoffkelly.dev",
+    "password": "$2b$10$UYFRek6SyYGPaUnnS82bXOh6xMFGDoEebJVEHqmBFk7YDRj146Jyu",
+    "googleId": null,
+    "created_date": "2023-10-20T17:34:30.915Z",
+    "account_type": "client",
+    "isAdmin": false,
+    "isMod": false,
+    "isArtist": false,
+    "isClient": true,
+    "session_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3VueGlkIjoiNzIzNDc1OTUtYWNhMy00ZjkzLWJiZWEtMjQ4YTRiYTBiM2QwIiwiaWF0IjoxNjk3ODUwMjEyLCJleHAiOjE2OTc5MzY2MTJ9.Vt67lmclfRnpnrOEgFYEbIzFCqD7wB6mNxTeXIgad8o",
+    "account_status": "active",
+    "online_status": "online",
+    "attr1": null,
+    "attr2": null,
+    "attr3": null,
+    "attr4": null,
+    "attr5": null,
+    "attr6": null,
+    "attr7": null,
+    "attr8": null,
+    "user_unxid": "72347595-aca3-4f93-bbea-248a4ba0b3d0",
+    "location_city": "Charlotte",
+    "location_state": "North Carolina",
+    "location_zip": "28209",
+    "profile_tagline": "Creator / Developer",
+    "profile_description": "I don't have any tattoos. Contact me: geoff@geoffkelly.dev",
+    "number_of_tattoos": "0",
+    "tattoo_style_preferences": null,
+    "preferred_size_range": null,
+    "allergies_or_skin_conditions": null,
+    "personal_tattoo_story": "No story yet.. Hope to get one sooner rather than later. Just not sure what to get. ",
+    "contact_phone": {
+        "public": false,
+        "value": null
+    },
+    "contact_instagram": {
+        "public": false,
+        "value": null
+    },
+    "contact_snapchat": {
+        "public": false,
+        "value": null
+    },
+    "contact_x": {
+        "public": false,
+        "value": null
+    },
+    "contact_discord": {
+        "public": false,
+        "value": null
+    },
+    "contact_website": {
+        "public": false,
+        "value": null
+    },
+    "other_1": {
+        "public": false,
+        "value": null
+    },
+    "other_2": {
+        "public": false,
+        "value": null
+    },
+    "profileImageUrl": "https://storage.googleapis.com/tattoo-user-uploaded-images/profile-images/61390498-F1D8-4BE3-8057-AA81C93FB293.jpeg-72347595-aca3-4f93-bbea-248a4ba0b3d0"
+}

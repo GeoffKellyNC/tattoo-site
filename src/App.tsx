@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 
 
 // Components
+import AppUsersHome from './pages/appUsers/AppUsersHome'
 import Home from './pages/home/Home'
 import Login from './pages/login/Login'
 import Notifications from './components/Notifications'
@@ -24,6 +25,11 @@ function App() {
         <Route path = '/user/client/:unxid' element = {
           <ProtectedRoute>
             <UserProfileClient />
+          </ProtectedRoute>
+        } />
+        <Route path = '/user-list' element = {
+          <ProtectedRoute>
+            <AppUsersHome />
           </ProtectedRoute>
         } />
         <Route path = '/redirect' element = {
