@@ -1,5 +1,5 @@
 import * as userTypes from './user.types'
-import { UserFullProfile, UserFullProfileAction } from './types/profileFullType';
+import { UserFullProfile, UserFullProfileAction } from './types/userStateTypes';
 
 export interface SetUserDataAction {
     type: string;
@@ -105,7 +105,7 @@ export function userData(state = {}, action: SetUserDataAction) {
             return sessionStorage.getItem('user_data') ? JSON.parse(sessionStorage.getItem('user_data') as string) : state
     }
 }
-
+    
 
 export function isAuthenticated(state = false, action: SetUserAuthenticatedAction) {
     switch(action.type) {

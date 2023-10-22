@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { RootState } from '../../store/root.reducer'
 import * as userActions from '../../store/user/user.actions'
-import { UserFullProfile } from '../../store/user/types/profileFullType'
+import { UserFullProfile } from '../../store/user/types/userStateTypes'
 import styled from 'styled-components';
 
 

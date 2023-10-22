@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 
 
 // Components
+import AppNav from './nav/AppNav'
 import AppUsersHome from './pages/appUsers/AppUsersHome'
 import FullProfileView from './pages/fullProfileView/FullProfileView'
 import Home from './pages/home/Home'
@@ -19,6 +20,7 @@ function App() {
   return (
     <>
       <Notifications />
+      <AppNav />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path = '/register' element = { <Register />} />

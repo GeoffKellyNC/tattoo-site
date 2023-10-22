@@ -5,7 +5,7 @@ import * as userTypes from './user.types';
 import { Dispatch } from 'redux';  
 import { SetUserDataAction, ClientProfileDetailsType } from './user.reducer';
 import { SetUserContactProfileAction, SetClientProfileDetailsAction } from './user.reducer';    
-import { UserFullProfileAction } from './types/profileFullType';
+import { UserFullProfileAction } from './types/userStateTypes';
 
 // Define data types
 interface RegisterData {

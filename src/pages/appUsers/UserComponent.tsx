@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { UserFullProfile } from '../../store/user/types/profileFullType';
+import { UserFullProfile } from '../../store/user/types/userStateTypes';
 
 import { IoLogoDiscord } from 'react-icons/io5';
 import { PiInstagramLogoFill } from 'react-icons/pi';

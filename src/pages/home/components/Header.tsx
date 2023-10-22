@@ -1,23 +1,55 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import backgroundImg from '../../../assets/tattoo-header.jpg'
+import headerVideo from '../../../assets/video/mobile3.mp4'
+import mobileHeaderVideo from '../../../assets/video/mobile3.mp4'
 
 const Header: React.FC = () => {
-    const nav = useNavigate();
+    const [isMobile, setIsMobile] = useState<boolean>(false);
 
-    const handleRegister = () => {
-        nav('/register')
-        return;
-    }
 
-    const handleLogin = () => {
-        nav('/login')
-        return;
-    }
+    useEffect(() => {
+        const checkScreenWidth = () => {
+            if (window.innerWidth < 1024) {
+                setIsMobile(true);
+            } else {
+                setIsMobile(false);
+            }
+        };
+    
+        // Check screen width on initial render
+        checkScreenWidth();
+    
+        window.addEventListener('resize', checkScreenWidth);
+    
+        return () => {
+            window.removeEventListener('resize', checkScreenWidth);
+        }
+    }, []);
+    
 
     return (
         <HeaderStyled>
+            {isMobile ? (
+                <video     key={isMobile ? 'mobile' : 'desktop'}
+                    autoPlay 
+                    muted 
+                    loop 
+                    className="background-video"
+                    playsInline
+                    preload="auto">
+                    <source src={mobileHeaderVideo} type="video/mp4" />
+                </video>
+            ) : (
+                <video     key={isMobile ? 'mobile' : 'desktop'}
+                    autoPlay 
+                    muted 
+                    loop 
+                    className="background-video"
+                    playsInline
+                    preload="auto">
+                    <source src={headerVideo} type="video/mp4" />
+                </video>
+            )}
             <div className="title-section">
                 <span className='title'>L</span>
                 <span className='title linked-i'>I</span>
@@ -26,10 +58,6 @@ const Header: React.FC = () => {
             <div className = 'header-top'>
                 <span className = 'tag'> From Concept to Canvas: Get LInk'd. </span>
             </div>
-            <div className = 'btn-container'>
-                <button onClick={handleLogin} className = 'login-btn btn'> LOGIN </button>
-                <button onClick={handleRegister}  className = 'register-btn btn'> REGISTER </button>
-            </div>
         </HeaderStyled>
     );
 }
@@ -37,27 +65,51 @@ const Header: React.FC = () => {
 export default Header;
 
 const HeaderStyled = styled.div`
-text-align: center;
-padding: 1rem 2rem;
-color: ${pr => pr.theme.color.white};
-padding-top: 10rem;
-background-image: linear-gradient(to bottom, transparent, rgba(0,0,0,1)), url(${backgroundImg});
-background-size: cover;
-background-position: center;
-background-repeat: no-repeat;
-height: 100vh;
+    position: relative;
+    z-index: 0;
+    text-align: center;
+    color: ${pr => pr.theme.color.white};
+    height: 100vh;
+    overflow: hidden;
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);  // Semi-transparent black background
+        z-index: -1;
+    }
+
+    .background-video {
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        width: auto;
+        height: auto;
+        z-index: -1;
+        transform: translate(-50%, -50%);
+        opacity: 0.9;
+        object-fit: cover;
+    }
 
     .title-section {
         display: flex;
         justify-content: center;
         align-items: center;
+        padding: 1rem 0;
+        margin-top: 5rem;
+    }
 
+    .title, .linked-i {
+        font-family: ${pr => pr.theme.font.family.logo};
+        margin: 0;
     }
 
     .title {
         font-size: ${pr => pr.theme.font.size.title}; 
-        margin: 0; 
-        font-family: ${pr => pr.theme.font.family.logo};
     }
 
     .linked-i {
@@ -65,53 +117,12 @@ height: 100vh;
     }
 
     .header-top {
-        padding-bottom: 1rem;
-        margin: 0;
-        color: ${pr => pr.theme.color.pink};
+        margin-top: 0rem;
     }
 
     .tag {
         font-family: ${pr => pr.theme.font.family.primary};
         font-size: ${pr => pr.theme.font.size.l};
-        color: ${pr => pr.theme.color.white};
-    }
-
-    .btn-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 1rem;
-        margin-top: 5rem;
-    }
-
-    .btn {
-        font-family: ${pr => pr.theme.font.family.primary};
-        padding: 0.5rem 1.5rem;
-        border: 2px solid white;
-        margin: 5% 0;
-        position: relative;
-        color: #fff;
-        box-shadow: 0 0 20px #333;
-        transition: all 0.3s ease-in-out;
-        border-radius: 15px;
-
-
-
-
-        &:hover {
-            transform: scale(1.1);
-
-
-        }
-    }
-
-    .login-btn {
-        background: ${pr => pr.theme.color.red};
-    }
-
-    .register-btn {
-        background: ${pr => pr.theme.color.red};
     }
 
     @media (max-width: ${pr => pr.theme.media.laptop}) {
@@ -129,6 +140,10 @@ height: 100vh;
             font-size: 1${pr => pr.theme.font.size.tablet_title};
         }
 
+        .background-video {
+            object-fit: cover;  
+        }
+
         .tag {
             font-size: ${pr => pr.theme.font.size.sm};
         }
@@ -141,6 +156,10 @@ height: 100vh;
     @media (max-width: ${pr => pr.theme.media.phone}) {
         .title {
             font-size: ${pr => pr.theme.font.size.phone_title};
+        }
+
+        .background-video {
+            object-fit: cover;  
         }
 
         .linked-i {

@@ -59,6 +59,7 @@ const ClientProfileBasicStyled = styled.div`
     font-family: ${pr => pr.theme.font.family.primary};
     flex-direction: column;
     align-items: center;
+    padding: 2rem 0;
 
     .profile-header {
         position: relative;
@@ -67,6 +68,8 @@ const ClientProfileBasicStyled = styled.div`
         overflow: hidden;
         border-radius: 50%;
         margin: 1rem;
+        background-color: ${pr => pr.theme.color.white};  // Background for the profile pic placeholder
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);  // Light shadow to give depth
     }
 
     .profile-image {
@@ -87,8 +90,15 @@ const ClientProfileBasicStyled = styled.div`
         right: 10px;
         border-radius: 50%;
         padding: 5px;
-        color: orange;
+        background-color: ${pr => pr.theme.color.white};  // Background to enhance icon visibility
+        transition: background-color 0.2s, transform 0.2s;
+
+        &:hover {
+            background-color: ${pr => pr.theme.color.primary};  // Changing to primary color on hover
+            transform: scale(1.05);  // Slightly enlarging on hover for effect
+        }
     }
 `;
+
 
 

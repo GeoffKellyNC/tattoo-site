@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchUsers } from '../../api/fetchUsersPage'; 
-import { UserFullProfile } from '../../store/user/types/profileFullType';
+import { UserFullProfile } from '../../store/user/types/userStateTypes';
 
 import UserComponent from './UserComponent'
 import styled from 'styled-components';

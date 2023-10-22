@@ -19,19 +19,17 @@ const Redirect: React.FC<RedirectProps> = ({
 
     const nav = useNavigate()
 
-    const handleRedirect = useCallback(() => {
-        getProfileImage()
-        setTimeout(() => {
-            if(userData.unxid.length > 0 && userData.account_type ==='client' || userData.account_type === 'artist'){
-                nav(`/user/client/:${userData.unxid}`)
-                return;
-            }
-            nav('/')
-        } , 3000)
+    const handleRedirect = useCallback( async () => {
+        await getProfileImage()
+        if(userData.unxid.length > 0 && userData.account_type ==='client' || userData.account_type === 'artist'){
+            nav(`/user/client/:${userData.unxid}`)
+            return;
+        }
+        nav('/')
     }
     ,[getProfileImage, nav, userData.account_type, userData.unxid])
 
-    useEffect(() => {
+    useEffect( () => {
         handleRedirect()
     }
     ,[handleRedirect])
