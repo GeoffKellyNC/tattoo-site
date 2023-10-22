@@ -94,7 +94,7 @@ export const loginUser = (data: {user_name: string, password: string}) => async 
                 type: notifyTypes.SET_NOTIFY,
                 payload: {
                     type: 'info',
-                    message: 'User Logged In Successfully'
+                    message: `Hey ${res.data.userData.user_name}! Thanks for logging in.`
                 }
             });
 
@@ -231,14 +231,6 @@ export const getProfileImage = () => async (dispatch: Dispatch<UploadImageAction
             type: userTypes.ADD_USER_PROFILE_IMG,
             payload: res.data.data
         })
-
-        dispatch({
-            type: notifyTypes.SET_NOTIFY,
-            payload: {
-                type: 'info',
-                message: 'Image fetched successfully!'
-            }
-        });
 
         return 
     } catch (error) {
