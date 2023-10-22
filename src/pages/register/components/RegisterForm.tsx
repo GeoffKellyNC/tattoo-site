@@ -14,7 +14,7 @@ import checkUserName from '../../../helpers/checkUserName'
 
 interface RegisterProps {
     setNotification: (type: string, message: string) => void,
-    registerUser: (data: unknown) => void
+    registerUser: (data: {username: string, password: string}) => void
 }
 
 interface FormValues {
@@ -142,7 +142,8 @@ const RegisterForm: React.FC<RegisterProps> = ({
         const checks = await performChecks(formValues, setNotification)
 
         if (checks.case && checks.item === 'success') {
-            registerUser(formValues)
+            const { user_name, password } = formValues
+            registerUser({username: user_name, password: password})
             setFormValues(initFormValues)
             nav('/login')
             return

@@ -8,10 +8,6 @@ import { SetUserContactProfileAction, SetClientProfileDetailsAction } from './us
 import { UserFullProfileAction } from './types/userStateTypes';
 
 // Define data types
-interface RegisterData {
-    username?: string; 
-    password?: string; 
-}
 
 // Define action types
 interface NotifyAction {
@@ -39,7 +35,11 @@ type RegisterReturnType = void;
 type LoginReturnType = { state: boolean; unxid: string | null } | boolean;
 type VerifyUserReturnType = boolean;
 
-export const registerUser = (data: RegisterData) => async (dispatch: Dispatch<NotifyAction>): Promise<RegisterReturnType> => {
+export const registerUser = (data: {
+    username: string; 
+    password: string; 
+}
+) => async (dispatch: Dispatch<NotifyAction>): Promise<RegisterReturnType> => {
     try {
         await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/register`, data);
 
