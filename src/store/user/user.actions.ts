@@ -5,6 +5,7 @@ import * as userTypes from './user.types';
 import { Dispatch } from 'redux';  
 import { SetUserDataAction, ClientProfileDetailsType } from './user.reducer';
 import { SetUserContactProfileAction, SetClientProfileDetailsAction } from './user.reducer';    
+import { UserFullProfileAction } from './types/profileFullType';
 
 // Define data types
 interface RegisterData {
@@ -40,7 +41,7 @@ type VerifyUserReturnType = boolean;
 
 export const registerUser = (data: RegisterData) => async (dispatch: Dispatch<NotifyAction>): Promise<RegisterReturnType> => {
     try {
-        const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/register`, data);
+        await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/register`, data);
 
         dispatch({
             type: notifyTypes.SET_NOTIFY,
@@ -50,7 +51,6 @@ export const registerUser = (data: RegisterData) => async (dispatch: Dispatch<No
             }
         });
 
-        console.log('Create User Res: ', res);
     } catch (error) {
         console.log('Error Registering User: ', error); // TODO: Handle This error
     }
@@ -117,7 +117,6 @@ export const loginUser = (data: {user_name: string, password: string}) => async 
 export const logoutUser = () => async (dispatch: Dispatch<UserAction | NotifyAction>): Promise<void> => {
     try {
         const res = await axiosWithAuth().post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/auth/logout`);
-        console.log('Logout User Res: ', res.data); // REMOVE
 
         if(res.status === 200) {
             sessionStorage.clear();
@@ -152,7 +151,6 @@ export const logoutUser = () => async (dispatch: Dispatch<UserAction | NotifyAct
 export const verifyUserAccess = () => async (dispatch: Dispatch<UserAction>): Promise<VerifyUserReturnType> => {
     try {
         const res = await axiosWithAuth().get(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/auth/verify-user-access`);
-        console.log('Verify User Res: ', res.data); // REMOVE
 
         if(res.status === 200) {
             dispatch({
@@ -357,6 +355,32 @@ export const uploadClientUserImage = (file: File) => async (dispatch: Dispatch<U
                 message: 'Error uploading the image!'
             }
         });
+    }
+}
+
+
+export const getFullUserProfileDetails = (unxid: string) => async (dispatch: Dispatch<UserFullProfileAction | NotifyAction>) => {
+    try {
+        const res = await axiosWithAuth().get(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/get-user-profile-by-id/${unxid}`)
+
+
+        dispatch({
+            type: userTypes.SET_VIEW_USER_PROFILE_DETAILS,
+            payload: res.data.data
+        })
+
+        return true
+
+    } catch (error) {
+        console.log('Error getting full profile details: ', error) //TODO: Handle this error
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error Getting User Profile Details'
+            }
+        })
+        return false
     }
 }
 

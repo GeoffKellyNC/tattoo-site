@@ -20,15 +20,12 @@ const Redirect: React.FC<RedirectProps> = ({
     const nav = useNavigate()
 
     const handleRedirect = useCallback(() => {
-        console.log('Handling redirect') //! REMOVE
         getProfileImage()
         setTimeout(() => {
             if(userData.unxid.length > 0 && userData.account_type ==='client' || userData.account_type === 'artist'){
-                console.log('Redirecting to user profile') //! REMOVE
                 nav(`/user/client/:${userData.unxid}`)
                 return;
             }
-            console.log('Returning to home page') //! REMOVE
             nav('/')
         } , 3000)
     }
@@ -54,6 +51,12 @@ export default connect((st: RootState) => ({
 
 const RedirectStyled = styled.div`
     color: ${pr => pr.theme.color.white};
-    font-size: 30rem;
+    font-size: 10rem;
+    font-family: ${pr => pr.theme.font.family.primary};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
 
 `

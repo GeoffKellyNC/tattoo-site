@@ -1,50 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { fetchUsers } from '../../api/fetchUsersPage'; 
+import { UserFullProfile } from '../../store/user/types/profileFullType';
 
 import UserComponent from './UserComponent'
 import styled from 'styled-components';
 
 
 
-interface User {
-    unxid: string;
-    display_name: string;
-    user_email: string;
-    account_type: string;
-    online_status: string;
-    _id: { $oid: string };
-    first_name: string;
-    last_name: string;
-    user_name: string;
-    profileImageUrl: string;
-    profile_tagline: string;
-    contact_discord: {
-        public: boolean;
-        username: string;
-    };
-    contact_instagram: {
-        public: boolean;
-        username: string;
-    };
-    contact_snapchat: {
-        public: boolean;
-        username: string;
-    };
-    contact_x: {
-        public: boolean;
-        username: string;
-    };
-    contact_website: {
-        public: boolean;
-        username: string;
-    };
-    location_city: string;
-    location_state: string;
-
-}
-
 const UsersList: React.FC = () => {
-    const [users, setUsers] = useState<User[]>([]);
+    const [users, setUsers] = useState<UserFullProfile[]>([]);
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);

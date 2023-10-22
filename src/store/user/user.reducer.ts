@@ -1,4 +1,5 @@
 import * as userTypes from './user.types'
+import { UserFullProfile, UserFullProfileAction } from './types/profileFullType';
 
 export interface SetUserDataAction {
     type: string;
@@ -148,7 +149,6 @@ export function userContactProfile(state = {}, action: SetUserContactProfileActi
 }
 
 export function clientUserImages(state = [], action: SetUserProfileImageAction) {
-    console.log('clientUserImages reducer triggered with action:', action); //!REMOVE
 
     switch(action.type) {
         case userTypes.GET_USER_CLIENT_IMAGES:
@@ -157,5 +157,15 @@ export function clientUserImages(state = [], action: SetUserProfileImageAction) 
             return [...state, action.payload];
         default:
             return sessionStorage.getItem('userClientImages') ? JSON.parse(sessionStorage.getItem('userClientImages') as string) : state;
+    }
+}
+
+
+export function viewUserDetails(state: UserFullProfile = {} as UserFullProfile, action: UserFullProfileAction) {
+    switch(action.type) {
+        case userTypes.SET_VIEW_USER_PROFILE_DETAILS:
+            return action.payload;
+        default:
+            return state;
     }
 }

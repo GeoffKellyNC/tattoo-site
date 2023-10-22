@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 
 // Components
 import AppUsersHome from './pages/appUsers/AppUsersHome'
+import FullProfileView from './pages/fullProfileView/FullProfileView'
 import Home from './pages/home/Home'
 import Login from './pages/login/Login'
 import Notifications from './components/Notifications'
@@ -25,6 +26,11 @@ function App() {
         <Route path = '/user/client/:unxid' element = {
           <ProtectedRoute>
             <UserProfileClient />
+          </ProtectedRoute>
+        } />
+        <Route path = '/user/view/:unxid' element = {
+          <ProtectedRoute>
+            <FullProfileView />
           </ProtectedRoute>
         } />
         <Route path = '/user-list' element = {

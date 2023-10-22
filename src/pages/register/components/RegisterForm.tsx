@@ -44,7 +44,6 @@ const initFormValues: FormValues = {
 
 
 const performChecks = async (data: FormValues, notifyFunc: (type: string, message: string) => void): Promise<CheckResult> =>  {
-    console.log('Performing Checks')
     
     if (!data) {
         notifyFunc('error', 'Form data is missing');
@@ -61,22 +60,16 @@ const performChecks = async (data: FormValues, notifyFunc: (type: string, messag
         password = ''
     } = data;
 
-    console.log('Checking username')
     if (user_name.trim().length < 4) {
         notifyFunc('error', 'Username must be at least 4 characters long');
-        console.log('Username failed check')
         return {item: 'username', case: false};
     }
-    console.log('Username passed check')
 
-    console.log('Checking if username exists')
     const doesUserNameExist = await checkUserName(user_name);
     if(doesUserNameExist){
         notifyFunc('error', 'Username is already taken');
-        console.log('Username exists')
         return {item: 'username_exists', case: false};
     }
-    console.log('Username does not exist')
 
     const emailPattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if(!emailPattern.test(email)){
@@ -149,13 +142,11 @@ const RegisterForm: React.FC<RegisterProps> = ({
         const checks = await performChecks(formValues, setNotification)
 
         if (checks.case && checks.item === 'success') {
-            console.log(formValues)
             registerUser(formValues)
             setFormValues(initFormValues)
             nav('/login')
             return
         }
-        console.log('Form failed checks')
         return
     }
 

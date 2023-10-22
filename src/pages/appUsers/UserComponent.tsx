@@ -1,5 +1,7 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { UserFullProfile } from '../../store/user/types/profileFullType';
 
 import { IoLogoDiscord } from 'react-icons/io5';
 import { PiInstagramLogoFill } from 'react-icons/pi';
@@ -15,41 +17,22 @@ const snapchatIcon = <FaSquareSnapchat size = {'2rem'} />
 const xIcon = <RiTwitterXFill size = {'2rem'} />
 const webIcon = <CgWebsite size = {'2rem'} />
 
-// User prop type based on the provided document
 
-interface ContactTypes {
-    public: boolean;
-    username: string;
-}
-
-interface UserProps {
-    _id: { $oid: string };
-    unxid: string;
-    first_name: string;
-    last_name: string;
-    user_name: string;
-    display_name: string;
-    user_email: string;
-    account_type: string;
-    online_status: string;
-    profileImageUrl: string;
-    profile_tagline: string;
-    contact_discord: ContactTypes;
-    contact_instagram: ContactTypes;
-    contact_snapchat: ContactTypes;
-    contact_x: ContactTypes;
-    contact_website: ContactTypes;
-    location_city: string;
-    location_state: string;
-}
 
 const DEFAULT_PROFILE_PIC = "https://storage.googleapis.com/tattoo-user-uploaded-images/profile-images/default.png";
 
 
 
-const UserComponent: React.FC<{ user: UserProps }> = ({ user }) => {
+const UserComponent: React.FC<{ user: UserFullProfile }> = ({ user }) => {
+    const nav = useNavigate()
+
+    const handleNav = () => {
+        nav(`/user/view/${user.unxid}`)
+        return
+    }
+
     return (
-        <UserContainer>
+        <UserContainer onClick = {handleNav}>
         <ProfilePic 
             src={user.profileImageUrl || DEFAULT_PROFILE_PIC}
             alt={`${user.first_name} ${user.last_name}`}
@@ -86,12 +69,18 @@ const UserContainer = styled.div`
     padding: 1rem;
     color: ${props => props.theme.color.white};
     border: 1px solid ${props => props.theme.color.gray};
-    border-radius: 8px;
     transition: background 0.3s;
     font-family: ${props => props.theme.font.family.primary};
-
     &:hover {
         background: ${props => props.theme.color.lightGray};
+        cursor: pointer;
+    }
+
+
+    &:hover {
+        border: 1px solid ${props => props.theme.color.pink};
+        scale: 1.1;
+        border-radius: 10px;
     }
 
     @media (max-width: 768px) {
