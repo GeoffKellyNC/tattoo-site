@@ -20,6 +20,7 @@ interface FormValues {
     display_name: string,
     account_type: string,
     password: string
+    verify_password: string
 }
 
 interface RegisterProps {
@@ -41,11 +42,12 @@ const initFormValues: FormValues = {
     last_name: '',
     display_name: '',
     account_type: '',
-    password: ''
+    password: '',
+    verify_password: ''
 }
 
 
-const performChecks = async (data: FormValues, notifyFunc: (type: string, message: string) => void): Promise<CheckResult> =>  {
+const performChecks = async (data: FormValues, notifyFunc: (type: string, message: string, ) => void, setFormValues: React.Dispatch<React.SetStateAction<FormValues>> ): Promise<CheckResult> =>  {
     
     if (!data) {
         notifyFunc('error', 'Form data is missing');
@@ -59,7 +61,8 @@ const performChecks = async (data: FormValues, notifyFunc: (type: string, messag
         last_name = '',
         display_name = '',
         account_type = '',
-        password = ''
+        password = '',
+        verify_password = ''
     } = data;
 
     if (user_name.trim().length < 4) {
@@ -103,7 +106,18 @@ const performChecks = async (data: FormValues, notifyFunc: (type: string, messag
     if(!passwordPattern.test(password)) {
         notifyFunc('error', 'Password must be at least 8 characters long, contain at least 1 uppercase letter, and 1 number. Symbols are allowed.');
         return {item: 'password', case: false};
-    }    
+    }
+
+    if(password !== verify_password) {
+        // clear out password fields
+        setFormValues(prevState => ({
+            ...prevState,
+            password: '',
+            verify_password: ''
+        }));
+        notifyFunc('error', 'Passwords do not match!');
+        return {item: 'password', case: false};
+    }
 
     return {item: 'success', case: true};
 }
@@ -141,7 +155,7 @@ const RegisterForm: React.FC<RegisterProps> = ({
 
     const onSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        const checks = await performChecks(formValues, setNotification)
+        const checks = await performChecks(formValues, setNotification, setFormValues)
 
         if (checks.case && checks.item === 'success') {
             registerUser(formValues)
@@ -206,6 +220,14 @@ const RegisterForm: React.FC<RegisterProps> = ({
                 onChange={onChange}
                 value = {formValues.password}
                 className = 'reg-input input-password'
+            />
+            <label> Verify Password </label>
+            <input 
+                type = 'password'
+                name = 'verify_password'
+                onChange={onChange}
+                value = {formValues.verify_password}
+                className = 'reg-input input-verify-password'
             />
             <label> Account Type </label>
             <select 

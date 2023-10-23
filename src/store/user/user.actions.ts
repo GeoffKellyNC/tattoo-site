@@ -36,6 +36,7 @@ interface RegisterTypes {
     display_name: string;
     account_type: string;
     password: string;
+    verify_password: string;
 }
 
 
@@ -387,7 +388,7 @@ export const updateVerificationEmail = (email: string) => async (dispatch: Dispa
         const res = await axiosWithAuth().post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/update-verificatoin-email`, {email})
 
         const displayMessage = res.data.message ? res.data.message : 'Email Updated Successfully'
-        
+
         dispatch({
             type: notifyTypes.SET_NOTIFY,
             payload: {
