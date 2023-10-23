@@ -1,11 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { connect, ConnectedProps } from 'react-redux';
 import * as notifyActions from '../../store/notifications/notify.actions';
 import * as userActions from '../../store/user/user.actions';
 import loginBG from '../../assets/login-bg.jpg'
+
 
 
 
@@ -83,7 +84,9 @@ const Login: React.FC<PropsFromRedux> = ({ loginUser, setNotification }) => {
                     placeholder='Password'
                 />
                 <button onClick={onSubmit} className='form-btn'> LOGIN </button>
+                <NavLink to = '/reset-password-user' className = 'reset-password-link'> Forgot Password? </NavLink>
             </div>
+
         </LoginStyled>
         </LoginBackground>
     );
@@ -124,12 +127,27 @@ const LoginStyled = styled.div`
     transform: translate(-50%, -50%);
     color: ${pr => pr.theme.color.white};
 
+
+    .reset-password-link {
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: 500;
+        color: ${pr => pr.theme.color.white};
+        text-decoration: none;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: ${pr => pr.theme.color.purple};
+        }
+    }
+
     .login-top {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         margin-bottom: 20px;
+
 
         .tag {
             font-size: ${pr => pr.theme.font.size.title};

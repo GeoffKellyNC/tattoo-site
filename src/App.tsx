@@ -5,6 +5,7 @@ import { Routes, Route } from 'react-router-dom'
 // Components
 import AppNav from './nav/AppNav'
 import AppUsersHome from './pages/appUsers/AppUsersHome'
+import EmailVerify from './pages/resetPassword/EmailVerify'
 import EmailNotVerified from './pages/helperPages/EmailNotVerified'
 import FullProfileView from './pages/fullProfileView/FullProfileView'
 import Home from './pages/home/Home'
@@ -13,6 +14,7 @@ import Notifications from './components/Notifications'
 import ProtectedRoute from './util/ProtectedRoute'
 import Redirect from './pages/redirect/Redirect'
 import Register from './pages/register/Register'
+import ResetPassForm from './pages/resetPassword/ResetPassForm'
 import UserProfileClient from './pages/profileClient/UserProfileClient'
 
 
@@ -26,6 +28,8 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path = '/register' element = { <Register />} />
         <Route path = '/login' element = { <Login />} />
+        <Route path = '/reset-password-user' element = { <EmailVerify />} />
+        <Route path = '/reset-password/:token/:unxid' element = { <ResetPassForm />} />
         <Route path = '/user/client/:unxid' element = {
           <ProtectedRoute>
             <UserProfileClient />
