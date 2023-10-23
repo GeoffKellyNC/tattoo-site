@@ -382,3 +382,32 @@ export const getFullUserProfileDetails = (unxid: string) => async (dispatch: Dis
     }
 }
 
+export const updateVerificationEmail = (email: string) => async (dispatch: Dispatch<NotifyAction>) => {
+    try {
+        const res = await axiosWithAuth().post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/update-verificatoin-email`, {email})
+
+        const displayMessage = res.data.message ? res.data.message : 'Email Updated Successfully'
+        
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'info',
+                message: displayMessage
+            }
+        })
+
+        return true
+
+    } catch (error) {
+        console.log('Error updating email: ', error) //TODO: Handle this error
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error Updating Email'
+            }
+        })
+        return false
+    }
+}
+
