@@ -33,7 +33,10 @@ const NavLoggedIn: React.FC<Props> = ({
   return (
     <LoggedInNavContainer>
         <div className = 'link-container'>
-            <span className = 'link' onClick = {handleViewUsersClick}>View Users</span>
+            {
+                !userData.email_verified ? null : <span className = 'link' onClick = {handleViewUsersClick}>View Users</span>
+                
+            }
             <span className = 'link' onClick = {logoutUser}>Logout</span>
         </div>
         <div className = 'user-container'>

@@ -12,11 +12,6 @@ import checkUserName from '../../../helpers/checkUserName'
 
 // TYPES
 
-interface RegisterProps {
-    setNotification: (type: string, message: string) => void,
-    registerUser: (data: {username: string, password: string}) => void
-}
-
 interface FormValues {
     user_name: string,
     email: string,
@@ -26,6 +21,13 @@ interface FormValues {
     account_type: string,
     password: string
 }
+
+interface RegisterProps {
+    setNotification: (type: string, message: string) => void,
+    registerUser: (data: FormValues) => void
+}
+
+
 
 interface CheckResult {
     item: string,
@@ -142,8 +144,7 @@ const RegisterForm: React.FC<RegisterProps> = ({
         const checks = await performChecks(formValues, setNotification)
 
         if (checks.case && checks.item === 'success') {
-            const { user_name, password } = formValues
-            registerUser({username: user_name, password: password})
+            registerUser(formValues)
             setFormValues(initFormValues)
             nav('/login')
             return

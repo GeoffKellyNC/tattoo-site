@@ -5,9 +5,10 @@ import { connect } from 'react-redux'
 import { RootState } from '../../store/root.reducer'
 import { useNavigate } from 'react-router-dom'
 import * as userActions from '../../store/user/user.actions'
+import { UserData } from '../../store/user/user.reducer'
 
 interface RedirectProps {
-    userData: RootState['userData'],
+    userData: UserData,
     getProfileImage: () => Promise<void>
 
 }
@@ -20,6 +21,10 @@ const Redirect: React.FC<RedirectProps> = ({
     const nav = useNavigate()
 
     const handleRedirect = useCallback( async () => {
+        if(!userData.email_verified){
+            nav('/no-email-verify')
+            return
+        }
         await getProfileImage()
         if(userData.unxid.length > 0 && userData.account_type ==='client' || userData.account_type === 'artist'){
             nav(`/user/client/:${userData.unxid}`)
@@ -27,7 +32,7 @@ const Redirect: React.FC<RedirectProps> = ({
         }
         nav('/')
     }
-    ,[getProfileImage, nav, userData.account_type, userData.unxid])
+    ,[getProfileImage, nav, userData.account_type, userData.email_verified, userData.unxid])
 
     useEffect( () => {
         handleRedirect()

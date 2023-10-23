@@ -28,6 +28,16 @@ interface UploadImageAction {
     payload: string; // URL of the uploaded image
 }
 
+interface RegisterTypes {
+    user_name: string;
+    email: string;
+    first_name: string;
+    last_name: string;
+    display_name: string;
+    account_type: string;
+    password: string;
+}
+
 
 
 // Define return types
@@ -35,11 +45,7 @@ type RegisterReturnType = void;
 type LoginReturnType = { state: boolean; unxid: string | null } | boolean;
 type VerifyUserReturnType = boolean;
 
-export const registerUser = (data: {
-    username: string; 
-    password: string; 
-}
-) => async (dispatch: Dispatch<NotifyAction>): Promise<RegisterReturnType> => {
+export const registerUser = (data: RegisterTypes) => async (dispatch: Dispatch<NotifyAction>): Promise<RegisterReturnType> => {
     try {
         await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/register`, data);
 

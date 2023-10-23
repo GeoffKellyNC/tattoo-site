@@ -5,6 +5,7 @@ import { Routes, Route } from 'react-router-dom'
 // Components
 import AppNav from './nav/AppNav'
 import AppUsersHome from './pages/appUsers/AppUsersHome'
+import EmailNotVerified from './pages/helperPages/EmailNotVerified'
 import FullProfileView from './pages/fullProfileView/FullProfileView'
 import Home from './pages/home/Home'
 import Login from './pages/login/Login'
@@ -38,6 +39,11 @@ function App() {
         <Route path = '/user-list' element = {
           <ProtectedRoute>
             <AppUsersHome />
+          </ProtectedRoute>
+        } />
+        <Route path = '/no-email-verify' element = {
+          <ProtectedRoute>
+            <EmailNotVerified />
           </ProtectedRoute>
         } />
         <Route path = '/redirect' element = {

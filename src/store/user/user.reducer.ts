@@ -37,6 +37,7 @@ export interface UserData {
     attr6: string | null;
     attr7: string | null;
     attr8: string | null;
+    email_verified: boolean;
 }
 
 interface SetUserProfileImageAction {
