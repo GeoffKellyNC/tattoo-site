@@ -10,6 +10,7 @@ import { GiHamburgerMenu } from 'react-icons/gi'
 import MobileNav from './components/MobileNav'
 import SideMenu from './components/sideMenu/SideMenu'
 import ProfileTitle from './components/profileTitle/ProfileTitle'
+import InfoBox from './components/InfoBox/InfoBox'
 
 interface UserProfileProps {
     userData: RootState['userData'],
@@ -51,6 +52,11 @@ const UserProfileClient: React.FC<UserProfileProps> = ({
         <SideMenu />
         <div className = 'main-container'>
           <ProfileTitle />
+          <div className = 'data-container timeline'>
+            <div className = 'data-left'>
+              <InfoBox />
+            </div>
+          </div>
         </div>
     </UserProfileStyled>
   )
@@ -80,6 +86,18 @@ const UserProfileStyled = styled.div`
     flex-grow: 1;
     overflow: auto;
     background-color: #24273b;
+  }
+
+  .data-container {
+    display: flex;
+    padding-top: 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .data-left {
+    width: 310px;
+    flex-shrink: 0;
   }
 
 

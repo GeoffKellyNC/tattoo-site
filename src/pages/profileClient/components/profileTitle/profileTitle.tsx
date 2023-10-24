@@ -113,11 +113,7 @@ const ProfileTitleStyled = styled.div`
         transition: 0.3s;
         cursor: pointer;
 
-        &:active, &:hover {
-            color: #fff;
-            background-color: #1b1d2e;
-            border-bottom: 3px solid #1488fa;
-        }
+   
     }
 
 `

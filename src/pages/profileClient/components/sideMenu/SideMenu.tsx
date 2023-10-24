@@ -10,6 +10,8 @@ import {TbGitPullRequest} from 'react-icons/tb'
 import { FaRegMoneyBillAlt } from 'react-icons/fa'
 import { TbPhotoShare } from 'react-icons/tb'
 import { RiUserSettingsLine } from 'react-icons/ri'
+import { MdOutlineAdminPanelSettings } from 'react-icons/md'
+import { SiNginxproxymanager } from 'react-icons/si'
 
 interface Props {
     userData: UserData
@@ -55,6 +57,22 @@ const SideMenu: React.FC<Props> = ({
                     <RiUserSettingsLine />
                     <span>Settings</span>
                 </span>
+                {
+                    userData.isAdmin && (
+                        <span className = 'menu-item'>
+                            <MdOutlineAdminPanelSettings />
+                            <span>Admin</span>
+                        </span>
+                    )
+                }
+                {
+                    userData.isMod && (
+                        <span className = 'menu-item'>
+                            <SiNginxproxymanager />
+                            <span>Moderate</span>
+                        </span>
+                    )
+                }
             </div>
         </div>
     </SideMenuStyled>
@@ -86,7 +104,7 @@ const SideMenuStyled = styled.div`
         letter-spacing: 4px;
         position: sticky;
         top: 0;
-        background: linear-gradient(to bottom, #151728 0%, #151728 76%, rgba(21, 23, 40, 0) 100%);
+        background: linear-gradient(to bottom, #151728 0%, #151728 76%, rgba(21, 23, 40, 0) 100%); 
     }
 
     .menu-container {
