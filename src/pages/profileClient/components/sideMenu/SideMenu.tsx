@@ -74,7 +74,6 @@ const SideMenuStyled = styled.div`
     background-color: #151728;
     overflow: auto;
     flex-shrink: 0;
-    margin-top: 5rem;
 
     .logo {
         font-family: "DM Sans", sans-serif;
@@ -126,6 +125,10 @@ const SideMenuStyled = styled.div`
         font-size: 1rem;
         font-family: 'Source Sans Pro', sans-serif;
         font-weight: 600;
-    }
+        cursor: pointer;
+
+        &active, &:hover {
+            color: #fff;
+        }
 
 `

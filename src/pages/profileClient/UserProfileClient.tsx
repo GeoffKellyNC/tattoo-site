@@ -9,6 +9,7 @@ import { GiHamburgerMenu } from 'react-icons/gi'
 
 import MobileNav from './components/MobileNav'
 import SideMenu from './components/sideMenu/SideMenu'
+import ProfileTitle from './components/profileTitle/ProfileTitle'
 
 interface UserProfileProps {
     userData: RootState['userData'],
@@ -48,6 +49,9 @@ const UserProfileClient: React.FC<UserProfileProps> = ({
             mobileNavOpen && <MobileNav logoutUser={ logoutUser } setMobileNavOpen = { setMobileNavOpen } />
         }
         <SideMenu />
+        <div className = 'main-container'>
+          <ProfileTitle />
+        </div>
     </UserProfileStyled>
   )
 }
@@ -66,10 +70,18 @@ const UserProfileStyled = styled.div`
   color: ${(pr) => pr.theme.color.white};
   background-color: #151728;
   display: flex;
-  max-width: 1600px;
+  max-width: 3200px;
   height: 100vh;
   overflow: hidden;
-  margin: 0 auto;
+  margin: 5rem 0 0 auto;
+
+  .main-container {
+    padding: 20px;
+    flex-grow: 1;
+    overflow: auto;
+    background-color: #24273b;
+  }
+
 
 
 
