@@ -114,6 +114,7 @@ const HeaderStyled = styled.div`
 
     .linked-i {
         font-size: 15rem;
+        color: ${pr => pr.theme.color.pink};
     }
 
     .header-top {

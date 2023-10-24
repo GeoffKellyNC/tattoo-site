@@ -4,14 +4,11 @@ import { connect } from 'react-redux'
 import { RootState } from '../../store/root.reducer'
 import styled from 'styled-components'
 import * as userActions from '../../store/user/user.actions'
-import clientProfileBg from '../../assets/client-profile-bg.jpg'
 
 import { GiHamburgerMenu } from 'react-icons/gi'
 
-import ClientProfileBasic from './components/ClientProfileBasic'
-import ClientProfileDetails from './components/ClientProfileDetails'
-import ClientUserImages from './sections/ClientUserImages'
 import MobileNav from './components/MobileNav'
+import SideMenu from './components/sideMenu/SideMenu'
 
 interface UserProfileProps {
     userData: RootState['userData'],
@@ -50,9 +47,7 @@ const UserProfileClient: React.FC<UserProfileProps> = ({
         {
             mobileNavOpen && <MobileNav logoutUser={ logoutUser } setMobileNavOpen = { setMobileNavOpen } />
         }
-        <ClientProfileBasic data={userData} profImage = {profileImages} />
-        <ClientProfileDetails />
-        <ClientUserImages />
+        <SideMenu />
     </UserProfileStyled>
   )
 }
@@ -69,29 +64,15 @@ export default connect((st: RootState ) => ({
 
 const UserProfileStyled = styled.div`
   color: ${(pr) => pr.theme.color.white};
-  width: 100%;
-  padding: 40px 20px;
-  background-image: linear-gradient(to bottom, transparent, rgba(0,0,0,1)), url(${clientProfileBg});
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+  background-color: #151728;
+  display: flex;
+  max-width: 1600px;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0 auto;
 
-    .logout-btn {
-    background-color: ${(pr) => pr.theme.color.red};
-    color: ${(pr) => pr.theme.color.white};
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 20px;
-    transition: background-color 0.3s ease;
 
-    &:hover {
-      background-color: ${(pr) => pr.theme.color.primary};
-    }
-  }
+
 
   .mobile-nav-icon {
     display: none;

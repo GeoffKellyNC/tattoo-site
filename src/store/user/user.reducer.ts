@@ -19,7 +19,6 @@ export interface UserData {
     user_name: string;
     display_name: string;
     user_email: string | null;
-    password: string;  // Be careful about having passwords on the client side!
     googleId: string | null;
     created_date: string; // consider using Date type if manipulating the date on the client side
     account_type: string; // consider creating an enum if there are limited predefined types

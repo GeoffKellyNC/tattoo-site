@@ -133,6 +133,7 @@ const NavContainer = styled.div`
 
     .i {
         font-size: 2rem;
+        color: ${pr => pr.theme.color.pink};
     }
 `;
 
