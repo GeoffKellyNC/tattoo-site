@@ -5,7 +5,7 @@ export default {
         primary: 'rgba(0, 0, 139, 1)',
         secondary: 'rgba(156, 4, 255, 1)',
         accent: 'rgba(0, 210,131, 1)',
-        pink: 'rgba(255,20,147)',
+        pink: '#F5593F',
         black: 'rgba(0,0,0,1)',
         white: 'rgba(255, 255, 255, 1)',
         yellow: 'rgba(255, 255, 0, 1)',

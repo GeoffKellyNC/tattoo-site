@@ -11,20 +11,17 @@ import MobileNav from './components/MobileNav'
 import SideMenu from './components/sideMenu/SideMenu'
 import ProfileTitle from './components/profileTitle/ProfileTitle'
 import InfoBox from './components/InfoBox/InfoBox'
+import MessageBox from './components/messageBox/MessageBox'
 
 interface UserProfileProps {
-    userData: RootState['userData'],
-    profileImages: RootState['profileImages'],
     verifyUserAccess: () => Promise<boolean>,
     logoutUser: () => Promise<void>,
     getClientUploadedImages: () => Promise<void>
 }
 
 const UserProfileClient: React.FC<UserProfileProps> = ({
-    userData,
     verifyUserAccess,
     logoutUser,
-    profileImages,
     getClientUploadedImages
 }) => {
     const [mobileNavOpen, setMobileNavOpen] = useState(false)
@@ -55,6 +52,9 @@ const UserProfileClient: React.FC<UserProfileProps> = ({
           <div className = 'data-container timeline'>
             <div className = 'data-left'>
               <InfoBox />
+            </div>
+            <div className = 'data-right'>
+              <MessageBox />
             </div>
           </div>
         </div>
@@ -98,6 +98,11 @@ const UserProfileStyled = styled.div`
   .data-left {
     width: 310px;
     flex-shrink: 0;
+  }
+
+  .data-right {
+    flex-grow: 1;
+    padding-left: 20px;
   }
 
 

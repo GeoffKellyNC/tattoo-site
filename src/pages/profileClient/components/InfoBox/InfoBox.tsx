@@ -5,6 +5,7 @@ import { RootState } from '../../../../store/root.reducer'
 import { UserData, ClientProfileDetailsType } from '../../../../store/user/user.reducer'
 import { TbCurrentLocation } from 'react-icons/tb'
 import { GiTribalShield } from 'react-icons/gi'
+import { BiInfoCircle } from 'react-icons/bi'
 
 interface Props {
     userData: UserData;
@@ -12,8 +13,8 @@ interface Props {
 }
 
 const InfoBox: React.FC<Props> = ({
-    userData,
-    userProfileDetails
+    userProfileDetails,
+    userData
 }) => {
   return (
     <InfoBoxStyled>
@@ -28,6 +29,10 @@ const InfoBox: React.FC<Props> = ({
             <div className = 'info-item'>
                 <GiTribalShield  />
                 Tattoo Count: {userProfileDetails.number_of_tattoos}
+            </div>
+            <div className = 'info-item'>
+                <BiInfoCircle />
+                { userData.first_name ? userData.first_name : 'No first name set'}  { userData.last_name ? userData.last_name : null}
             </div>
         </div>
     </InfoBoxStyled>
@@ -69,6 +74,7 @@ const InfoBoxStyled = styled.div`
         margin-bottom: 10px;
         justify-content: flex-start;
         gap: 10px;
+        font-family: "DM Sans", sans-serif;
     }
     
     .info-item > svg { /* Targets direct SVG children of info-item */
