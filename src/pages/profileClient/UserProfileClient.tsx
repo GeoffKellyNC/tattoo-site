@@ -1,17 +1,15 @@
-/* eslint-disable react-refresh/only-export-components */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from '../../store/root.reducer'
 import styled from 'styled-components'
 import * as userActions from '../../store/user/user.actions'
 
-import { GiHamburgerMenu } from 'react-icons/gi'
-
-import MobileNav from './components/MobileNav'
+import AboutMe from './components/aboutMe/AboutMe'
 import SideMenu from './components/sideMenu/SideMenu'
 import ProfileTitle from './components/profileTitle/ProfileTitle'
 import InfoBox from './components/InfoBox/InfoBox'
 import MessageBox from './components/messageBox/MessageBox'
+import NotificationsBox from './components/notificationBox/NotificationsBox'
 
 interface UserProfileProps {
     verifyUserAccess: () => Promise<boolean>,
@@ -21,10 +19,8 @@ interface UserProfileProps {
 
 const UserProfileClient: React.FC<UserProfileProps> = ({
     verifyUserAccess,
-    logoutUser,
     getClientUploadedImages
 }) => {
-    const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
 
     useEffect(() => {
@@ -37,39 +33,37 @@ const UserProfileClient: React.FC<UserProfileProps> = ({
 
 
   return (
-    <UserProfileStyled>
-        <GiHamburgerMenu 
-            className='mobile-nav-icon' 
-            onClick={() => setMobileNavOpen(!mobileNavOpen)}
-            size = {'3rem'}
-        />
-        {
-            mobileNavOpen && <MobileNav logoutUser={ logoutUser } setMobileNavOpen = { setMobileNavOpen } />
-        }
+    <UserProfileStyled className = 'MAIN-CONTAINER'>
         <SideMenu />
         <div className = 'main-container'>
           <ProfileTitle />
           <div className = 'data-container timeline'>
             <div className = 'data-left'>
               <InfoBox />
+              <AboutMe />
             </div>
             <div className = 'data-right'>
               <MessageBox />
             </div>
+            <NotificationsBox />
           </div>
         </div>
     </UserProfileStyled>
   )
 }
 
-export default connect((st: RootState ) => ({
+const mapStateToProps = (st: RootState) => ({
     userData: st.userData,
     profileImages: st.profileImages
-}),{
+});
+
+const ConnectedUserProfileClient = connect(mapStateToProps, {
     verifyUserAccess: userActions.verifyUserAccess,
     logoutUser: userActions.logoutUser,
     getClientUploadedImages: userActions.getClientUploadedImages
-}) (UserProfileClient)
+})(UserProfileClient)
+
+export default ConnectedUserProfileClient
 
 
 const UserProfileStyled = styled.div`
@@ -79,7 +73,6 @@ const UserProfileStyled = styled.div`
   max-width: 3200px;
   height: 100vh;
   overflow: hidden;
-  margin: 5rem 0 0 auto;
 
   .main-container {
     padding: 20px;
@@ -125,6 +118,25 @@ const UserProfileStyled = styled.div`
 
     .logout-btn {
         display: none;
+    }
+  }
+
+  @media (max-width: ${(pr) => pr.theme.media.tablet}) {
+    width: 100%;
+    
+
+
+    .main-container {
+      padding: 10px; // reduced padding
+    }
+
+    .data-container {
+      flex-direction: column; // stack data vertically
+    }
+
+    .data-left, .data-right {
+      width: 100%;
+      padding: 10px 0;
     }
   }
 `;

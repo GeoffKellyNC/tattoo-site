@@ -15,14 +15,16 @@ interface Props {
     isAuthenticated: boolean,
     userData: UserData,
     profileImages: ProfileImageType,
-    logoutUser: () => Promise<void>
+    logoutUser: () => Promise<void>,
+    isMobile: boolean
 }
 
 const AppNav: React.FC<Props> = ({
     isAuthenticated,
     userData,
     profileImages,
-    logoutUser
+    logoutUser,
+    isMobile
 }) => {
 
     const nav = useNavigate()
@@ -62,7 +64,8 @@ const AppNav: React.FC<Props> = ({
                 <NavLoggedIn 
                 userData = {userData} 
                 profileImages={profileImages}
-                logoutUser = {logoutUser}/>
+                logoutUser = {logoutUser}
+                isMobile = {isMobile}/>
             ) : (
                 <NavLoggedOut 
                     handleLogin = {handleLogin} 
@@ -88,9 +91,9 @@ const NavContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 3rem;
-    height: 4rem;
-    background-color: rgba(0,0,0,0.2);
-    position: fixed;
+    height: 50px;
+    background-color: #151728;
+    position: sticky;
     top: 0;
     left: 0;
     right: 0;

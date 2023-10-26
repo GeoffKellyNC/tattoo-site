@@ -6,6 +6,7 @@ import * as userActions from '../../../store/user/user.actions'
 import { connect } from 'react-redux'
 import { RootState } from '../../../store/root.reducer'
 import styled from 'styled-components'
+import isValidUsername from '../../../util/BannedUserNameCheck'
 
 // Helpers
 import checkUserName from '../../../helpers/checkUserName'
@@ -64,6 +65,13 @@ const performChecks = async (data: FormValues, notifyFunc: (type: string, messag
         password = '',
         verify_password = ''
     } = data;
+
+    const isUserNameValid = isValidUsername(user_name);
+
+    if(!isUserNameValid) {
+        notifyFunc('error', 'Cannot use this name');
+        return {item: 'username', case: false};
+    }
 
     if (user_name.trim().length < 4) {
         notifyFunc('error', 'Username must be at least 4 characters long');

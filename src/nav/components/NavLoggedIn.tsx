@@ -4,16 +4,20 @@ import { useNavigate } from 'react-router-dom'
 import { UserData } from '../../store/user/user.reducer'
 import { ProfileImageType } from '../../store/user/types/userStateTypes'
 
+import MobileNav from '../mobile/MobileNav'
+
 interface Props {
     userData: UserData,
     profileImages: ProfileImageType,
-    logoutUser: () => Promise<void>
+    logoutUser: () => Promise<void>,
+    isMobile: boolean
 }
 
 const NavLoggedIn: React.FC<Props> = ({
     userData,
     profileImages,
-    logoutUser
+    logoutUser,
+    isMobile
 }) => {
 
     const nav = useNavigate()
@@ -32,13 +36,17 @@ const NavLoggedIn: React.FC<Props> = ({
 
   return (
     <LoggedInNavContainer>
-        <div className = 'link-container'>
-            {
-                !userData.email_verified ? null : <span className = 'link' onClick = {handleViewUsersClick}>View Users</span>
-                
-            }
-            <span className = 'link' onClick = {logoutUser}>Logout</span>
-        </div>
+        {
+            isMobile ? null : (
+                <div className = 'link-container'>
+                {
+                    !userData.email_verified ? null : <span className = 'link' onClick = {handleViewUsersClick}>View Users</span>
+                    
+                }
+                <span className = 'link' onClick = {logoutUser}>Logout</span>
+            </div>
+            )
+        }
         <div className = 'user-container'>
             <span className = 'user-name'>{userData.user_name}</span>
             {
@@ -49,6 +57,9 @@ const NavLoggedIn: React.FC<Props> = ({
                 )
             }
         </div>
+        {
+            isMobile && <MobileNav/>
+        }
     </LoggedInNavContainer>
   )
 }

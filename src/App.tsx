@@ -1,5 +1,6 @@
 import './App.css'
 import { Routes, Route } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 
 // Components
@@ -19,11 +20,36 @@ import UserProfileClient from './pages/profileClient/UserProfileClient'
 
 
 function App() {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    if (window.innerWidth <= 1000){
+      setIsMobile(true)
+    }
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth <= 1000) {
+        setIsMobile(true)
+      } else {
+        setIsMobile(false)
+      }
+    })
+
+    return () => {
+      window.removeEventListener('resize', () => {
+        if (window.innerWidth <= 1000) {
+          setIsMobile(true)
+        } else {
+          setIsMobile(false)
+        }
+      })
+    }
+  }, [])
 
   return (
     <>
       <Notifications />
-      <AppNav />
+      <AppNav isMobile = { isMobile } />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path = '/register' element = { <Register />} />

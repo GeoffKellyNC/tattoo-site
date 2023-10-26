@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
@@ -21,7 +20,7 @@ const SideMenu: React.FC<Props> = ({
     userData
 }) => {
   return (
-    <SideMenuStyled>
+    <SideMenuStyled className = 'LOOKHERE'>
         <span className = 'logo'>
             {
                 userData.isClient ? 'Client' : 'Artist'
@@ -34,21 +33,21 @@ const SideMenu: React.FC<Props> = ({
                     <HiOutlineHomeModern />
                     <span>Home</span>
                 </span>
-                <span className = 'menu-item'>
-                    {
-                        userData.isClient ? (
-                            <span className = 'menu-item'>
-                                <TbGitPullRequest />
-                                <span>My Requests </span>
-                            </span>
-                        ) : (
-                            <span className = 'menu-item'>
-                                <FaRegMoneyBillAlt />
-                                <span>Tattoo Requests</span>
-                            </span>
-                        )
-                    }
-                </span>
+
+                {
+                    userData.isClient ? (
+                        <span className = 'menu-item'>
+                            <TbGitPullRequest />
+                            <span>My Requests </span>
+                        </span>
+                    ) : (
+                        <span className = 'menu-item'>
+                            <FaRegMoneyBillAlt />
+                            <span>Tattoo Requests</span>
+                        </span>
+                    )
+                }
+
                 <span className = 'menu-item'>
                     <TbPhotoShare />
                     <span>Photos</span>
@@ -79,9 +78,14 @@ const SideMenu: React.FC<Props> = ({
   )
 }
 
-export default connect((st: RootState) => ({
+const mapStateToProps = (st: RootState) => ({
     userData: st.userData
-}), null) (SideMenu)
+});
+
+const ConnectedSideMenu = connect(mapStateToProps, null)(SideMenu);
+
+export default ConnectedSideMenu;
+
 
 const SideMenuStyled = styled.div`
     width: 260px;
@@ -131,6 +135,10 @@ const SideMenuStyled = styled.div`
         padding-top: 10px;
         border-bottom: 1px solid #272a3a;
 
+        @media (max-width: ${(pr) => pr.theme.media.tablet}) {
+            margin-top: 100px;
+        }
+
     }
 
     .menu-item {
@@ -144,9 +152,32 @@ const SideMenuStyled = styled.div`
         font-family: 'Source Sans Pro', sans-serif;
         font-weight: 600;
         cursor: pointer;
+        flex-shrink: 0;  // Prevents the menu items from shrinking.
 
         &active, &:hover {
             color: #fff;
         }
 
-`
+        @media (max-width: ${(pr) => pr.theme.media.tablet}) {
+            justify-content: center;
+            z-index: 1;
+            font-size: 2rem;
+        }
+    }
+
+    @media (max-width: ${(pr) => pr.theme.media.tablet}) {
+        width: 70px;  // Slightly increased the width
+
+        .logo {
+            display: none;  // Hide the logo
+        }
+
+        .menu-title {
+            display: none;  // Hide the username
+        }
+
+        .menu-item span:last-child {
+            display: none;  // Hide the text of each menu item
+        }
+    }
+`;

@@ -6,6 +6,7 @@ import { UserData, ClientProfileDetailsType } from '../../../../store/user/user.
 import { TbCurrentLocation } from 'react-icons/tb'
 import { GiTribalShield } from 'react-icons/gi'
 import { BiInfoCircle } from 'react-icons/bi'
+import EditProfileDrawer from '../EditProfileDrawer'
 
 interface Props {
     userData: UserData;
@@ -20,6 +21,7 @@ const InfoBox: React.FC<Props> = ({
     <InfoBoxStyled>
         <div className = 'intro-title'>
             <span className='title'>Intro</span>
+            <EditProfileDrawer />
         </div>
         <div className = 'info'>
             <div className = 'info-item'>
@@ -80,6 +82,19 @@ const InfoBoxStyled = styled.div`
     .info-item > svg { /* Targets direct SVG children of info-item */
         margin-right: 10px; /* Space between icon and text */
     }
+
+    @media (max-width: ${(pr) => pr.theme.media.tablet}) {
+        padding: 10px;
+    
+        .intro-title {
+          font-size: 16px; // slightly reduce font-size
+          margin-bottom: 15px;
+        }
+    
+        .info-item {
+          font-size: 14px; // slightly reduce font-size
+        }
+      }
 
 `
 
