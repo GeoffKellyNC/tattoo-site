@@ -7,10 +7,10 @@ import * as userActions from '../../store/user/user.actions'
 
 import AboutMe from './components/aboutMe/AboutMe'
 import SideMenu from './components/sideMenu/SideMenu'
-import ProfileTitle from './components/profileTitle/ProfileTitle'
 import InfoBox from './components/InfoBox/InfoBox'
 import MessageBox from './components/messageBox/MessageBox'
 import NotificationsBox from './components/notificationBox/NotificationsBox'
+import ConnectedProfileTitle from './components/profileTitle/ProfileTitle'
 
 import ClientPostedJobs from './views/ClientPostedJobs'
 
@@ -22,7 +22,7 @@ interface UserProfileProps {
 
 const UserProfileClient: React.FC<UserProfileProps> = ({
     verifyUserAccess,
-    getClientUploadedImages
+    getClientUploadedImages 
 }) => {
 
 
@@ -42,7 +42,7 @@ const UserProfileClient: React.FC<UserProfileProps> = ({
         <Routes>
           <Route path = '/' element = {
             <div className = 'main-container'>
-              <ProfileTitle />
+              <ConnectedProfileTitle />
               <div className = 'data-container timeline'>
                 <div className = 'data-left'>
                   <InfoBox />
