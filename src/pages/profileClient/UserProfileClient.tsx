@@ -17,7 +17,7 @@ import ClientPostedJobs from './views/ClientPostedJobs'
 interface UserProfileProps {
     verifyUserAccess: () => Promise<boolean>,
     logoutUser: () => Promise<void>,
-    getClientUploadedImages: () => Promise<void>
+    getClientUploadedImages: () => Promise<void> 
 }
 
 const UserProfileClient: React.FC<UserProfileProps> = ({
