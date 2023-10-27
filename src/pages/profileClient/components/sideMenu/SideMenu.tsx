@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { RootState } from '../../../../store/root.reducer'
 import { UserData } from '../../../../store/user/user.reducer'
+import { Link, useResolvedPath } from 'react-router-dom'
 
 import {HiOutlineHomeModern} from 'react-icons/hi2'
 import {TbGitPullRequest} from 'react-icons/tb'
@@ -19,6 +20,9 @@ interface Props {
 const SideMenu: React.FC<Props> = ({
     userData
 }) => {
+
+    const url = useResolvedPath("").pathname;
+
   return (
     <SideMenuStyled className = 'LOOKHERE'>
         <span className = 'logo'>
@@ -29,17 +33,17 @@ const SideMenu: React.FC<Props> = ({
         <div className = 'menu-container'>
             <span className = 'menu-title'>{userData.user_name}</span>
             <div className = 'link-container'>
-                <span className = 'menu-item'>
+                <Link to = {`${url}`} className = 'menu-item'>
                     <HiOutlineHomeModern />
                     <span>Home</span>
-                </span>
+                </Link>
 
                 {
                     userData.isClient ? (
-                        <span className = 'menu-item'>
+                        <Link to={`${url}/posted-jobs`} className = 'menu-item'>
                             <TbGitPullRequest />
                             <span>My Requests </span>
-                        </span>
+                        </Link>
                     ) : (
                         <span className = 'menu-item'>
                             <FaRegMoneyBillAlt />

@@ -103,13 +103,23 @@ const MobileNavStyled = styled.div`
         padding: 10px;
     }
 
+    .close-icon {
+        color: white;
+        z-index: 1000;
+        position: absolute;
+        top: 150%;
+        right: 22rem;
+    }
+
 
 
 
     .nav-body {
         height: 100vh;
         width: 100vw;
-        margin-top: 5rem;
+        position: absolute;
+        top: 0;
+        left: 0;
         background: rgba( 0, 0, 0, 0.8 );
         box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
         backdrop-filter: blur( 4px );

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from '../../store/root.reducer'
+import { Routes, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import * as userActions from '../../store/user/user.actions'
 
@@ -10,6 +11,8 @@ import ProfileTitle from './components/profileTitle/ProfileTitle'
 import InfoBox from './components/InfoBox/InfoBox'
 import MessageBox from './components/messageBox/MessageBox'
 import NotificationsBox from './components/notificationBox/NotificationsBox'
+
+import ClientPostedJobs from './views/ClientPostedJobs'
 
 interface UserProfileProps {
     verifyUserAccess: () => Promise<boolean>,
@@ -21,6 +24,7 @@ const UserProfileClient: React.FC<UserProfileProps> = ({
     verifyUserAccess,
     getClientUploadedImages
 }) => {
+
 
 
     useEffect(() => {
@@ -35,19 +39,26 @@ const UserProfileClient: React.FC<UserProfileProps> = ({
   return (
     <UserProfileStyled className = 'MAIN-CONTAINER'>
         <SideMenu />
-        <div className = 'main-container'>
-          <ProfileTitle />
-          <div className = 'data-container timeline'>
-            <div className = 'data-left'>
-              <InfoBox />
-              <AboutMe />
+        <Routes>
+          <Route path = '/' element = {
+            <div className = 'main-container'>
+              <ProfileTitle />
+              <div className = 'data-container timeline'>
+                <div className = 'data-left'>
+                  <InfoBox />
+                  <AboutMe />
+                </div>
+                <div className = 'data-right'>
+                  <MessageBox />
+                </div>
+                <NotificationsBox />
+              </div>
             </div>
-            <div className = 'data-right'>
-              <MessageBox />
-            </div>
-            <NotificationsBox />
-          </div>
-        </div>
+          } />
+          <Route path = {`/posted-jobs`} element = {
+            <ClientPostedJobs />
+          } />
+        </Routes>
     </UserProfileStyled>
   )
 }

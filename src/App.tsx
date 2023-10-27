@@ -56,7 +56,7 @@ function App() {
         <Route path = '/login' element = { <Login />} />
         <Route path = '/reset-password-user' element = { <EmailVerify />} />
         <Route path = '/reset-password/:token/:unxid' element = { <ResetPassForm />} />
-        <Route path = '/user/client/:unxid' element = {
+        <Route path = '/user/client/:unxid/*' element = {
           <ProtectedRoute>
             <UserProfileClient />
           </ProtectedRoute>
