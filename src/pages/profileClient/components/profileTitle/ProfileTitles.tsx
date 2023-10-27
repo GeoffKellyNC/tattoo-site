@@ -12,7 +12,7 @@ interface Props {
     userData: UserData;
 }
 
-const ProfileTitle: React.FC<Props> = ({
+const ProfileTitles: React.FC<Props> = ({
     profileImages,
     userData
 }) => {
@@ -35,7 +35,7 @@ const mapStateToProps = (state: RootState) => ({
     userData: state.userData
 })
 
-const ConnectedProfileTitle = connect(mapStateToProps, null)(ProfileTitle)
+const ConnectedProfileTitle = connect(mapStateToProps, null)(ProfileTitles)
 
 export default ConnectedProfileTitle
 

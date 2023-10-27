@@ -10,7 +10,7 @@ import SideMenu from './components/sideMenu/SideMenu'
 import InfoBox from './components/InfoBox/InfoBox'
 import MessageBox from './components/messageBox/MessageBox'
 import NotificationsBox from './components/notificationBox/NotificationsBox'
-import ProfileTitle from './components/profileTitle/ProfileTitle'
+import ProfileTitles from './components/profileTitle/ProfileTitles'
 
 import ClientPostedJobs from './views/ClientPostedJobs'
 
@@ -42,7 +42,7 @@ const UserProfileClient: React.FC<UserProfileProps> = ({
         <Routes>
           <Route path = '/' element = {
             <div className = 'main-container'>
-              <ProfileTitle />
+              <ProfileTitles />
               <div className = 'data-container timeline'>
                 <div className = 'data-left'>
                   <InfoBox />
