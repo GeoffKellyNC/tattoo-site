@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
@@ -31,10 +30,14 @@ const ProfileTitle: React.FC<Props> = ({
   )
 }
 
-export default connect((st: RootState) => ({
-    profileImages: st.profileImages,
-    userData: st.userData
-}),null) (ProfileTitle)
+const mapStateToProps = (state: RootState) => ({
+    profileImages: state.profileImages,
+    userData: state.userData
+})
+
+const ConnectedProfileTitle = connect(mapStateToProps, null)(ProfileTitle)
+
+export default ConnectedProfileTitle
 
 const ProfileTitleStyled = styled.div`
     position: relative;
