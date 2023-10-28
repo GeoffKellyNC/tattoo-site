@@ -119,7 +119,9 @@ export function isAuthenticated(state = false, action: SetUserAuthenticatedActio
 }
 
 
-export function profileImages(state = null, action: SetUserProfileImageAction ) {
+export function profileImages(
+    state = 'https://storage.googleapis.com/tattoo-user-uploaded-images/profile-images/DALL%C2%B7E%202023-10-28%2019.20.25.png', 
+    action: SetUserProfileImageAction ) {
     switch(action.type) {
         case userTypes.ADD_USER_PROFILE_IMG:
             return action.payload;

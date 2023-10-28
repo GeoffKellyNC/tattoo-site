@@ -19,7 +19,10 @@ const ProfileTitles: React.FC<Props> = ({
   return (
     <ProfileTitleStyled>
         <div className = 'profile-avatar'>
-            <img src = {profileImages?.image_url} alt = 'profile avatar' className='profile-image' />
+            <img 
+                src = {profileImages?.image_url ? profileImages.image_url : 'https://storage.googleapis.com/tattoo-user-uploaded-images/profile-images/DALL%C2%B7E%202023-10-28%2019.20.25.png'} 
+                alt = 'profile avatar' 
+                className='profile-image' />
             <span className = 'profile-name'>{ userData.display_name }</span>
         </div>
         <img src = {bannerImg} alt = 'profile banner' className='profile-cover' />
