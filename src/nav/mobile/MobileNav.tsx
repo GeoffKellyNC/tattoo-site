@@ -42,6 +42,11 @@ const MobileNav: React.FC<Props> = ({
         logoutUser()
     }
 
+    const handleUserList = () => {  
+        nav('/user-list')
+        setMenuOpen(false)
+    }
+
   return (
     <MobileNavStyled>
         <div className = 'nav-icon'>
@@ -66,7 +71,10 @@ const MobileNav: React.FC<Props> = ({
                         <span onClick={handleRegisterClick} className = 'nav-item'>Register</span>
                         </>
                     ) : (
-                        <span onClick = {handleLogout} className = 'nav-item'>Logout</span>
+                        <>
+                            <span onClick = {handleLogout} className = 'nav-item'>Logout</span>
+                            <span onClick = {handleUserList} className = 'nav-item'>View Users</span>
+                        </>
                     )
                 }
             </div>

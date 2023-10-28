@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { UserJobType } from '../../../../store/jobs/ts-types/jobTypes'
+import AddPhotosJob from './AddPhotosJob'
+import { Button, Space } from 'antd'
+
 
 import { MdOutlineExpandMore, MdOutlineExpandLess } from 'react-icons/md'
 
@@ -14,12 +17,18 @@ const ClientOwnJob: React.FC<Props> = ({
     job
 }) => {
     const [expanded, setExpanded] = useState<boolean>(false)
+    const [addPhoto, setAddPhoto] = useState<boolean>(false)
+
+    const handleAddPhoto = () => {
+        setAddPhoto(!addPhoto)
+    }
+
   return (
     <StyledClientOwnJob>
         <div className='job-header'>
             <div className='job-title header-section'>
                 <span className = 'label'>Name: </span>
-                <span className='user-text'>{job.job_title}</span>
+                <span className='user-text title-text'>{job.job_title}</span>
             </div>
             <div className='job-location header-section'>
                 <span className = 'label'>Location: </span>
@@ -38,7 +47,7 @@ const ClientOwnJob: React.FC<Props> = ({
                 <span className='user-text'>{job.job_expiry_date.toString()}</span>
             </div>
             <div className='job-expand header-section'>
-                <span className='user-text' onClick = {() => setExpanded(prev => !prev)}>{expanded ? <MdOutlineExpandLess /> : <MdOutlineExpandMore />}</span>
+                <span className='user-text' onClick = {() => setExpanded(prev => !prev)}>{expanded ? <MdOutlineExpandMore size = {'3rem'} /> : <MdOutlineExpandLess size = {'3rem'} />}</span>
             </div>
         </div>
         {
@@ -46,11 +55,71 @@ const ClientOwnJob: React.FC<Props> = ({
                 <div className='job-body'>
                     <div className='job-description'>
                         <span className = 'label'>Description: </span>
-                        <span className='user-text'>{job.job_desc}</span>
+                        <span className='user-desc-text'>{job.job_desc}</span>
                     </div>
                     <div className='job-requirements'>
                         <span className = 'label'>Allegy: </span>
                         <span className='user-text'>{job.job_characteristics.has_allergy}</span>
+                    </div>
+                    <div className='job-requirements'>
+                        <span className = 'label'>Size: </span>
+                        <span className='user-text'>{job.job_characteristics.size}</span>
+                    </div>
+                    <div className='job-requirements'>
+                        <span className = 'label'>Style: </span>
+                        <span className='user-text'>{job.job_characteristics.style}</span>
+                    </div>
+                    <div className='job-requirements'>
+                        <span className = 'label'>Body Placement: </span>
+                        <span className='user-text'>{job.job_characteristics.body_placement}</span>
+                    </div>
+                    <div className='job-requirements'>
+                        <span className = 'label'>Pain Tolerance: </span>
+                        <span className='user-text'>{job.job_characteristics.pain_tolerance}</span>
+                    </div>
+                    <div className='job-requirements'>
+                        <span className = 'label'>Skin Condition: </span>
+                        <span className='user-text'>{job.job_characteristics.skin_condition}</span>
+                    </div>
+                    <div className='job-requirements'>
+                        <span className = 'label'>Photos  </span>
+                        <span className='user-text'>
+                            {
+                                job.job_photos.length < 1 ? (
+                                    <span>No Photos</span>
+                                ) : null
+                            }
+                        </span>
+                    </div>
+                    <div className = 'add-photo'>
+                        <Space
+                            direction="vertical"
+                            size="middle"
+                            style={{margin: '1rem'}}
+                        >
+                            <Button 
+                                type="primary"
+                                onClick={handleAddPhoto}> Add Photo </Button>
+                        </Space>
+                        {
+                            addPhoto && <AddPhotosJob jobId = {job.job_id} />
+                        }
+                    </div>
+                    <div className = 'photo-container'>
+                        {
+                            job.job_photos.length <= 0 ? (
+                                <span className='no-photo'> NO PHOTOS. CLICK ADD PHOTO</span>
+                            ) : (
+                                job.job_photos.map((image, idx) => (
+                                        <img 
+                                            key = {idx}
+                                            src={image}
+                                            className = 'user-image'
+                                            alt='Job Image'
+                                        />
+                                ))
+                            )
+                        }
                     </div>
                 </div>
             )
@@ -68,11 +137,19 @@ export default ClientOwnJob
 
 const StyledClientOwnJob = styled.div`
 background-color: #24273A;
-height: auto;
 margin: 1rem;
 border-radius: 0.5rem;
 border: 3px solid #272a3a;
 box-shadow: 0 0 0.5rem #000;
+overflow: auto;
+padding: 1rem;  // General padding
+transition: border 0.3s ease-in-out, transform 0.3s ease-in-out;
+cursor: pointer;
+
+
+.title-text {
+    font-size: 0.8rem;
+}
 
 &:hover {
     border: 3px solid #fff;
@@ -115,6 +192,7 @@ box-shadow: 0 0 0.5rem #000;
         font-weight: 400;
         font-family: 'DM Sans', sans-serif;
         color: #fff;
+        text-transform: uppercase;
     }
 
     .job-title {
@@ -137,6 +215,33 @@ box-shadow: 0 0 0.5rem #000;
         width: 20%;
     }
 
+    .job-requirement {
+        margin: 10px;
+    }
+
+    .photo-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 1rem;
+    }
+
+    .user-image {
+        width: 100%;
+        border-radius: 0.25rem;
+        object-fit: cover;
+        transition: transform 0.3s ease-in-out;
+        &:hover {
+            transform: scale(1.05);
+            text-align: center;
+        }
+    }
+
+    .no-photo {
+        text-align: center;
+        padding: 1rem;
+        background-color: #272a3a;
+        border-radius: 0.25rem;
+    }
     
 
 `

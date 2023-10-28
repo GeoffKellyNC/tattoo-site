@@ -78,12 +78,16 @@ const StyledClientPostedJobs = styled.div`
     }
 
     .job-container {
-      display: flex:
+      display: flex;
       flex-direction: column;
       width: 100%;
       height: auto;
       overflow: auto;
+      min-height: 100vh;  // Added min-height
     }
 
+    @media (max-width: 1000px) {
+      // Additional styles for mobile view can go here if needed
+    }
+`;
 
-`

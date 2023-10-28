@@ -88,8 +88,7 @@ const UserProfileStyled = styled.div`
   background-color: #151728;
   display: flex;
   max-width: 3200px;
-  height: 100vh;
-  overflow: hidden;
+  height: auto;
 
   .main-container {
     padding: 20px;
