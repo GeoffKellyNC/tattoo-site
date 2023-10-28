@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 import { RootState } from '../../store/root.reducer'
 import { Routes, Route } from 'react-router-dom'
 import styled from 'styled-components'
+import { UserJobType } from '../../store/jobs/ts-types/jobTypes'
 import * as userActions from '../../store/user/user.actions'
+import * as jobActions from '../../store/jobs/jobs.actions'
 
 import AboutMe from './components/aboutMe/AboutMe'
 import SideMenu from './components/sideMenu/SideMenu'
@@ -12,17 +14,19 @@ import MessageBox from './components/messageBox/MessageBox'
 import NotificationsBox from './components/notificationBox/NotificationsBox'
 import ProfileTitles from './components/profileTitle/ProfileTitles'
 
-import ClientPostedJobs from './views/ClientPostedJobs'
+import ClientPostedJobs from './views/clientPostedJobs/ClientPostedJobs'
 
 interface UserProfileProps {
     verifyUserAccess: () => Promise<boolean>,
     logoutUser: () => Promise<void>,
     getClientUploadedImages: () => Promise<void> 
+    getUserJobs: () => Promise<UserJobType[] | unknown>
 }
 
 const UserProfileClient: React.FC<UserProfileProps> = ({
     verifyUserAccess,
-    getClientUploadedImages 
+    getClientUploadedImages,
+    getUserJobs
 }) => {
 
 
@@ -30,9 +34,10 @@ const UserProfileClient: React.FC<UserProfileProps> = ({
     useEffect(() => {
         verifyUserAccess()
         getClientUploadedImages()
+        getUserJobs()
         
     }
-    ,[getClientUploadedImages, verifyUserAccess])
+    ,[getClientUploadedImages, getUserJobs, verifyUserAccess])
 
 
 
@@ -71,7 +76,8 @@ const mapStateToProps = (st: RootState) => ({
 const ConnectedUserProfileClient = connect(mapStateToProps, {
     verifyUserAccess: userActions.verifyUserAccess,
     logoutUser: userActions.logoutUser,
-    getClientUploadedImages: userActions.getClientUploadedImages
+    getClientUploadedImages: userActions.getClientUploadedImages,
+    getUserJobs: jobActions.getUserJobs
 })(UserProfileClient)
 
 export default ConnectedUserProfileClient

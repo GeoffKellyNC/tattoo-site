@@ -127,6 +127,7 @@ export const logoutUser = () => async (dispatch: Dispatch<UserAction | NotifyAct
 
         if(res.status === 200) {
             sessionStorage.clear();
+            localStorage.clear();
 
             dispatch({
                 type: userTypes.SET_USER_DATA,
