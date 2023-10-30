@@ -20,7 +20,7 @@ const Home: React.FC = () => {
 export default Home
 
 const StyledHome = styled.div`
-  background: black;
+  background: #151728;
   height: 100vh;
 
 `

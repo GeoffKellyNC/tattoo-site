@@ -20,7 +20,7 @@ export default {
             primary: 'Tilt Neon'
         },
         size: {
-            title: '10rem',
+            title: '8rem',
             heading: '3.5rem',
             paragraph: '2.5rem',
             xxl: '3rem',

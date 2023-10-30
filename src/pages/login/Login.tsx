@@ -8,6 +8,7 @@ import * as userActions from '../../store/user/user.actions';
 import loginBG from '../../assets/login-bg.jpg'
 
 
+const linkdLogo = 'https://storage.googleapis.com/tattoo-user-uploaded-images/app-images/logo/linkd-logo.png'
 
 
 
@@ -59,9 +60,7 @@ const Login: React.FC<PropsFromRedux> = ({ loginUser, setNotification }) => {
         <LoginStyled>
             <div className='login-top'>
                 <TagStyled>
-                    <span className='title'>L</span>
-                    <span className='title linked-i'>I</span>
-                    <span className='title'>NK'D</span>
+                    <img src={linkdLogo} alt="linkd logo" />
                 </TagStyled>
                 <h1> LOGIN </h1>
             </div>
@@ -230,13 +229,8 @@ const LoginStyled = styled.div`
 
 
 const TagStyled = styled.span`
-    display: flex;
-    align-items: center;
-    font-family: ${pr => pr.theme.font.family.primary};
-
-    .title {
-        font-size: inherit;
-    }
+   height: 100px;
+    width: 100px;
 
     .linked-i {
         font-size: 150%; /* Adjust this percentage as needed for the desired 'I' size */
