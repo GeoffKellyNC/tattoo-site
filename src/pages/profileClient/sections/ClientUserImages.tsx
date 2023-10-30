@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { RootState } from '../../../store/root.reducer'
 import styled from 'styled-components'
 
-import UploadClientImage from '../views/homeProfile/components/UploadClientImage'
 
 
 interface ClientUserImagesProps {
@@ -35,16 +34,15 @@ interface Image {
 const ClientUserImages: React.FC<ClientUserImagesProps> = ({
     clientUserImages,
 }) => {
+
+    const previewImages = clientUserImages.slice(0, 6)
+    
   return (
     <ClientUserImagesSection>
-        <div className = 'photo-section-header'>
-            <span> PHOTOS </span>
-            <UploadClientImage />
-        </div>
         <div className = 'photo-section'>
             {
-                clientUserImages.length < 1 ? <span className='no-images'> No Images Uploaded </span> :
-                clientUserImages.map((image: Image, index: string) => {
+                previewImages.length < 1 ? <span className='no-images'> No Images Uploaded </span> :
+                previewImages.map((image: Image, index: string) => {
                     return (
                         <div className = 'photo-container' key = {index}>
                             <img src = {image.image_url} alt = 'uploaded' className = 'uploaded-image' />
@@ -64,6 +62,11 @@ export default connect((st: RootState) => ({
 
 
 const ClientUserImagesSection = styled.div`
+    background-color: #151728;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+
 
     .photo-section {
         display: flex;

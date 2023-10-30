@@ -16,8 +16,8 @@ const HomeProfile: React.FC = () => {
         <AboutMe />
       </div>
       <div className = 'data-right'>
-        <MessageBox />
         <ClientUserImages />
+        <MessageBox />
       </div>
       <NotificationsBox />
     </div>
