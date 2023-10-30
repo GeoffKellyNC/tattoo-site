@@ -21,7 +21,7 @@ const UserProfileClient: React.FC= () => {
               <ClientPostedJobs />
             </ProtectedRoute>
           } />
-        </Routes>
+        </Routes> 
     </UserProfileStyled>
   )
 }
