@@ -59,7 +59,22 @@ type LoginReturnType = { state: boolean; unxid: string | null } | boolean;
 
 export const registerUser = (data: RegisterTypes) => async (dispatch: Dispatch<NotifyAction>): Promise<RegisterReturnType> => {
     try {
-        await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/register`, data);
+        const registerRes = await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/register`, data);
+
+        const unxid = registerRes.data.data;
+
+
+        if(data.account_type === 'artist') {
+            console.log('Artist Account Created') //!REMOVE
+            console.log('Artist Account Created UNXID: ', unxid) //!REMOVE
+            await axios.post(
+                `${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/stripe/create-checkout-session?unxid=${unxid}`,
+                {
+                  lookup_key: "price_1O74zGLcFcdB84myvCt6upEC"
+                });
+
+                return 
+        }
 
         dispatch({
             type: notifyTypes.SET_NOTIFY,
@@ -68,6 +83,7 @@ export const registerUser = (data: RegisterTypes) => async (dispatch: Dispatch<N
                 message: 'User Created Successfully'
             }
         });
+
 
     } catch (error) {
         console.log('Error Registering User: ', error); // TODO: Handle This error
