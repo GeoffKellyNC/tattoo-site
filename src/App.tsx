@@ -21,7 +21,7 @@ import Register from './pages/register/Register'
 import ResetPassForm from './pages/resetPassword/ResetPassForm'
 import UserProfileClient from './pages/profileClient/UserProfileClient'
 import RotatingSquareLoader from './loading/RotatingSquare'
-
+import PricingPage from './pages/pricing/PricingPage'
 
 interface Props {
   verifyUserAccess: () => Promise<boolean>,
@@ -63,7 +63,7 @@ const App: React.FC<Props>  = ({
       }
     })
 
-      const publicRoutes = ['/', '/register', '/login'];
+      const publicRoutes = ['/', '/register', '/login', '/pricing', '/reset-password-user', '/reset-password/:token/:unxid'];
 
       const isPublicRoute = publicRoutes.includes(window.location.pathname);
     
@@ -95,6 +95,7 @@ const App: React.FC<Props>  = ({
         <Route path='/' element={<Home />} />
         <Route path = '/register' element = { <Register />} />
         <Route path = '/login' element = { <Login />} />
+        <Route path = '/pricing' element = { <PricingPage />} />
         <Route path = '/reset-password-user' element = { <EmailVerify />} />
         <Route path = '/reset-password/:token/:unxid' element = { <ResetPassForm />} />
         <Route path = '/user/client/:unxid/*' element = {

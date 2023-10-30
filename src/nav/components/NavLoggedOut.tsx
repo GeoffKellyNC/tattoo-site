@@ -1,18 +1,31 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 
 interface Props {
     handleLogin: () => void,
     handleRegister: () => void
 }
 
+
+
+
 const NavLoggedOut: React.FC<Props> = ({
     handleLogin,
     handleRegister
 }) => {
+
+    const nav = useNavigate()
+
+    const handlePricingClick = () => {
+        nav('/pricing')
+        return
+    }
+
   return (
     <LoggedOutNavContainer>
         <div className = 'link-container'>
+            <span className = 'link' onClick = {handlePricingClick}>Pricing</span>
             <span className = 'link' onClick = {handleLogin}>Login</span>
             <span className = 'link' onClick = {handleRegister}>Register</span>
         </div> 

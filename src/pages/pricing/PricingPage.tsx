@@ -1,0 +1,194 @@
+import React from 'react';
+import styled from 'styled-components';
+
+interface CardTitleProps {
+    type: 'artist' | 'client';
+  }
+
+const Container = styled.div`
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    color: white;
+`;
+
+const TitleSection = styled.div`
+    background-color: ${pr => pr.theme.color.red};
+    text-align: center;
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
+
+const Title = styled.span`
+    font-size: 48px;
+    color: ${pr => pr.theme.color.white};
+    font-family: ${pr => pr.theme.font.family.primary};
+    font-size: 12rem;    
+
+`;
+
+const PricingGrid = styled.div`
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    color: white;
+
+`;
+
+const PricingCard = styled.div`
+    background: rgba( 255, 255, 255, 0.25 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 4px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    width: 400px;
+    height: auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: white;
+`;
+
+const Section = styled.div`
+    border-bottom: 2px solid #e2e2e2;
+    padding: 20px;
+
+`;
+
+const CardTitle = styled(Section)<CardTitleProps>`
+    font-size: 24px;
+    font-weight: bold;
+    color: #332c2b;
+    text-align: center;
+    width: 100%;
+    background-color: ${props => props.type === 'artist' ? '#FF69B4' : '#ADD8E6'}; 
+    color: white;
+
+`;
+
+const Price = styled(Section)`
+    font-size: 36px;
+    font-weight: bold;
+    color: #332c2b;
+    text-align: center;
+    color: white;
+`;
+
+const Description = styled(Section)`
+    text-align: left;
+    color: #332c2b;
+    font-size: 1.4rem;
+    font-family: ${pr => pr.theme.font.family.primary};
+    color: white;
+
+    
+`;
+
+const Button = styled.button`
+    background-color: ${pr => pr.theme.color.red};
+    color: #ffffff;
+    width: 15rem;
+    height: 3rem;
+    margin: 5rem 0;
+    border: none;
+    cursor: pointer;
+    font-family: ${pr => pr.theme.font.family.primary};
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        background-color: ${pr => pr.theme.color.secondary};
+        scale: 1.1;
+    }
+    
+`;
+
+// const SubTextTop = styled.span`
+//     font-size: 24px;
+//     color: ${pr => pr.theme.color.white};
+//     font-weight: bold;
+
+// `
+
+const SubTextBottom = styled.p`
+    font-size: 24px;
+    color: #332c2b;
+    font-weight: thin;
+    font-size: 1rem;
+    margin-top: 20px;
+    color: ${pr => pr.theme.color.white};
+
+`
+
+
+const ListItem = styled.li`
+    list-style-type: none; /* Removes the default dots */
+    position: relative;
+    padding-left: 30px; /* Creates space for the custom icon */
+
+    &::before {
+        content: ''; /* Empty content is necessary for the pseudo-element */
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px; /* Width of your custom icon */
+        height: 20px; /* Height of your custom icon */
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAACXBIWXMAAAsTAAALEwEAmpwYAAABcElEQVR4nO2TvUoDQRSFV0tBjY0SsLHQJmJha6WCBPK354yLP5hYiBba2lilUbCwVJ9B30FfIKCteRFx72xkZNZdSdJtMlpIDgzM7Azn23vnjOeN9JeKyHUBdn8dJGRdyB3nxppc61kDZ5FSm04hotSBKLVn56ZcnhDyzgB5J+amWJwKycUEdChAQ8hbA8y6AQB5DbQF+BRy337T5ImQR04BmjTxAB7SPfH940ipraEhGnjtAthqVjXwmN6LkNemVJrJbCxKFUytlktMnvsAcVW2daHvL4lSKyGwnRliAfGl1mo5U61OauBUgOW+trXt3kcQLKRVZVZsTLbSiux76AEksdXAualU5gZ7yUAnbgu/QfavBXjS5EsKsEkLfZ9DAdIhZOsdmE/PGM8bSyIcxzmzNPDWAwA6NqqavBDySoBLAW4iYGMgQFyJUgUhox8AWfdcygTBtAD3NpZJZBtuAV2xjdfN5rjnWkLWU8BI/1dfeTgDFDbGiEIAAAAASUVORK5CYII=');
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+`;
+
+
+const PricingPage: React.FC = () => {
+    return (
+        <Container>
+            <TitleSection>
+                {/* <SubTextTop>Get LINK'D</SubTextTop> */}
+                <Title> Pricing </Title>
+                <SubTextBottom>Connect Freely, Create Boldly: Exclusive Access for Artists at Just $5.99/month to Revolutionize Your Reach.</SubTextBottom>
+            </TitleSection>
+            
+            <PricingGrid>
+                {/* Client Card */}
+                <PricingCard>
+                    <CardTitle type = 'client' >Client</CardTitle>
+                    <Price>FREE</Price>
+                    <Description>
+                        <ul>
+                            <ListItem>Search for artists</ListItem>
+                            <ListItem>View artist reviews</ListItem>
+                            <ListItem>Contact artists</ListItem>
+                            <ListItem>Submit Requests</ListItem>
+                            <ListItem>AI Assistant</ListItem>
+                            <ListItem> MORE FEATURES SOON...</ListItem>
+                        </ul>
+                    </Description>
+                    <Button>Sign Up</Button>
+                </PricingCard>
+
+                {/* Artist Card */}
+                <PricingCard>
+                    <CardTitle type = 'artist' >Artist</CardTitle>
+                    <Price>$5.99/month</Price>
+                    <Description>
+                        <ul>
+                            <ListItem>Search for clients</ListItem>
+                            <ListItem>View client profiles</ListItem>
+                            <ListItem>See client requests</ListItem>
+                            <ListItem>AI Assistant</ListItem>
+                            <ListItem>No Ads</ListItem>
+                            <ListItem> MORE FEATURES SOON...</ListItem>
+                        </ul>
+                    </Description>
+                    <Button>Sign Up</Button>
+                </PricingCard>
+            </PricingGrid>
+        </Container>
+    );
+};
+
+export default PricingPage;
