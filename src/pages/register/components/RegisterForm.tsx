@@ -172,7 +172,7 @@ const RegisterForm: React.FC<RegisterProps> = ({
                 nav('/login')
                 return
             }
-            return
+            return 
         }
         return
     }
