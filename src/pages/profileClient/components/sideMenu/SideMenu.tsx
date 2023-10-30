@@ -14,11 +14,15 @@ import { MdOutlineAdminPanelSettings } from 'react-icons/md'
 import { SiNginxproxymanager } from 'react-icons/si'
 
 interface Props {
-    userData: UserData
+    userData: UserData,
+    accountType: string,
+    userRole: string
 }
 
 const SideMenu: React.FC<Props> = ({
-    userData
+    userData,
+    accountType,
+    userRole
 }) => {
 
     const url = useResolvedPath("").pathname;
@@ -27,7 +31,7 @@ const SideMenu: React.FC<Props> = ({
     <SideMenuStyled className = 'LOOKHERE'>
         <span className = 'logo'>
             {
-                userData.isClient ? 'Client' : 'Artist'
+                accountType
             }
         </span>
         <div className = 'menu-container'>
@@ -39,7 +43,7 @@ const SideMenu: React.FC<Props> = ({
                 </Link>
 
                 {
-                    userData.isClient ? (
+                    accountType === 'client' ? (
                         <Link to={`${url}/posted-jobs`} className = 'menu-item'>
                             <TbGitPullRequest />
                             <span>My Requests </span>
@@ -61,7 +65,7 @@ const SideMenu: React.FC<Props> = ({
                     <span>Settings</span>
                 </span>
                 {
-                    userData.isAdmin && (
+                    userRole === 'admin' && (
                         <span className = 'menu-item'>
                             <MdOutlineAdminPanelSettings />
                             <span>Admin</span>
@@ -69,7 +73,7 @@ const SideMenu: React.FC<Props> = ({
                     )
                 }
                 {
-                    userData.isMod && (
+                    userRole === 'mod' || 'admin' && (
                         <span className = 'menu-item'>
                             <SiNginxproxymanager />
                             <span>Moderate</span>
@@ -83,7 +87,9 @@ const SideMenu: React.FC<Props> = ({
 }
 
 const mapStateToProps = (st: RootState) => ({
-    userData: st.userData
+    userData: st.userData,
+    accountType: st.accountType,
+    userRole: st.userRole
 });
 
 const ConnectedSideMenu = connect(mapStateToProps, null)(SideMenu);

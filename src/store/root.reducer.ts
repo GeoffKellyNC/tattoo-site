@@ -8,6 +8,8 @@ import { userContactProfile } from "./user/user.reducer";
 import { clientUserImages } from "./user/user.reducer";
 import { viewUserDetails } from './user/user.reducer'
 import { userJobs } from './jobs/jobs.reducer'
+import { userRole } from './user/user.reducer'
+import { accountType } from './user/user.reducer'
 
 const rootReducer = combineReducers({
     appNotifications,
@@ -18,7 +20,9 @@ const rootReducer = combineReducers({
     userProfileDetails,
     userContactProfile,
     viewUserDetails,
-    userJobs
+    userJobs,
+    userRole,
+    accountType
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

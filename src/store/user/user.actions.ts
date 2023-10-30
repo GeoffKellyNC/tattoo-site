@@ -6,6 +6,7 @@ import { Dispatch } from 'redux';
 import { SetUserDataAction, ClientProfileDetailsType } from './user.reducer';
 import { SetUserContactProfileAction, SetClientProfileDetailsAction } from './user.reducer';    
 import { UserFullProfileAction } from './types/userStateTypes';
+import { DecodedDataType } from '../../util/decodeJwt';
 
 // Define data types
 
@@ -39,12 +40,22 @@ interface RegisterTypes {
     verify_password: string;
 }
 
+interface SetUserRoleAction {
+    type: typeof userTypes.SET_USER_ROLE;
+    payload: string;
+}
+
+interface SetAccountTypeAction {
+    type: typeof userTypes.SET_USER_ACCOUNT_TYPE;
+    payload: string;
+}
+
+
 
 
 // Define return types
 type RegisterReturnType = void;
 type LoginReturnType = { state: boolean; unxid: string | null } | boolean;
-type VerifyUserReturnType = boolean;
 
 export const registerUser = (data: RegisterTypes) => async (dispatch: Dispatch<NotifyAction>): Promise<RegisterReturnType> => {
     try {
@@ -63,7 +74,7 @@ export const registerUser = (data: RegisterTypes) => async (dispatch: Dispatch<N
     }
 };
 
-export const loginUser = (data: {user_name: string, password: string}) => async (dispatch: Dispatch<UserAction | NotifyAction | SetUserDataAction | SetClientProfileDetailsAction | SetUserContactProfileAction>): Promise<LoginReturnType> => {
+export const loginUser = (data: {user_name: string, password: string}) => async (dispatch: Dispatch<UserAction | NotifyAction | SetUserDataAction | SetClientProfileDetailsAction | SetUserContactProfileAction | SetUserRoleAction | SetAccountTypeAction>): Promise<LoginReturnType> => {
     try {
         const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/auth/login`, data, {
             withCredentials: true
@@ -76,6 +87,38 @@ export const loginUser = (data: {user_name: string, password: string}) => async 
             sessionStorage.setItem('userProfileDetails', JSON.stringify(res.data.userProfileDetails));
             sessionStorage.setItem('userContactProfile', JSON.stringify(res.data.userContactDetails));
             sessionStorage.setItem('userClientImages', JSON.stringify(res.data.clientUploadedImages));
+
+            const decodedData: DecodedDataType = res.data.decoded_data
+
+            console.log('Login User RES: ', res) //!REMOVE
+
+            if(decodedData.isAdmin){
+                dispatch({
+                    type: userTypes.SET_USER_ROLE,
+                    payload: 'admin'
+                })
+            }
+
+            if(decodedData.isMod){
+                dispatch({
+                    type: userTypes.SET_USER_ROLE,
+                    payload: 'mod'
+                })
+            }
+
+            if(decodedData.isArtist){
+                dispatch({
+                    type: userTypes.SET_USER_ACCOUNT_TYPE,
+                    payload: 'artist'
+                })
+            }
+
+            if(decodedData.isClient){
+                dispatch({
+                    type: userTypes.SET_USER_ACCOUNT_TYPE,
+                    payload: 'client'
+                })
+            }
 
             dispatch({
                 type: userTypes.GET_USER_CLIENT_IMAGES,
@@ -156,9 +199,16 @@ export const logoutUser = () => async (dispatch: Dispatch<UserAction | NotifyAct
     }
 }
 
-export const verifyUserAccess = () => async (dispatch: Dispatch<UserAction>): Promise<VerifyUserReturnType> => {
+export const verifyUserAccess = () => async (dispatch: Dispatch<UserAction | SetUserRoleAction | SetAccountTypeAction>): Promise<DecodedDataType | boolean> => {
     try {
         const res = await axiosWithAuth().get(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/auth/verify-user-access`);
+
+        const decodedData: DecodedDataType = res.data.data;
+        const { isArtist, isClient, isAdmin, isMod } = decodedData;
+
+        console.log('Verify User Access RES: ', res) //!REMOVE
+        console.log('Verify User Access DECODED DATA: ', decodedData) //!REMOVE
+
 
         if(res.status === 200) {
             dispatch({
@@ -166,12 +216,33 @@ export const verifyUserAccess = () => async (dispatch: Dispatch<UserAction>): Pr
                 payload: true
             });
 
-            return true;
+            dispatch({
+                type: userTypes.SET_USER_ROLE,
+                payload: isAdmin ? 'admin' : isMod ? 'mod' : 'user'
+            });
+
+            dispatch({
+                type: userTypes.SET_USER_ACCOUNT_TYPE,
+                payload: isArtist ? 'artist' : isClient ? 'client' : 'guest'
+            });
+
+
+            return decodedData;
         }
 
         dispatch({
             type: userTypes.SET_USER_AUTHENTICATED,
             payload: false
+        });
+
+        dispatch({
+            type: userTypes.SET_USER_ROLE,
+            payload: 'user'
+        });
+
+        dispatch({
+            type: userTypes.SET_USER_ACCOUNT_TYPE,
+            payload: 'guest'
         });
 
         return false;

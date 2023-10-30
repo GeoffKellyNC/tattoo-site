@@ -1,6 +1,8 @@
 import './App.css'
 import { Routes, Route } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
+import { connect } from 'react-redux'
+import * as userAction from './store/user/user.actions'
 
 
 // Components
@@ -17,10 +19,29 @@ import Redirect from './pages/redirect/Redirect'
 import Register from './pages/register/Register'
 import ResetPassForm from './pages/resetPassword/ResetPassForm'
 import UserProfileClient from './pages/profileClient/UserProfileClient'
+import RotatingSquareLoader from './loading/RotatingSquare'
 
 
-function App() {
+interface Props {
+  verifyUserAccess: () => Promise<boolean>,
+}
+
+
+const App: React.FC<Props>  = ({
+  verifyUserAccess
+})  => {
   const [isMobile, setIsMobile] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+
+  const loadAppUser = useCallback(async () => {
+
+      await verifyUserAccess()
+      setLoading(false)
+      
+  }, [verifyUserAccess])
+
+
 
   useEffect(() => {
     if (window.innerWidth <= 1000){
@@ -35,6 +56,18 @@ function App() {
       }
     })
 
+      const publicRoutes = ['/', '/register', '/login'];
+
+      const isPublicRoute = publicRoutes.includes(window.location.pathname);
+    
+      if (!isPublicRoute) {
+        loadAppUser()
+      }
+
+      if(isPublicRoute) {
+        setLoading(false)
+      }
+
     return () => {
       window.removeEventListener('resize', () => {
         if (window.innerWidth <= 1000) {
@@ -44,12 +77,13 @@ function App() {
         }
       })
     }
-  }, [])
+  }, [loadAppUser])
 
   return (
     <>
       <Notifications />
       <AppNav isMobile = { isMobile } />
+      { !loading ?(
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path = '/register' element = { <Register />} />
@@ -57,12 +91,12 @@ function App() {
         <Route path = '/reset-password-user' element = { <EmailVerify />} />
         <Route path = '/reset-password/:token/:unxid' element = { <ResetPassForm />} />
         <Route path = '/user/client/:unxid/*' element = {
-          <ProtectedRoute>
+          <ProtectedRoute requiredRoles = {["client", 'artist']}>
             <UserProfileClient />
           </ProtectedRoute>
         } />
         <Route path = '/user/view/:unxid' element = {
-          <ProtectedRoute>
+          <ProtectedRoute requiredRoles = {["client", 'artist']}>
             <FullProfileView />
           </ProtectedRoute>
         } />
@@ -81,9 +115,20 @@ function App() {
             <Redirect />
           </ProtectedRoute>
         } />
-      </Routes>
+      </Routes> ) : (
+
+        <RotatingSquareLoader />
+      )
+      }
     </>
   )
 }
 
-export default App
+const ConnectedApp = connect(null, {
+  verifyUserAccess: userAction.verifyUserAccess
+})(App)
+
+
+export default ConnectedApp
+
+

@@ -105,6 +105,24 @@ export function userData(state = {}, action: SetUserDataAction) {
             return sessionStorage.getItem('user_data') ? JSON.parse(sessionStorage.getItem('user_data') as string) : state
     }
 }
+
+export function userRole (state = 'user', action: {type: string, payload: string}){
+    switch(action.type){
+        case userTypes.SET_USER_ROLE:
+            return action.payload
+        default:
+            return state
+    }
+}
+
+export function accountType (state = 'guest', action: {type: string, payload: string}){
+    switch(action.type){
+        case userTypes.SET_USER_ACCOUNT_TYPE:
+            return action.payload
+        default: 
+            return state
+    }
+}
     
 
 export function isAuthenticated(state = false, action: SetUserAuthenticatedAction) {

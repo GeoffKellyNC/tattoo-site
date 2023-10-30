@@ -6,6 +6,7 @@ import { RootState } from '../../store/root.reducer'
 import { useNavigate } from 'react-router-dom'
 import * as userActions from '../../store/user/user.actions'
 import { UserData } from '../../store/user/user.reducer'
+import RotatingSquareLoader from '../../loading/RotatingSquare'
 
 interface RedirectProps {
     userData: UserData,
@@ -41,7 +42,7 @@ const Redirect: React.FC<RedirectProps> = ({
 
   return (
     <RedirectStyled>
-        <span> Loading Data.... </span>
+        <RotatingSquareLoader />
     </RedirectStyled>
   )
 }
@@ -53,12 +54,6 @@ export default connect((st: RootState) => ({
 }) (Redirect)
 
 const RedirectStyled = styled.div`
-    color: ${pr => pr.theme.color.white};
-    font-size: 10rem;
-    font-family: ${pr => pr.theme.font.family.primary};
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100vh;
     width: 100vw;
 

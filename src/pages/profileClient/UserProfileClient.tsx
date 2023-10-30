@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { UserJobType } from '../../store/jobs/ts-types/jobTypes'
 import * as userActions from '../../store/user/user.actions'
 import * as jobActions from '../../store/jobs/jobs.actions'
+import ProtectedRoute from '../../util/ProtectedRoute'
 
 import AboutMe from './components/aboutMe/AboutMe'
 import SideMenu from './components/sideMenu/SideMenu'
@@ -61,7 +62,9 @@ const UserProfileClient: React.FC<UserProfileProps> = ({
             </div>
           } />
           <Route path = {`/posted-jobs`} element = {
-            <ClientPostedJobs />
+            <ProtectedRoute requiredRoles={['client']}>
+              <ClientPostedJobs />
+            </ProtectedRoute>
           } />
         </Routes>
     </UserProfileStyled>
