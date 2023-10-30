@@ -158,7 +158,7 @@ const RegisterForm: React.FC<RegisterProps> = ({
         setFormValues({
             ...formValues,
             [name]: value
-        })
+        }) 
     }}
 
     const onSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
