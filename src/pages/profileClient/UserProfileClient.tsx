@@ -1,11 +1,6 @@
-import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
-import { RootState } from '../../store/root.reducer'
+import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import styled from 'styled-components'
-import { UserJobType } from '../../store/jobs/ts-types/jobTypes'
-import * as userActions from '../../store/user/user.actions'
-import * as jobActions from '../../store/jobs/jobs.actions'
 import ProtectedRoute from '../../util/ProtectedRoute'
 
 import AboutMe from './components/aboutMe/AboutMe'
@@ -17,30 +12,9 @@ import ProfileTitles from './components/profileTitle/ProfileTitles'
 
 import ClientPostedJobs from './views/clientPostedJobs/ClientPostedJobs'
 
-interface UserProfileProps {
-    verifyUserAccess: () => Promise<boolean>,
-    logoutUser: () => Promise<void>,
-    getClientUploadedImages: () => Promise<void> 
-    getUserJobs: () => Promise<UserJobType[] | unknown>
-}
-
-const UserProfileClient: React.FC<UserProfileProps> = ({
-    verifyUserAccess,
-    getClientUploadedImages,
-    getUserJobs
-}) => {
 
 
-
-    useEffect(() => {
-        verifyUserAccess()
-        getClientUploadedImages()
-        getUserJobs()
-        
-    }
-    ,[getClientUploadedImages, getUserJobs, verifyUserAccess])
-
-
+const UserProfileClient: React.FC= () => {
 
   return (
     <UserProfileStyled className = 'MAIN-CONTAINER'>
@@ -71,19 +45,7 @@ const UserProfileClient: React.FC<UserProfileProps> = ({
   )
 }
 
-const mapStateToProps = (st: RootState) => ({
-    userData: st.userData,
-    profileImages: st.profileImages
-});
-
-const ConnectedUserProfileClient = connect(mapStateToProps, {
-    verifyUserAccess: userActions.verifyUserAccess,
-    logoutUser: userActions.logoutUser,
-    getClientUploadedImages: userActions.getClientUploadedImages,
-    getUserJobs: jobActions.getUserJobs
-})(UserProfileClient)
-
-export default ConnectedUserProfileClient
+export default UserProfileClient
 
 
 const UserProfileStyled = styled.div`
@@ -116,10 +78,6 @@ const UserProfileStyled = styled.div`
     flex-grow: 1;
     padding-left: 20px;
   }
-
-
-
-
 
   .mobile-nav-icon {
     display: none;

@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import React, { useEffect, useState, useCallback } from 'react'
 import { connect } from 'react-redux'
 import * as userAction from './store/user/user.actions'
+import * as jobActions from './store/jobs/jobs.actions'
 
 
 // Components
@@ -24,11 +25,15 @@ import RotatingSquareLoader from './loading/RotatingSquare'
 
 interface Props {
   verifyUserAccess: () => Promise<boolean>,
+  getClientUploadedImages: () => Promise<void>
+  getUserJobs: () => Promise<unknown>
 }
 
 
 const App: React.FC<Props>  = ({
-  verifyUserAccess
+  verifyUserAccess,
+  getClientUploadedImages,
+  getUserJobs
 })  => {
   const [isMobile, setIsMobile] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -37,9 +42,11 @@ const App: React.FC<Props>  = ({
   const loadAppUser = useCallback(async () => {
 
       await verifyUserAccess()
+      await getClientUploadedImages()
+      await getUserJobs()
       setLoading(false)
       
-  }, [verifyUserAccess])
+  }, [getClientUploadedImages, getUserJobs, verifyUserAccess])
 
 
 
@@ -125,7 +132,9 @@ const App: React.FC<Props>  = ({
 }
 
 const ConnectedApp = connect(null, {
-  verifyUserAccess: userAction.verifyUserAccess
+  verifyUserAccess: userAction.verifyUserAccess,
+  getClientUploadedImages: userAction.getClientUploadedImages,
+  getUserJobs: jobActions.getUserJobs
 })(App)
 
 
