@@ -3,13 +3,8 @@ import { Routes, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import ProtectedRoute from '../../util/ProtectedRoute'
 
-import AboutMe from './components/aboutMe/AboutMe'
-import SideMenu from './components/sideMenu/SideMenu'
-import InfoBox from './components/InfoBox/InfoBox'
-import MessageBox from './components/messageBox/MessageBox'
-import NotificationsBox from './components/notificationBox/NotificationsBox'
-import ProfileTitles from './components/profileTitle/ProfileTitles'
-
+import SideMenu from './views/homeProfile/components/sideMenu/SideMenu'
+import HomeProfile from './views/homeProfile/HomeProfile'
 import ClientPostedJobs from './views/clientPostedJobs/ClientPostedJobs'
 
 
@@ -20,21 +15,7 @@ const UserProfileClient: React.FC= () => {
     <UserProfileStyled className = 'MAIN-CONTAINER'>
         <SideMenu />
         <Routes>
-          <Route path = '/' element = {
-            <div className = 'main-container'>
-              <ProfileTitles />
-              <div className = 'data-container timeline'>
-                <div className = 'data-left'>
-                  <InfoBox />
-                  <AboutMe />
-                </div>
-                <div className = 'data-right'>
-                  <MessageBox />
-                </div>
-                <NotificationsBox />
-              </div>
-            </div>
-          } />
+          <Route path = '/' element = {<HomeProfile />} />
           <Route path = {`/posted-jobs`} element = {
             <ProtectedRoute requiredRoles={['client']}>
               <ClientPostedJobs />

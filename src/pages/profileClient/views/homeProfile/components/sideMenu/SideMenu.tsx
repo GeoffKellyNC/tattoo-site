@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { RootState } from '../../../../store/root.reducer'
-import { UserData } from '../../../../store/user/user.reducer'
+import { RootState } from '../../../../../../store/root.reducer'
+import { UserData } from '../../../../../../store/user/user.reducer'
 import { Link, useResolvedPath } from 'react-router-dom'
 
 import {HiOutlineHomeModern} from 'react-icons/hi2'

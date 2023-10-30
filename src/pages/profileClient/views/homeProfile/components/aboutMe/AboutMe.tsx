@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { RootState } from '../../../../store/root.reducer'
+import { RootState } from '../../../../../../store/root.reducer'
 import styled from 'styled-components'
-import { ClientProfileDetailsType } from '../../../../store/user/user.reducer'
+import { ClientProfileDetailsType } from '../../../../../../store/user/user.reducer'
 
 interface Props {
     details: ClientProfileDetailsType

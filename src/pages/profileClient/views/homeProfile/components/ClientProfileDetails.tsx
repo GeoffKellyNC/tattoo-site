@@ -1,9 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
 import React from 'react';
 import { Matching, connect } from 'react-redux';
-import { RootState } from '../../../store/root.reducer';
+import { RootState } from '../../../../../store/root.reducer';
 import styled from 'styled-components';
-import { ClientProfileDetailsType, UserContactProfileType } from '../../../store/user/user.reducer';
+import { ClientProfileDetailsType, UserContactProfileType } from '../../../../../store/user/user.reducer';
 
 import ClientContactDetails from './ClientContactDetails';
 import EditProfileDrawer from './EditProfileDrawer';

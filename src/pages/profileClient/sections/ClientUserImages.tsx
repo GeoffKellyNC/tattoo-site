@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { RootState } from '../../../store/root.reducer'
 import styled from 'styled-components'
 
-import UploadClientImage from '../components/UploadClientImage'
+import UploadClientImage from '../views/homeProfile/components/UploadClientImage'
 
 
 interface ClientUserImagesProps {

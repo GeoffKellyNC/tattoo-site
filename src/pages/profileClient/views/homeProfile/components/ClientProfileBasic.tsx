@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { UserData } from '../../../store/user/user.reducer'
+import { UserData } from '../../../../../store/user/user.reducer'
 import styled from 'styled-components'
 
 import UploadProfileImg from './UploadProfileImg'

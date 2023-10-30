@@ -2,8 +2,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { RootState } from '../../../store/root.reducer'
-import * as userActions from '../../../store/user/user.actions'
+import { RootState } from '../../../../../store/root.reducer'
+import * as userActions from '../../../../../store/user/user.actions'
 
 interface EditClientProfileProps {
     userProfileDetails: RootState['userProfileDetails'],

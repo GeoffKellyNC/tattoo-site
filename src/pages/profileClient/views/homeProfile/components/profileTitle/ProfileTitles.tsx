@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { RootState } from '../../../../store/root.reducer'
-import { ProfileImageType } from '../../../../store/user/types/userStateTypes'
-import { UserData } from '../../../../store/user/user.reducer'
+import { RootState } from '../../../../../../store/root.reducer'
+import { ProfileImageType } from '../../../../../../store/user/types/userStateTypes'
+import { UserData } from '../../../../../../store/user/user.reducer'
 
-import bannerImg from '../../../../assets/profile-banner3.jpg'
+import bannerImg from '../../../../../../assets/profile-banner3.jpg'
 
 interface Props {
     profileImages: ProfileImageType | null;

@@ -1,5 +1,5 @@
 import React from 'react'
-import { UserContactProfileType } from '../../../store/user/user.reducer'
+import { UserContactProfileType } from '../../../../../store/user/user.reducer'
 import styled from 'styled-components'
 
 import { MdOutlinePublic } from 'react-icons/md'

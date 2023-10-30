@@ -2,13 +2,13 @@
 
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import * as userActions from '../../../store/user/user.actions';  // Replace with the actual path
+import * as userActions from '../../../../../store/user/user.actions';  // Replace with the actual path
 
 interface Props {
-    uploadProfileImage: (file: File) => void;
+    uploadClientUserImage: (file: File) => void;
 }
 
-const UploadProfileImg: React.FC<Props> = ({ uploadProfileImage }) => {
+const UploadClientImage: React.FC<Props> = ({ uploadClientUserImage }) => {
     const [file, setFile] = useState<File | null>(null);
 
     const fileInputRef = React.useRef<HTMLInputElement | null>(null);
@@ -22,7 +22,7 @@ const UploadProfileImg: React.FC<Props> = ({ uploadProfileImage }) => {
 
     const handleUpload = () => {
         if (file) {
-            uploadProfileImage(file);
+            uploadClientUserImage(file);
             setFile(null);
 
             if (fileInputRef.current) {
@@ -36,13 +36,13 @@ const UploadProfileImg: React.FC<Props> = ({ uploadProfileImage }) => {
     return (
         <div>
             <input type="file" onChange={handleFileChange} ref={fileInputRef} />
-            <button onClick={handleUpload}>Upload</button>
+            <button onClick={handleUpload}>Upload Image</button>
         </div>
     );
 }
 
 const mapDispatchToProps = {
-    uploadProfileImage: userActions.uploadProfileImage
+    uploadClientUserImage: userActions.uploadClientUserImage
 }
 
-export default connect(null, mapDispatchToProps)(UploadProfileImg);
+export default connect(null, mapDispatchToProps)(UploadClientImage);
