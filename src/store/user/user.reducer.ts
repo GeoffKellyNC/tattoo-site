@@ -130,8 +130,7 @@ export function isAuthenticated(state = false, action: SetUserAuthenticatedActio
         case userTypes.SET_USER_AUTHENTICATED:
             return action.payload;
         default: {
-            const storedValue = sessionStorage.getItem('isAuthenticated');
-            return storedValue === 'true' ? true : state;
+            return state;
         }
     }
 }

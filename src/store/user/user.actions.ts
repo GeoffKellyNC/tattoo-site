@@ -82,7 +82,6 @@ export const loginUser = (data: {user_name: string, password: string}) => async 
 
         if(res.status === 200) {
             sessionStorage.setItem('user_data', JSON.stringify(res.data.userData));
-            sessionStorage.setItem('isAuthenticated', 'true');
             sessionStorage.setItem('jwtToken', res.data.jwtToken);
             sessionStorage.setItem('userProfileDetails', JSON.stringify(res.data.userProfileDetails));
             sessionStorage.setItem('userContactProfile', JSON.stringify(res.data.userContactDetails));
@@ -91,6 +90,26 @@ export const loginUser = (data: {user_name: string, password: string}) => async 
             const decodedData: DecodedDataType = res.data.decoded_data
 
             console.log('Login User RES: ', res) //!REMOVE
+
+            if(decodedData.isArtist && !decodedData.subscription_active) {
+                console.log('Artist Subscription Not Active') //!REMOVE
+                dispatch({
+                    type: notifyTypes.SET_NOTIFY,
+                    payload: {
+                        type: 'error',
+                        message: 'You dont have an active subscription!'
+                    }
+                });
+
+                dispatch({
+                    type: userTypes.SET_USER_AUTHENTICATED,
+                    payload: false
+                });
+
+                window.location.href = '/pricing';
+
+                return { state: false, unxid: null };
+            }
 
             if(decodedData.isAdmin){
                 dispatch({
@@ -199,7 +218,7 @@ export const logoutUser = () => async (dispatch: Dispatch<UserAction | NotifyAct
     }
 }
 
-export const verifyUserAccess = () => async (dispatch: Dispatch<UserAction | SetUserRoleAction | SetAccountTypeAction>): Promise<DecodedDataType | boolean> => {
+export const verifyUserAccess = () => async (dispatch: Dispatch<UserAction | SetUserRoleAction | SetAccountTypeAction | NotifyAction>): Promise<DecodedDataType | boolean> => {
     try {
         const res = await axiosWithAuth().get(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/auth/verify-user-access`);
 
@@ -209,8 +228,31 @@ export const verifyUserAccess = () => async (dispatch: Dispatch<UserAction | Set
         console.log('Verify User Access RES: ', res) //!REMOVE
         console.log('Verify User Access DECODED DATA: ', decodedData) //!REMOVE
 
+        if(isArtist && !decodedData.subscription_active) {
+            console.log('Artist Subscription Not Active') //!REMOVE
+            dispatch({
+                type: notifyTypes.SET_NOTIFY,
+                payload: {
+                    type: 'error',
+                    message: 'You dont have an active subscription!'
+                }
+            });
+
+            dispatch({
+                type: userTypes.SET_USER_AUTHENTICATED,
+                payload: false
+            });
+
+            window.location.href = '/pricing';
+
+            return false
+        }
+
 
         if(res.status === 200) {
+
+            console.log('Artist Subscription Active') //!REMOVE
+
             dispatch({
                 type: userTypes.SET_USER_AUTHENTICATED,
                 payload: true

@@ -109,7 +109,7 @@ const App: React.FC<Props>  = ({
           </ProtectedRoute>
         } />
         <Route path = '/user-list' element = {
-          <ProtectedRoute>
+          <ProtectedRoute requiredRoles={["client", "artist"]}>
             <AppUsersHome />
           </ProtectedRoute>
         } />

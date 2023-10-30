@@ -11,12 +11,14 @@ import RotatingSquareLoader from '../../loading/RotatingSquare'
 interface RedirectProps {
     userData: UserData,
     getProfileImage: () => Promise<void>
+    verifyUserAccess: () => Promise<boolean>
 
 }
 
 const Redirect: React.FC<RedirectProps> = ({
     userData,
-    getProfileImage
+    getProfileImage,
+    verifyUserAccess
 }) => {
 
     const nav = useNavigate()
@@ -28,12 +30,17 @@ const Redirect: React.FC<RedirectProps> = ({
         }
         await getProfileImage()
         if(userData.unxid.length > 0 && userData.account_type ==='client' || userData.account_type === 'artist'){
+            const allowed = await verifyUserAccess()
+            if(!allowed){
+                nav('/pricing')
+                return
+            }
             nav(`/user/client/:${userData.unxid}`)
             return;
         }
         nav('/')
     }
-    ,[getProfileImage, nav, userData.account_type, userData.email_verified, userData.unxid])
+    ,[getProfileImage, nav, userData.account_type, userData.email_verified, userData.unxid, verifyUserAccess])
 
     useEffect( () => {
         handleRedirect()
@@ -50,7 +57,8 @@ const Redirect: React.FC<RedirectProps> = ({
 export default connect((st: RootState) => ({
     userData: st.userData
 }),{
-    getProfileImage: userActions.getProfileImage
+    getProfileImage: userActions.getProfileImage,
+    verifyUserAccess: userActions.verifyUserAccess
 }) (Redirect)
 
 const RedirectStyled = styled.div`
