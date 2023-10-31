@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { UserData } from '../../store/user/user.reducer'
 import { ProfileImageType } from '../../store/user/types/userStateTypes'
 
+import createPortalSession from '../../api/userPortal'
+
 import MobileNav from '../mobile/MobileNav'
 
 interface Props {
@@ -11,13 +13,15 @@ interface Props {
     profileImages: ProfileImageType,
     logoutUser: () => Promise<void>,
     isMobile: boolean
+    userRole: string
 }
 
 const NavLoggedIn: React.FC<Props> = ({
     userData,
     profileImages,
     logoutUser,
-    isMobile
+    isMobile,
+    userRole
 }) => {
 
     const nav = useNavigate()
@@ -34,6 +38,12 @@ const NavLoggedIn: React.FC<Props> = ({
         return
     }
 
+    const handleUserPortal = async () => {
+        await createPortalSession()
+        return 
+    }
+    
+
   return (
     <LoggedInNavContainer>
         {
@@ -44,6 +54,9 @@ const NavLoggedIn: React.FC<Props> = ({
                     
                 }
                 <span className = 'link' onClick = {logoutUser}>Logout</span>
+                {
+                    userRole === 'artist' && <span className = 'link' onClick = {handleUserPortal}>User Portal</span>
+                }
             </div>
             )
         }
