@@ -166,7 +166,7 @@ const RegisterForm: React.FC<RegisterProps> = ({
         const checks = await performChecks(formValues, setNotification, setFormValues)
 
         if (checks.case && checks.item === 'success') {
-            registerUser(formValues)
+            await registerUser(formValues)
             setFormValues(initFormValues)
             if(formValues.account_type === 'client'){
                 nav('/login')

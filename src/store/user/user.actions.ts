@@ -66,14 +66,15 @@ export const registerUser = (data: RegisterTypes) => async (dispatch: Dispatch<N
 
         if(data.account_type === 'artist') {
             console.log('Artist Account Created') //!REMOVE
-            console.log('Artist Account Created UNXID: ', unxid) //!REMOVE
-            await axios.post(
+            const redirect = await axios.post(
                 `${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/stripe/create-checkout-session?unxid=${unxid}`,
                 {
-                  lookup_key: "price_1O74zGLcFcdB84myvCt6upEC"
+                  lookup_key: "artist_monthly"
                 });
 
-                return 
+                window.location.href = redirect.data.data;
+
+                return
         }
 
         dispatch({
