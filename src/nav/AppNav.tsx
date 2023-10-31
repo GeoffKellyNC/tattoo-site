@@ -17,6 +17,7 @@ interface Props {
     profileImages: ProfileImageType,
     logoutUser: () => Promise<void>,
     isMobile: boolean
+    userRole: string
 }
 
 const AppNav: React.FC<Props> = ({
@@ -24,7 +25,8 @@ const AppNav: React.FC<Props> = ({
     userData,
     profileImages,
     logoutUser,
-    isMobile
+    isMobile,
+    userRole
 }) => {
 
     const nav = useNavigate()
@@ -65,7 +67,8 @@ const AppNav: React.FC<Props> = ({
                 userData = {userData} 
                 profileImages={profileImages}
                 logoutUser = {logoutUser}
-                isMobile = {isMobile}/>
+                isMobile = {isMobile}
+                userRole = {userRole}/>
             ) : (
                 <NavLoggedOut 
                     handleLogin = {handleLogin} 
@@ -80,6 +83,7 @@ export default connect((st: RootState) => ({
     isAuthenticated: st.isAuthenticated,
     userData: st.userData,
     profileImages: st.profileImages,
+    userRole: st.userRole,
 }), {
     logoutUser: userActoins.logoutUser
 })  (AppNav)
