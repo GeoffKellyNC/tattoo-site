@@ -13,7 +13,7 @@ interface Props {
     profileImages: ProfileImageType,
     logoutUser: () => Promise<void>,
     isMobile: boolean
-    userRole: string
+    accountType: string
 }
 
 const NavLoggedIn: React.FC<Props> = ({
@@ -21,7 +21,7 @@ const NavLoggedIn: React.FC<Props> = ({
     profileImages,
     logoutUser,
     isMobile,
-    userRole
+    accountType
 }) => {
 
     const nav = useNavigate()
@@ -55,7 +55,7 @@ const NavLoggedIn: React.FC<Props> = ({
                 }
                 <span className = 'link' onClick = {logoutUser}>Logout</span>
                 {
-                    userRole === 'artist' && <span className = 'link' onClick = {handleUserPortal}>User Portal</span>
+                    accountType === 'artist' && <span className = 'link' onClick = {handleUserPortal}>User Portal</span>
                 }
             </div>
             )
