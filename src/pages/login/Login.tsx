@@ -13,7 +13,7 @@ const linkdLogo = 'https://storage.googleapis.com/tattoo-user-uploaded-images/ap
 
 
 const initFormValues = {
-    user_name: '',
+    email: '',
     password: ''
 }
 
@@ -67,12 +67,12 @@ const Login: React.FC<PropsFromRedux> = ({ loginUser, setNotification }) => {
             <div className='login-form'>
                 <label> LOGIN </label>
                 <input
-                    type='text'
-                    name='user_name'
-                    value={formValues.user_name}
+                    type='email'
+                    name='email'
+                    value={formValues.email}
                     onChange={onChange}
                     className='form-input user-name'
-                    placeholder='Username'
+                    placeholder='Email'
                 />
                 <input
                     type='password'

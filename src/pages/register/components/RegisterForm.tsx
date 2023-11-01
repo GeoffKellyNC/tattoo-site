@@ -10,6 +10,7 @@ import isValidUsername from '../../../util/BannedUserNameCheck'
 
 // Helpers
 import checkUserName from '../../../helpers/checkUserName'
+import checkEmail from '../../../helpers/checkEmail'
 
 // TYPES
 
@@ -56,14 +57,14 @@ const performChecks = async (data: FormValues, notifyFunc: (type: string, messag
     }
 
     const {
-        user_name = '',
-        email = '',
-        first_name = '',
-        last_name = '',
-        display_name = '',
-        account_type = '',
-        password = '',
-        verify_password = ''
+        user_name,
+        email,
+        first_name,
+        last_name,
+        display_name,
+        account_type,
+        password,
+        verify_password
     } = data;
 
     const isUserNameValid = isValidUsername(user_name);
@@ -82,6 +83,13 @@ const performChecks = async (data: FormValues, notifyFunc: (type: string, messag
     if(doesUserNameExist){
         notifyFunc('error', 'Username is already taken');
         return {item: 'username_exists', case: false};
+    }
+
+    const doesEmailExists = await checkEmail(email);
+    console.log('Form Check doesEmailExists', doesEmailExists) 
+    if(doesEmailExists){
+        notifyFunc('error', 'Email is already taken');
+        return {item: 'email_exists', case: false};
     }
 
     const emailPattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -179,69 +187,66 @@ const RegisterForm: React.FC<RegisterProps> = ({
 
 
   return (
-    <>
-        <RegisterTop>
-            <h1 className = 'reg-title'> REGISTER </h1>
-        </RegisterTop>
-        <StyledRegisterForm>
-            <label> First Name </label>
-            <input 
+    <StyledRegisterWrapper>
+    <StyledRegisterForm>
+      <StyledTitle>REGISTER</StyledTitle>
+            <StyledInput 
                 type = 'text'
                 name = 'first_name'
                 onChange={onChange}
                 value = {formValues.first_name}
                 className = 'reg-input input-first-name'
+                placeholder='First Name'
             />
-            <label> Last Name </label>
-            <input 
+            <StyledInput 
                 type = 'text'
                 name = 'last_name'
                 onChange={onChange}
                 value = {formValues.last_name}
                 className = 'reg-input input-last-name'
+                placeholder='Last Name'
             />
-            <label> Email </label>
-            <input 
+            <StyledInput 
                 type = 'email'
                 name = 'email'
                 onChange={onChange}
                 value = {formValues.email}
                 className = 'reg-input input-email'
+                placeholder='Email (Will be verified)'
             />
-            <label> Username </label>
-            <input 
+            <StyledInput 
                 type = 'text'
                 name = 'user_name'
                 onChange={onChange}
                 value = {formValues.user_name}
                 className = 'reg-input input-username'
+                placeholder='Username - Unique and used to login'
             />
-            <label> Display Name </label>
-            <input 
+            <StyledInput 
                 type = 'text'
                 name = 'display_name'
                 onChange={onChange}
                 value = {formValues.display_name}
                 className = 'reg-input input-display-name'
+                placeholder='Display Name'
             />
-            <label> Password </label>
-            <input 
+            <StyledInput 
                 type = 'password'
                 name = 'password'
                 onChange={onChange}
                 value = {formValues.password}
                 className = 'reg-input input-password'
+                placeholder='Password'
             />
-            <label> Verify Password </label>
-            <input 
+            <StyledInput 
                 type = 'password'
                 name = 'verify_password'
                 onChange={onChange}
                 value = {formValues.verify_password}
                 className = 'reg-input input-verify-password'
+                placeholder='Verify Password'
             />
-            <label> Account Type </label>
-            <select 
+            <StyledSelect 
                 name = 'account_type'
                 onChange={onSelectChange}
                 value = {formValues.account_type}
@@ -250,13 +255,14 @@ const RegisterForm: React.FC<RegisterProps> = ({
                 <option value = ''> Select Account Type </option>
                 <option value = 'artist'> Artist </option>
                 <option value = 'client'> Client </option>
-            </select>
-            <button 
+            </StyledSelect>
+            <StyledButton 
                 className = 'reg-input input-submit'
                 onClick = {onSubmit}
-            > Submit </button>
+            > Submit </StyledButton>
         </StyledRegisterForm>
-    </>
+    </StyledRegisterWrapper>
+    
   )
 }
 
@@ -267,85 +273,75 @@ export default connect((st: RootState) => ({
     registerUser: userActions.registerUser
 }) (RegisterForm)
 
-const RegisterTop = styled.div`
-    color: ${pr => pr.theme.color.white};
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: ${pr => pr.theme.font.family.primary};
-    font-size: ${pr => pr.theme.font.size.md};
 
-    @media (max-width: 768px) {
-        font-size: ${pr => pr.theme.font.size.sm};
-    }
+const StyledRegisterWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2em;
 
 
 `;
 
+const StyledTitle = styled.h1`
+  color: ${({ theme }) => theme.color.white};
+  margin-bottom: 1em;
+  text-align: center;
+  font-family: ${({ theme }) => theme.font.family.primary};
+`;
 
-const StyledRegisterForm = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: 400px;
-    padding: 40px;
-    background: rgba(25, 25, 25, 0.95);
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: ${pr => pr.theme.color.white};
+const StyledRegisterForm = styled.form`
+  background: ${({ theme }) => theme.color.red};
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 2em;
+  margin-top: 5rem;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    label {
-        margin-top: 10px;
-        font-size: 14px;
-        font-weight: 500;
-        color: ${pr => pr.theme.color.white};
-    }
+`;
 
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    select {
-        width: 100%;
-        padding: 8px;
-        margin: 5px 0;
-        border: 1px solid #888;
-        border-radius: 5px;
-        background-color: rgba(255, 255, 255, 0.1);
-        color: ${pr => pr.theme.color.white};
-        outline: none;
-        transition: border-color 0.3s ease;
+const StyledInput = styled.input`
+  border: 1px solid #888;
+  border-radius: 5px;
+  color: #fff;
+  margin-bottom: 1em;
+  padding: 0.5em;
+  width: 100%;
+  font-family: ${({ theme }) => theme.font.primary};
+  background-color: rgba(255, 255, 255, 0.1);
+  font-family: ${({ theme }) => theme.font.family.primary};
+  &:focus {
+    border-color: #b39ddb; // Muted purple for focus
+  }
+`;
 
-        &:focus {
-            border-color: ${pr => pr.theme.color.purple};
-        }
-    }
+const StyledSelect = styled.select`
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid #888;
+  border-radius: 5px;
+  color: #fff;
+  margin-bottom: 1em;
+  padding: 0.5em;
+  width: 100%;
+  &:focus {
+    border-color: #b39ddb; // Muted purple for focus
+  }
+`;
 
-    button {
-        width: 100%;
-        padding: 10px;
-        margin-top: 15px;
-        border: none;
-        border-radius: 5px;
-        background: linear-gradient(45deg, #8428d8, #e53a40);
-        color: ${pr => pr.theme.color.white};
-        font-size: 16px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: opacity 0.3s ease;
-
-        &:hover {
-            opacity: 0.9;
-        }
-    }
-
-    select {
-        appearance: none;
-        cursor: pointer;
-    }
+const StyledButton = styled.button`
+  background-color: #a5d6a7; // Soft green color for the button
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 0.8em;
+  width: 100%;
+  &:hover {
+    background-color: darken(#a5d6a7, 10%); // Slightly darker on hover
+  }
 `;

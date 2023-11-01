@@ -73,7 +73,7 @@ const SideMenu: React.FC<Props> = ({
                     )
                 }
                 {
-                    userRole === 'mod' || 'admin' && (
+                    userRole === 'mod' || userRole === 'admin' && (
                         <span className = 'menu-item'>
                             <SiNginxproxymanager />
                             <span>Moderate</span>

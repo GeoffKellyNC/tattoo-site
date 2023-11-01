@@ -91,7 +91,7 @@ export const registerUser = (data: RegisterTypes) => async (dispatch: Dispatch<N
     }
 };
 
-export const loginUser = (data: {user_name: string, password: string}) => async (dispatch: Dispatch<UserAction | NotifyAction | SetUserDataAction | SetClientProfileDetailsAction | SetUserContactProfileAction | SetUserRoleAction | SetAccountTypeAction>): Promise<LoginReturnType> => {
+export const loginUser = (data: {email: string, password: string}) => async (dispatch: Dispatch<UserAction | NotifyAction | SetUserDataAction | SetClientProfileDetailsAction | SetUserContactProfileAction | SetUserRoleAction | SetAccountTypeAction>): Promise<LoginReturnType> => {
     try {
         console.log('Password: ', data.password) //!REMOVE
         const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/auth/login`, data, {

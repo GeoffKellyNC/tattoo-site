@@ -6,6 +6,7 @@ import { ProfileImageType } from '../../../../../../store/user/types/userStateTy
 import { UserData } from '../../../../../../store/user/user.reducer'
 
 import bannerImg from '../../../../../../assets/profile-banner3.jpg'
+import UploadProfileImg from '../UploadProfileImg'
 
 interface Props {
     profileImages: ProfileImageType | null;
@@ -28,6 +29,7 @@ const ProfileTitles: React.FC<Props> = ({
         <img src = {bannerImg} alt = 'profile banner' className='profile-cover' />
         <div className="profile-menu">
           <a className="profile-menu-link active"></a>
+          <UploadProfileImg />
         </div>
     </ProfileTitleStyled>
   )
