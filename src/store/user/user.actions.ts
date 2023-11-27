@@ -124,9 +124,16 @@ export const loginUser = (data: {email: string, password: string}) => async (dis
                     payload: false
                 });
 
-                window.location.href = '/pricing';
+                // window.location.href = '/pricing';
+                const redirect = await axios.post(
+                    `${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/stripe/create-checkout-session?unxid=${res.data.userData.unxid}`,
+                    {
+                      lookup_key: "artist_monthly"
+                    });
+    
+                    window.location.href = redirect.data.data;
 
-                return { state: false, unxid: null };
+                    return { state: false, unxid: null };
             }
 
             if(decodedData.isAdmin){

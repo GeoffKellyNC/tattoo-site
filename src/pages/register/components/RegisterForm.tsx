@@ -108,6 +108,13 @@ const performChecks = async (data: FormValues, notifyFunc: (type: string, messag
         return {item: 'last_name', case: false};
     }
 
+    const displayValid = await isValidUsername(display_name);
+
+    if(!displayValid) {
+        notifyFunc('error', 'Cannot use this display name');
+        return {item: 'display_name', case: false};
+    }
+
     if (display_name.trim().length < 4) {
         notifyFunc('error', 'Display name must be at least 4 characters long');
         return {item: 'display_name', case: false};
