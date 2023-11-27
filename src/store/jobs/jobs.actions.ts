@@ -49,10 +49,6 @@ export const createJob = (job) => async (dispatch: Dispatch): Promise<UserJobTyp
 
 export const addPhotosToJob = (jobId: string, photos: File[]) => async (dispatch: Dispatch): Promise<void> =>{
     try {
-
-        console.log('jobId: ', jobId); //!REMOVE
-        console.log('photos: ', photos); //!REMOVE
-        console.log('Number of photos: ', photos.length) //!REMOVE
         const formData = new FormData();
         formData.append('jobId', jobId);
         photos.forEach(photo => {
@@ -84,5 +80,8 @@ export const addPhotosToJob = (jobId: string, photos: File[]) => async (dispatch
         return err;
     }
 }
+
+
+export
 
 

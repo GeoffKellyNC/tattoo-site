@@ -16,3 +16,12 @@ export function userJobs(state: UserJobType[] = [], action: UserJobActionType) {
             return localStorage.getItem('userJobs') ? JSON.parse(localStorage.getItem('userJobs')!) : state;
     }
 }
+
+export function allActiveJobs(state: UserJobType[] = [],  action: UserJobActionType ) {
+    switch(action.type) {
+        case jobTypes.SET_ALL_ACTIVE_JOBS:
+            return action.payload
+        default:
+            return state
+    }
+}

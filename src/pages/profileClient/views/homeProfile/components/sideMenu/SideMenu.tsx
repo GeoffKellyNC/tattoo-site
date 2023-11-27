@@ -8,7 +8,6 @@ import { Link, useResolvedPath } from 'react-router-dom'
 import {HiOutlineHomeModern} from 'react-icons/hi2'
 import {TbGitPullRequest} from 'react-icons/tb'
 import { FaRegMoneyBillAlt } from 'react-icons/fa'
-import { TbPhotoShare } from 'react-icons/tb'
 import { RiUserSettingsLine } from 'react-icons/ri'
 import { MdOutlineAdminPanelSettings } from 'react-icons/md'
 import { SiNginxproxymanager } from 'react-icons/si'
@@ -49,17 +48,13 @@ const SideMenu: React.FC<Props> = ({
                             <span>My Requests </span>
                         </Link>
                     ) : (
-                        <span className = 'menu-item'>
+                        <Link to = {`${url}/artists-jobs`} className = 'menu-item'>
                             <FaRegMoneyBillAlt />
                             <span>Tattoo Requests</span>
-                        </span>
+                        </Link>
                     )
                 }
 
-                <span className = 'menu-item'>
-                    <TbPhotoShare />
-                    <span>Photos</span>
-                </span>
                 <span className = 'menu-item'>
                     <RiUserSettingsLine />
                     <span>Settings</span>
