@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import ProtectedRoute from '../../util/ProtectedRoute'
 
-import ArtistJob from './views/artistsJobs/ArtistJob'
+import ArtistViewActiveJob from './views/artistsJobs/ArtistViewActiveJob'
 import SideMenu from './views/homeProfile/components/sideMenu/SideMenu'
 import HomeProfile from './views/homeProfile/HomeProfile'
 import ClientPostedJobs from './views/clientPostedJobs/ClientPostedJobs'
@@ -24,7 +24,7 @@ const UserProfileClient: React.FC= () => {
           } />
           <Route path = {`/artists-jobs`} element = {
             <ProtectedRoute requiredRoles={['artist']}>
-              <ArtistJob />
+              <ArtistViewActiveJob />
             </ProtectedRoute>
           } />
         </Routes> 

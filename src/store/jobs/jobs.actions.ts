@@ -84,7 +84,6 @@ export const addPhotosToJob = (jobId: string, photos: File[]) => async (dispatch
 
 export const getAllActiveJobs = () => async (dispatch: Dispatch): Promise<void> => {
     try {
-        console.log('Getting all active jobs!') //!REMOVE
         
         const res = await axiosWithAuth().get(`${BASE_URL}/jobs/get-all-active-jobs`)
 
@@ -92,9 +91,6 @@ export const getAllActiveJobs = () => async (dispatch: Dispatch): Promise<void> 
             type: jobTypes.SET_ALL_ACTIVE_JOBS,
             payload: res.data.data
         })
-
-        console.log("Getting all Active Jobs Res: ", res.data.data) //!REMOVE
-
 
     } catch (error) {
         console.log('Error Getting All Active Jobs: ', error) //!TODO: Handle This Error

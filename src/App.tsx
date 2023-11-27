@@ -26,14 +26,16 @@ import PricingPage from './pages/pricing/PricingPage'
 interface Props {
   verifyUserAccess: () => Promise<boolean>,
   getClientUploadedImages: () => Promise<void>
-  getUserJobs: () => Promise<unknown>
+  getUserJobs: () => Promise<unknown>,
+  getAllActiveJobs: () => Promise<void>
 }
 
 
 const App: React.FC<Props>  = ({
   verifyUserAccess,
   getClientUploadedImages,
-  getUserJobs
+  getUserJobs,
+  getAllActiveJobs
 })  => {
   const [isMobile, setIsMobile] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -44,9 +46,10 @@ const App: React.FC<Props>  = ({
       await verifyUserAccess()
       await getClientUploadedImages()
       await getUserJobs()
+      await getAllActiveJobs()
       setLoading(false)
       
-  }, [getClientUploadedImages, getUserJobs, verifyUserAccess])
+  }, [getClientUploadedImages, getUserJobs, verifyUserAccess, getAllActiveJobs])
 
 
 
@@ -135,7 +138,8 @@ const App: React.FC<Props>  = ({
 const ConnectedApp = connect(null, {
   verifyUserAccess: userAction.verifyUserAccess,
   getClientUploadedImages: userAction.getClientUploadedImages,
-  getUserJobs: jobActions.getUserJobs
+  getUserJobs: jobActions.getUserJobs,
+  getAllActiveJobs: jobActions.getAllActiveJobs
 })(App)
 
 
