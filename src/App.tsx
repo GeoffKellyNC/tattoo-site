@@ -22,6 +22,7 @@ import ResetPassForm from './pages/resetPassword/ResetPassForm'
 import UserProfileClient from './pages/profileClient/UserProfileClient'
 import RotatingSquareLoader from './loading/RotatingSquare'
 import PricingPage from './pages/pricing/PricingPage'
+import ArtistViewActiveJob from './pages/artistsJobs/ArtistViewActiveJob'
 
 interface Props {
   verifyUserAccess: () => Promise<boolean>,
@@ -104,6 +105,11 @@ const App: React.FC<Props>  = ({
         <Route path = '/user/client/:unxid/*' element = {
           <ProtectedRoute requiredRoles = {["client", 'artist']}>
             <UserProfileClient />
+          </ProtectedRoute>
+        } />
+        <Route path = '/artist/all-active-jobs' element = {
+          <ProtectedRoute requiredRoles={["artist"]}>
+            <ArtistViewActiveJob />
           </ProtectedRoute>
         } />
         <Route path = '/user/view/:unxid' element = {

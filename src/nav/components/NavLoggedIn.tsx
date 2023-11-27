@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom'  
+import { useNavigate, NavLink } from 'react-router-dom'  
 import { UserData } from '../../store/user/user.reducer'
 import { ProfileImageType } from '../../store/user/types/userStateTypes'
 
@@ -59,6 +59,9 @@ const NavLoggedIn: React.FC<Props> = ({
                 }
             </div>
             )
+        }
+        {
+            accountType === 'artist' && <NavLink to = '/artist/all-active-jobs'> Active Jobs </NavLink>
         }
         <div className = 'user-container'>
             <span className = 'user-name'>{userData.user_name}</span>

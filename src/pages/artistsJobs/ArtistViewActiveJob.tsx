@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { RootState } from '../../../../store/root.reducer'
-import { UserJobType } from '../../../../store/jobs/ts-types/jobTypes'
+import { RootState } from '../../store/root.reducer'
+import { UserJobType } from '../../store/jobs/ts-types/jobTypes'
 
 import ActiveJobListing from './ActiveJobListing'
 
@@ -37,6 +37,6 @@ const ConnectedArtistViewActiveJob = connect(mapStateToProps, null)(ArtistViewAc
 export default ConnectedArtistViewActiveJob
 
 const StyledActiveJobs = styled.div`
-
+  color: white;
 
 `
