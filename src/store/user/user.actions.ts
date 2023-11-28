@@ -25,8 +25,8 @@ interface UserAction {
 }
 
 interface UploadImageAction {
-    type: string; // You'll need to define SET_PROFILE_IMAGE in user.types.ts
-    payload: string; // URL of the uploaded image
+    type: string; 
+    payload: string; 
 }
 
 interface RegisterTypes {
@@ -65,7 +65,6 @@ export const registerUser = (data: RegisterTypes) => async (dispatch: Dispatch<N
 
 
         if(data.account_type === 'artist') {
-            console.log('Artist Account Created') //!REMOVE
             const redirect = await axios.post(
                 `${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/stripe/create-checkout-session?unxid=${unxid}`,
                 {
@@ -93,13 +92,13 @@ export const registerUser = (data: RegisterTypes) => async (dispatch: Dispatch<N
 
 export const loginUser = (data: {email: string, password: string}) => async (dispatch: Dispatch<UserAction | NotifyAction | SetUserDataAction | SetClientProfileDetailsAction | SetUserContactProfileAction | SetUserRoleAction | SetAccountTypeAction>): Promise<LoginReturnType> => {
     try {
-        console.log('Password: ', data.password) //!REMOVE
         const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/auth/login`, data, {
             withCredentials: true
         });
 
         if(res.status === 200) {
             sessionStorage.setItem('user_data', JSON.stringify(res.data.userData));
+            sessionStorage.setItem('artist_data', JSON.stringify(res.data.artistDetials))
             sessionStorage.setItem('jwtToken', res.data.jwtToken);
             sessionStorage.setItem('userProfileDetails', JSON.stringify(res.data.userProfileDetails));
             sessionStorage.setItem('userContactProfile', JSON.stringify(res.data.userContactDetails));
@@ -107,10 +106,8 @@ export const loginUser = (data: {email: string, password: string}) => async (dis
 
             const decodedData: DecodedDataType = res.data.decoded_data
 
-            console.log('Login User RES: ', res) //!REMOVE
 
             if(decodedData.isArtist && !decodedData.subscription_active) {
-                console.log('Artist Subscription Not Active') //!REMOVE
                 dispatch({
                     type: notifyTypes.SET_NOTIFY,
                     payload: {
@@ -154,6 +151,11 @@ export const loginUser = (data: {email: string, password: string}) => async (dis
                 dispatch({
                     type: userTypes.SET_USER_ACCOUNT_TYPE,
                     payload: 'artist'
+                })
+
+                dispatch({
+                    type: userTypes.SET_ARTIST_DETAILS,
+                    payload: res.data.artistDetials
                 })
             }
 
@@ -250,11 +252,8 @@ export const verifyUserAccess = () => async (dispatch: Dispatch<UserAction | Set
         const decodedData: DecodedDataType = res.data.data;
         const { isArtist, isClient, isAdmin, isMod } = decodedData;
 
-        console.log('Verify User Access RES: ', res) //!REMOVE
-        console.log('Verify User Access DECODED DATA: ', decodedData) //!REMOVE
 
         if(isArtist && !decodedData.subscription_active) {
-            console.log('Artist Subscription Not Active') //!REMOVE
             dispatch({
                 type: notifyTypes.SET_NOTIFY,
                 payload: {
@@ -276,7 +275,6 @@ export const verifyUserAccess = () => async (dispatch: Dispatch<UserAction | Set
 
         if(res.status === 200) {
 
-            console.log('Artist Subscription Active') //!REMOVE
 
             dispatch({
                 type: userTypes.SET_USER_AUTHENTICATED,
@@ -545,6 +543,40 @@ export const updateVerificationEmail = (email: string) => async (dispatch: Dispa
             payload: {
                 type: 'error',
                 message: 'Error Updating Email'
+            }
+        })
+        return false
+    }
+}
+
+export const getLocationData = (lat: string, lng: string): Promise<boolean> => async (dispatch: Dispatch) => {
+    try {
+
+        const BASE_URL: string = import.meta.env.VITE_REACT_APP_API_ENDPOINT
+
+        console.log("GETTING USER LOCATOIN!") //!REMOVE
+
+        const data = { latitude: lat, longitude: lng}
+        
+        const res = await axiosWithAuth().post(`${BASE_URL}/user/location-data`, data)
+    
+        console.log('location res', res.data.data) //!REMOVE
+
+        dispatch({
+            type: userTypes.SET_USER_CURRENT_LOCATION,
+            payload: res.data.data
+        })
+
+        return true
+
+
+    } catch (error) {
+        console.log('Error Getting User Location', error)
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error Getting Location!'
             }
         })
         return false

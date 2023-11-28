@@ -57,14 +57,15 @@ const NavLoggedIn: React.FC<Props> = ({
                 {
                     accountType === 'artist' && <span className = 'link' onClick = {handleUserPortal}>User Portal</span>
                 }
+                {
+                    accountType === 'artist' && (
+                    <NavLink className = 'link' to = '/artist/all-active-jobs'> Posted Jobs </NavLink>)
+                }
             </div>
             )
         }
-        {
-            accountType === 'artist' && <NavLink to = '/artist/all-active-jobs'> Active Jobs </NavLink>
-        }
         <div className = 'user-container'>
-            <span className = 'user-name'>{userData.user_name}</span>
+            <span onClick = {handleProfileClick} className = 'user-name'>{userData.user_name}</span>
             {
                 profileImages && (
                 <div className = 'profile-image-container' onClick = {handleProfileClick}>
@@ -101,6 +102,15 @@ const LoggedInNavContainer = styled.div`
             font-weight: bold;
             margin-right: 1rem;
             font-family: 'Roboto', sans-serif;
+            cursor: pointer;
+            transition: scale 0.2s;
+            transition: color 0.2s;
+            
+
+            &:hover {
+                scale: 1.1;
+                color: ${pr => pr.theme.color.red};
+            }
         }
 
         .profile-image-container {
@@ -129,7 +139,9 @@ const LoggedInNavContainer = styled.div`
             font-weight: 600;
             padding: 0.3rem 0.8rem;
             border-radius: 8px;
+            color: white;
             transition: background-color 0.2s;
+            text-decoration: none;
 
             &:hover {
                 background-color: rgba(255, 255, 255, 0.1);

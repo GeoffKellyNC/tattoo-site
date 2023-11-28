@@ -6,6 +6,7 @@ import * as userAction from './store/user/user.actions'
 import * as jobActions from './store/jobs/jobs.actions'
 
 
+
 // Components
 import AppNav from './nav/AppNav'
 import AppUsersHome from './pages/appUsers/AppUsersHome'
@@ -79,6 +80,9 @@ const App: React.FC<Props>  = ({
         setLoading(false)
       }
 
+    
+
+      
     return () => {
       window.removeEventListener('resize', () => {
         if (window.innerWidth <= 1000) {

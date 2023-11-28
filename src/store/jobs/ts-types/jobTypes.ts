@@ -1,6 +1,7 @@
 export interface UserJobType {
     job_id: string;
     owner_id: string;
+    owner_user_name: string;
     job_created_date: Date;
     job_title: string;
     job_desc: string;

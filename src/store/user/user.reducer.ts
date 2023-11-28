@@ -1,5 +1,5 @@
 import * as userTypes from './user.types'
-import { UserFullProfile, UserFullProfileAction } from './types/userStateTypes';
+import { UserFullProfile, UserFullProfileAction, ArtistsUserType } from './types/userStateTypes';
 
 export interface SetUserDataAction {
     type: string;
@@ -97,6 +97,7 @@ export interface SetUserContactProfileAction {
 
 
 
+
 export function userData(state = {}, action: SetUserDataAction) {
     switch(action.type){
         case userTypes.SET_USER_DATA:
@@ -186,5 +187,24 @@ export function viewUserDetails(state: UserFullProfile = {} as UserFullProfile, 
             return action.payload;
         default:
             return state;
+    }
+}
+
+export function artistDetails(state: ArtistsUserType = {} as ArtistsUserType, action) {
+    switch(action.type){
+        case userTypes.SET_ARTIST_DETAILS:
+            return action.payload
+        default:
+            return sessionStorage.getItem('artist_data') ? JSON.parse(sessionStorage.getItem('artist_data') as string) : state
+    }
+}
+
+
+export function userCurrentLocation(state = null, action){
+    switch(action.type){
+        case userTypes.SET_USER_CURRENT_LOCATION:
+            return action.payload
+        default:
+            return state
     }
 }

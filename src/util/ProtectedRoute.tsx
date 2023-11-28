@@ -26,7 +26,6 @@ const ProtectedRoute: React.FC<Props> = ({
 }) => {
     const [isLoading, setIsLoading] = useState(true);
 
-    console.log(isLoading)
 
     useEffect(() => {
         if (!isAuthenticated) {

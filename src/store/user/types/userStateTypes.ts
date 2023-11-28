@@ -79,4 +79,32 @@ interface ObjectId {
     deleted_date: string | null;
     deleted_by: string | null;
   }
+
+  export interface ArtistsUserType {
+      user_unxid: string;
+      years_experience: number | null;
+      specializations: object[]; 
+      portfolio: string | null;
+      is_licenced: boolean;
+      is_verified: boolean;
+      studio_affiliation: boolean;
+      studio_name: string | null;
+      studio_url: string | null;
+      is_pay_hourly: boolean;
+      is_pay_fixed: boolean;
+      pay_hourly_rate: number | null;
+      pay_fixed_min: number | null;
+      pay_fixed_max: number | null;
+      deposit_required: boolean;
+      artist_rating_count: number | null;
+      artist_rating_total: number | null;
+      artist_rating_average: number | null;
+      artist_reviews: object[]; 
+      artist_reviews_count: number | null;
+      artist_reviews_total: number | null;
+      uses_booking_system: boolean;
+      booking_system_url: string | null;
+      certifications: object[]; 
+    
+  }
   

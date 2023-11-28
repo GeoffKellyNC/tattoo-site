@@ -14,7 +14,6 @@ export const getUserJobs = () => async (dispatch: Dispatch): Promise<UserJobType
         const res = await axiosWithAuth().get(`${BASE_URL}/jobs/get-user-jobs`);
         localStorage.setItem('userJobs', JSON.stringify(res.data.data));
 
-        console.log('Response data Getting current jobs:', res.data.data); //!REMOVE
 
         dispatch(
             { 
@@ -33,7 +32,6 @@ export const createJob = (job) => async (dispatch: Dispatch): Promise<UserJobTyp
     try {
       
         const res = await axiosWithAuth().post(`${BASE_URL}/jobs/create-job`, job);
-        console.log('Response data:', res.data); //!REMOVE
         
         dispatch({ 
             type: jobTypes.ADD_JOB, 

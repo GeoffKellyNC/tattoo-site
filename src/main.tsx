@@ -20,7 +20,6 @@ declare global {
 
   const isLocal = import.meta.env.VITE_REACT_APP_LOCAL_MODE;
 
-  console.log('isLocal: ', isLocal)
 
 const composeEnhancers = (isLocal && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));

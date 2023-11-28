@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Drawer, Button, Spin } from 'antd';
 import { connect } from 'react-redux'
 import * as jobActions from '../../../../store/jobs/jobs.actions'
+import { UserFullProfile } from '../../../../store/user/types/userStateTypes'
 
 import { RiAddCircleLine } from 'react-icons/ri'
 
@@ -26,12 +27,14 @@ const initialFormValues = {
 }
 
 interface Props {
-    createJob: (job) => Promise<void>
+    createJob: (job) => Promise<void>,
+    userData: UserFullProfile
 }
 
 
 const CreateJobForm: React.FC<Props> = ({
-    createJob
+    createJob,
+    userData
 }) => {
     const [open, setOpen] = useState<boolean>(false);
     const [formValue, setFormValue] = useState(initialFormValues);
@@ -65,7 +68,11 @@ const CreateJobForm: React.FC<Props> = ({
     const handleSubmit = async () => {
         setLoading(true);
         console.log(formValue);
-        await createJob(formValue);
+        const finalData = {
+            ...formValue,
+            owner_user_name: userData.user_name
+        }
+        await createJob(finalData);
         setLoading(false);
         setFormValue(initialFormValues);
         toggleClose();
@@ -245,8 +252,11 @@ const CreateJobForm: React.FC<Props> = ({
     )
 }
 
+const mapStateToProps = (st) => ({
+    userData: st.userData
+})
 
-const ConnectedCreateJobForm = connect(null, {
+const ConnectedCreateJobForm = connect(mapStateToProps, {
     createJob: jobActions.createJob
 })(CreateJobForm)
 
