@@ -549,7 +549,7 @@ export const updateVerificationEmail = (email: string) => async (dispatch: Dispa
     }
 }
 
-export const getLocationData = (lat: string, lng: string): Promise<boolean> => async (dispatch: Dispatch) => {
+export const getLocationData = (lat: string, lng: string) => async (dispatch: Dispatch) => {
     try {
 
         const BASE_URL: string = import.meta.env.VITE_REACT_APP_API_ENDPOINT

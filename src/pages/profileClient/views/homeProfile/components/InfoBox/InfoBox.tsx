@@ -11,11 +11,13 @@ import EditProfileDrawer from '../EditProfileDrawer'
 interface Props {
     userData: UserData;
     userProfileDetails: ClientProfileDetailsType;
+    userCurrentLocation: {city: string, state: string}
 }
 
 const InfoBox: React.FC<Props> = ({
     userProfileDetails,
-    userData
+    userData,
+    userCurrentLocation
 }) => {
   return (
     <InfoBoxStyled>
@@ -26,7 +28,7 @@ const InfoBox: React.FC<Props> = ({
         <div className = 'info'>
             <div className = 'info-item'>
                 <TbCurrentLocation />
-                { userProfileDetails.location_city ? userProfileDetails.location_city : 'No location set' }, { userProfileDetails.location_state ? userProfileDetails.location_state : null}
+                { userCurrentLocation ? `${userCurrentLocation.city}, ${userCurrentLocation.state}`: 'No location set' }
             </div>
             <div className = 'info-item'>
                 <GiTribalShield  />
@@ -42,7 +44,8 @@ const InfoBox: React.FC<Props> = ({
 }
 const mapStateToProps = (st: RootState) => ({
     userData: st.userData,
-    userProfileDetails: st.userProfileDetails
+    userProfileDetails: st.userProfileDetails,
+    userCurrentLocation: st.userCurrentLocation
 });
 
 const ConnectedInfoBox = connect(mapStateToProps, null)(InfoBox);

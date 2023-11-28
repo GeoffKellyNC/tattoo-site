@@ -29,7 +29,8 @@ interface Props {
   verifyUserAccess: () => Promise<boolean>,
   getClientUploadedImages: () => Promise<void>
   getUserJobs: () => Promise<unknown>,
-  getAllActiveJobs: () => Promise<void>
+  getAllActiveJobs: () => Promise<void>,
+  getLocationData: (lat: string, lng: string) => Promise<boolean>
 }
 
 
@@ -37,10 +38,40 @@ const App: React.FC<Props>  = ({
   verifyUserAccess,
   getClientUploadedImages,
   getUserJobs,
-  getAllActiveJobs
+  getAllActiveJobs,
+  getLocationData
 })  => {
   const [isMobile, setIsMobile] = useState(false)
   const [loading, setLoading] = useState(true)
+
+  const setLocation = useCallback((): Promise<void> => {
+    const handleSuccess = async (position) => {
+        const { latitude, longitude } = position.coords;
+        await getLocationData(latitude, longitude);
+    };
+
+    const handleError = (error) => {
+        console.error('Geolocation Error: ', error); //!REMOVE
+    };
+
+    return new Promise<void>((resolve) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    await handleSuccess(position);
+                    resolve();
+                }, 
+                (error) => {
+                    handleError(error);
+                    resolve(); // Resolve even on error, no value needed
+                }
+            );
+        } else {
+            console.log("GEOLOCATION NOT SUPPORTED!"); //!REMOVE
+            resolve();
+        }
+    });
+}, [getLocationData]);
 
 
   const loadAppUser = useCallback(async () => {
@@ -49,9 +80,10 @@ const App: React.FC<Props>  = ({
       await getClientUploadedImages()
       await getUserJobs()
       await getAllActiveJobs()
+      await setLocation()
       setLoading(false)
       
-  }, [getClientUploadedImages, getUserJobs, verifyUserAccess, getAllActiveJobs])
+  }, [verifyUserAccess, getClientUploadedImages, getUserJobs, getAllActiveJobs, setLocation])
 
 
 
@@ -149,7 +181,8 @@ const ConnectedApp = connect(null, {
   verifyUserAccess: userAction.verifyUserAccess,
   getClientUploadedImages: userAction.getClientUploadedImages,
   getUserJobs: jobActions.getUserJobs,
-  getAllActiveJobs: jobActions.getAllActiveJobs
+  getAllActiveJobs: jobActions.getAllActiveJobs,
+  getLocationData: userAction.getLocationData
 })(App)
 
 
