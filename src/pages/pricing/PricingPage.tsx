@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 interface CardTitleProps {
     type: 'artist' | 'client';
@@ -144,6 +145,14 @@ const ListItem = styled.li`
 
 
 const PricingPage: React.FC = () => {
+
+    const nav = useNavigate();
+
+    const handleRegisterClick = () => {
+        nav('/register');
+    }
+
+
     return (
         <Container>
             <TitleSection>
@@ -163,11 +172,11 @@ const PricingPage: React.FC = () => {
                             <ListItem>View artist reviews</ListItem>
                             <ListItem>Contact artists</ListItem>
                             <ListItem>Submit Requests</ListItem>
-                            <ListItem>AI Assistant</ListItem>
+                            <ListItem>AI Assistant (Coming Soon)</ListItem>
                             <ListItem> MORE FEATURES SOON...</ListItem>
                         </ul>
                     </Description>
-                    <Button>Sign Up</Button>
+                    <Button onClick = {handleRegisterClick}>Sign Up</Button>
                 </PricingCard>
 
                 {/* Artist Card */}
@@ -179,12 +188,12 @@ const PricingPage: React.FC = () => {
                             <ListItem>Search for clients</ListItem>
                             <ListItem>View client profiles</ListItem>
                             <ListItem>See client requests</ListItem>
-                            <ListItem>AI Assistant</ListItem>
+                            <ListItem>AI Assistant (Coming Soon)</ListItem>
                             <ListItem>No Ads</ListItem>
                             <ListItem> MORE FEATURES SOON...</ListItem>
                         </ul>
                     </Description>
-                    <Button>Sign Up</Button>
+                    <Button onClick = {handleRegisterClick}>Sign Up</Button>
                 </PricingCard>
             </PricingGrid>
         </Container>

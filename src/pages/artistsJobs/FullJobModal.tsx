@@ -6,6 +6,10 @@ import styled from 'styled-components'
 import { IoLocationSharp } from "react-icons/io5";
 import { GiTakeMyMoney } from "react-icons/gi";
 import { MdStyle } from "react-icons/md";
+import { TbRulerMeasure } from "react-icons/tb";
+import { IoBody } from "react-icons/io5";
+
+
 
 
 
@@ -53,6 +57,14 @@ const FullJobModal: React.FC<Props> = ({
                 <div className = 'style info-section'>
                     <MdStyle color = '#ff8d14' size =  {'1.5rem'} className = 'icon' />
                     <span className = 'quick-text'> {data.job_characteristics.style} </span>
+                </div>
+                <div className = 'size info-section'>
+                    <TbRulerMeasure color = '#ff1421' size =  {'1.5rem'} className = 'icon' />
+                    <span className = 'quick-text'> {data.job_characteristics.size} </span>
+                </div>
+                <div className = 'body-placement info-section'>
+                    <IoBody color = '#05abff' size =  {'1.5rem'} className = 'icon' />
+                    <span className = 'quick-text'> {data.job_characteristics.body_placement} </span>
                 </div>
             </div>
         </div>
@@ -108,9 +120,22 @@ const JobModalContainer = styled.div`
         margin-bottom: 5px;
     }
 
+    .style {
+        text-transform: uppercase;
+    }
+
+    .size {
+        text-transform: uppercase;
+    }
+
+    .body-placement {
+        text-transform: uppercase;
+    }
+
     .quick-text {
         font-size: 1.5rem;
     }
+
 
     .info-section {
         display: flex;

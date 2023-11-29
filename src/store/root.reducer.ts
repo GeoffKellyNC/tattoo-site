@@ -4,6 +4,7 @@ import { combineReducers } from "redux";
 import { accountType } from './user/user.reducer'
 import { allActiveJobs } from './jobs/jobs.reducer'
 import { artistDetails } from './user/user.reducer'
+import { appLoading } from "./app/app.reducer";
 import { appNotifications } from "./notifications/notify.reducer";
 import { userData } from "./user/user.reducer";
 import { isAuthenticated } from "./user/user.reducer";
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
     accountType,
     allActiveJobs,
     artistDetails,
+    appLoading,
     appNotifications,
     clientUserImages,
     isAuthenticated,

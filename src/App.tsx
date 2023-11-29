@@ -1,9 +1,12 @@
 import './App.css'
 import { Routes, Route } from 'react-router-dom'
 import React, { useEffect, useState, useCallback } from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import * as userAction from './store/user/user.actions'
 import * as jobActions from './store/jobs/jobs.actions'
+import * as appTypes from './store/app/app.types'
+import * as notifyTypes from './store/notifications/notify.types'
+import { RootState } from './store/root.reducer'
 
 
 
@@ -30,7 +33,8 @@ interface Props {
   getClientUploadedImages: () => Promise<void>
   getUserJobs: () => Promise<unknown>,
   getAllActiveJobs: () => Promise<void>,
-  getLocationData: (lat: string, lng: string) => Promise<boolean>
+  getLocationData: (lat: string, lng: string) => Promise<boolean>,
+  appLoading: boolean
 }
 
 
@@ -39,10 +43,12 @@ const App: React.FC<Props>  = ({
   getClientUploadedImages,
   getUserJobs,
   getAllActiveJobs,
-  getLocationData
+  getLocationData,
+  appLoading
 })  => {
   const [isMobile, setIsMobile] = useState(false)
-  const [loading, setLoading] = useState(true)
+
+  const dispatch = useDispatch()
 
   const setLocation = useCallback((): Promise<void> => {
     const handleSuccess = async (position) => {
@@ -51,7 +57,14 @@ const App: React.FC<Props>  = ({
     };
 
     const handleError = (error) => {
-        console.error('Geolocation Error: ', error); //!REMOVE
+        console.log('Geolocation Error: ', error);
+        dispatch({
+          type: notifyTypes.SET_NOTIFY,
+          payload: {
+            notificationMessage: 'Error getting location data',
+            notificationType: 'error'
+          }
+        })
     };
 
     return new Promise<void>((resolve) => {
@@ -63,15 +76,22 @@ const App: React.FC<Props>  = ({
                 }, 
                 (error) => {
                     handleError(error);
-                    resolve(); // Resolve even on error, no value needed
+                    resolve(); 
                 }
             );
         } else {
-            console.log("GEOLOCATION NOT SUPPORTED!"); //!REMOVE
+            console.log("GEOLOCATION NOT SUPPORTED!"); 
+            dispatch({
+              type: notifyTypes.SET_NOTIFY,
+              payload: {
+                notificationMessage: 'Geolocation not supported',
+                notificationType: 'error'
+              }
+            })
             resolve();
         }
     });
-}, [getLocationData]);
+}, [dispatch, getLocationData]);
 
 
   const loadAppUser = useCallback(async () => {
@@ -81,9 +101,13 @@ const App: React.FC<Props>  = ({
       await getUserJobs()
       await getAllActiveJobs()
       await setLocation()
-      setLoading(false)
+      // setLoading(false)
+      dispatch({
+        type: appTypes.SET_APP_LOADING,
+        payload: false
+      })
       
-  }, [verifyUserAccess, getClientUploadedImages, getUserJobs, getAllActiveJobs, setLocation])
+  }, [verifyUserAccess, getClientUploadedImages, getUserJobs, getAllActiveJobs, setLocation, dispatch])
 
 
 
@@ -109,7 +133,11 @@ const App: React.FC<Props>  = ({
       }
 
       if(isPublicRoute) {
-        setLoading(false)
+        // setLoading(false)
+        dispatch({
+          type: appTypes.SET_APP_LOADING,
+          payload: false
+        })
       }
 
     
@@ -124,13 +152,13 @@ const App: React.FC<Props>  = ({
         }
       })
     }
-  }, [loadAppUser])
+  }, [dispatch, loadAppUser])
 
   return (
     <>
       <Notifications />
       <AppNav isMobile = { isMobile } />
-      { !loading ?(
+      { !appLoading ?(
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path = '/register' element = { <Register />} />
@@ -177,12 +205,16 @@ const App: React.FC<Props>  = ({
   )
 }
 
-const ConnectedApp = connect(null, {
+const mapStateToProps = (st: RootState) => ({
+  appLoading: st.appLoading
+})
+
+const ConnectedApp = connect(mapStateToProps, {
   verifyUserAccess: userAction.verifyUserAccess,
   getClientUploadedImages: userAction.getClientUploadedImages,
   getUserJobs: jobActions.getUserJobs,
   getAllActiveJobs: jobActions.getAllActiveJobs,
-  getLocationData: userAction.getLocationData
+  getLocationData: userAction.getLocationData,
 })(App)
 
 
