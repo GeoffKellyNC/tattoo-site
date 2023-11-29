@@ -18,7 +18,7 @@ export default {
         family: {
             logo: 'Nosifer',
             primary: 'Tilt Neon',
-            secondary: 'Source Sans Pro',
+            secondary: 'Smooch Sans',
         },
         size: {
             title: '8rem',

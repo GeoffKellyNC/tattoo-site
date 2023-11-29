@@ -66,6 +66,7 @@ const ActiveJobListing: React.FC<Props> = ({job}) => {
             <span className = 'job-title'> {job.job_title} </span>
             <span className = 'job-budget'> ${job.job_budget} </span>
           </JobBody>
+          <button className = 'view-job-btn'> View Job </button>
       </JobContainer>
     </>
   )
@@ -84,6 +85,41 @@ const JobContainer = styled.div`
     &:hover {
       scale: 1.1;
       border: 1px solid #f55963;
+    }
+
+    .view-job-btn {
+      display: none;
+    }
+
+    @media (min-width: 601px) and (max-width: 1024px) { 
+      width: 60%;
+
+      .view-job-btn {
+        display: block;
+        width: 100%;
+        padding: 0.5rem;
+        border: none;
+        background-color: #f55963;
+        font-family: ${pr => pr.theme.font.family.primary};
+        font-size: ${pr => pr.theme.font.size.s};
+        color: white;
+      }
+      
+    }
+
+    @media (max-width: 600px) { 
+      width: 60%;
+
+      .view-job-btn {
+        display: block;
+        width: 100%;
+        padding: 0.5rem;
+        border: none;
+        background-color: #f55963;
+        font-family: ${pr => pr.theme.font.family.primary};
+        font-size: ${pr => pr.theme.font.size.s};
+        color: white;
+      }
     }
 `
 

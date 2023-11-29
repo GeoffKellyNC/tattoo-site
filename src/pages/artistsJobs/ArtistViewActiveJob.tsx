@@ -26,7 +26,7 @@ const ArtistViewActiveJob: React.FC<Props> = ({
         <BannerImg src = {bannerImg} alt = 'banner' />
       </TitleContainer>
       <div className = 'search-container'>
-        <input type = 'text' placeholder = 'Search' />
+        {/* <input type = 'text' placeholder = 'Search' /> */}
       </div>
       <JobsContainer>
         {
@@ -58,40 +58,86 @@ const StyledActiveJobs = styled.div`
 
 const TitleContainer = styled.div`
   width: 90%;
-  height: 500px;
-  margin: 4rem auto;
+  margin: 2rem auto;
   display: flex;
-  background: rgb(245,89,63);
+  flex-direction: column; /* Stack elements vertically on smaller screens */
+  align-items: center; /* Center align items for smaller screens */
   background: linear-gradient(180deg, rgba(245,89,63,0.4) 29%, rgba(21,23,40,1) 88%);
   border-radius: 10px;
   font-family: ${pr => pr.theme.font.family.primary};
 
   .title {
-    font-size: 2rem;
+    font-size: 1.5rem; /* Smaller font size for mobile */
     font-weight: bold;
-    margin: 2rem 0;
-    font-family: ${pr => pr.theme.font.family.primary};
+    margin: 1rem 0;
+    text-align: center; /* Center text on smaller screens */
+  }
+
+  .subtitle {
+    font-size: 1rem; /* Adjust subtitle font size */
+    text-align: center;
+    margin: 0.5rem 0; /* Add margin for spacing */
+  }
+
+  .title-description {
+    font-size: 0.9rem; /* Adjust paragraph font size */
+    text-align: justify;
+    margin: 0.5rem 0; /* Add margin for spacing */
   }
 
   .title-text-container {
-    width: 40%;
-    padding: 3rem;
+    width: 80%; /* Full width on smaller screens */
+    padding: 1rem;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: column; /* Ensure elements are stacked vertically */
+    align-items: center; /* Center align items */
   }
 
+  @media (min-width: 601px) and (max-width: 1024px) { /* Tablets */
+    .title {
+      font-size: 1.75rem; /* Slightly larger font size for tablets */
+    }
 
-`
+    .title-text-container {
+      width: 60%; /* Adjust width for tablet screens */
+      padding: 2rem;
+    }
+  }
+
+  @media (min-width: 1025px) { /* Larger screens */
+    height: 500px;
+    flex-direction: row; /* Use row direction for larger screens */
+    align-items: flex-start; /* Align items to start for larger screens */
+
+    .title {
+      font-size: 2rem; /* Original font size for larger screens */
+      margin: 2rem 0;
+    }
+
+    .title-text-container {
+      width: 40%; /* Original width on larger screens */
+      padding: 3rem;
+      align-items: flex-start; /* Align items to start for larger screens */
+    }
+  }
+`;
+
+
 
 const BannerImg = styled.img`
-  width: 70%;
-  height: 70%;
+  width: 60%;
+  max-height: 70%;
   rotate: 3deg;
   object-fit: cover;
   position: absolute;
   top: 1%;
   left: 37%;
+
+  @media (max-width: 1024px) { /* Mobile devices */
+    display: none;
+  }
+
+
 
 `
 
@@ -102,5 +148,25 @@ const JobsContainer = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 2rem;
+
+
+  @media (max-width: 600px) { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media (min-width: 601px) and (max-width: 1024px) { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+  }
+
+  @media (min-width: 1025px) { 
+    
+  }
 
 `
