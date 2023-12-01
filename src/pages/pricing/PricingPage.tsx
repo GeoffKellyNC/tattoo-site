@@ -20,6 +20,15 @@ const TitleSection = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    @media (max-width: 600px) { /* Mobile devices */
+        height: 20%;
+        width: 100%;
+    }
+
+    @media (min-width: 601px) and (max-width: 1024px) { /* Tablet devices */
+        height: 20%;
+    }   
 `;
 
 const Title = styled.span`
@@ -27,6 +36,10 @@ const Title = styled.span`
     color: ${pr => pr.theme.color.white};
     font-family: ${pr => pr.theme.font.family.primary};
     font-size: 12rem;    
+
+    @media (max-width: 600px) { /* Mobile devices */
+        font-size: 3rem;
+    }
 
 `;
 
@@ -36,6 +49,17 @@ const PricingGrid = styled.div`
     gap: 20px;
     padding: 20px;
     color: white;
+
+    @media (max-width: 600px) { /* Mobile devices */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    @media (min-width: 601px) and (max-width: 1024px) { /* Tablet devices */
+        flex-direction: column;
+        align-items: center;
+    }
 
 `;
 

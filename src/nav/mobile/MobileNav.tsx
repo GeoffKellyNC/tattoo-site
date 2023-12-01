@@ -47,8 +47,14 @@ const MobileNav: React.FC<Props> = ({
         setMenuOpen(false)
     }
 
+    const handlePostedJobs = () => {
+        nav('/artist/all-active-jobs')
+        setMenuOpen(false)
+    }
+
+
   return (
-    <MobileNavStyled>
+    <MobileNavStyled menuOpen = {menuOpen}>
         <div className = 'nav-icon'>
             { menuOpen ? (
             <AiOutlineClose 
@@ -67,13 +73,14 @@ const MobileNav: React.FC<Props> = ({
                 {
                     !isAuthenticated ? (
                         <>
-                        <span onClick={handleLoginClick} className = 'nav-item'>Login</span>
-                        <span onClick={handleRegisterClick} className = 'nav-item'>Register</span>
+                            <span onClick={handleLoginClick} className = 'nav-item'>Login</span>
+                            <span onClick={handleRegisterClick} className = 'nav-item'>Register</span>
                         </>
                     ) : (
                         <>
                             <span onClick = {handleLogout} className = 'nav-item'>Logout</span>
                             <span onClick = {handleUserList} className = 'nav-item'>View Users</span>
+                            <span onClick = {handlePostedJobs} className = 'nav-item'>View Posted Jobs</span>
                         </>
                     )
                 }
@@ -94,59 +101,58 @@ const ConnectedMobileNav = connect(mapStateToProps, {
 
 export default ConnectedMobileNav
 
-const MobileNavStyled = styled.div`
+
+
+const MobileNavStyled = styled.div<{ menuOpen: boolean }>` 
+  color: white;
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  .nav-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1100;
+  }
+
+  .close-icon {
     color: white;
-    z-index: 100;
- 
+    font-size: 2.5rem;
+  }
+
+  .nav-body {
     height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #151728;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(${props => props.menuOpen ? '0' : '-100%'}); 
+  }
 
+  .nav-item {
+    margin: 10px 0;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 10px 20px;
+    text-align: center;
+    width: 100%;
+    transition: background-color 0.3s ease;
 
-    .nav-icon {
-        position: absolute;
-        top: -16px;
-        right: 1px;
-        font-size: 1.5rem;
-        cursor: pointer;
-        z-index: 1000;
-        padding: 10px;
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
     }
+  }
+`;
 
-    .close-icon {
-        color: white;
-        z-index: 1000;
-        position: absolute;
-        top: 150%;
-        right: 22rem;
-    }
-
-
-
-
-    .nav-body {
-        height: 100vh;
-        width: 100vw;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background: rgba( 0, 0, 0, 0.8 );
-        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-        backdrop-filter: blur( 4px );
-        -webkit-backdrop-filter: blur( 4px );
-        border-radius: 10px;
-        border: 1px solid rgba( 255, 255, 255, 0.18 );
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-    }
-
-    .nav-item {
-        margin-bottom: 20px;
-        font-size: 3rem;
-        cursor: pointer;
-        font-family: "DM Sans", sans-serif;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-
-    }
-
-`

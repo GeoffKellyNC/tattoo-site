@@ -42,13 +42,10 @@ const Tagline = styled.span`
     position: relative;
     top: -10rem;
 
-
-
-    ${({ theme }) => theme.media.tablet} {
-        font-size: ${({ theme }) => theme.font.size.md};
+    @media (max-width: 600px) { /* Mobile devices */
+        font-size: 1.2rem;
+        top: -7%;
+        padding-left: 2.7rem;
+        text-align: center;
     }
-    ${({ theme }) => theme.media.phone} {
-        font-size: ${({ theme }) => theme.font.size.sm};
-    }
-    /* Remove or reduce margin/padding if it exists in the theme for this element */
 `;
