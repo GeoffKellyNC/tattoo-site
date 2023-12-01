@@ -6,6 +6,7 @@ import ProtectedRoute from '../../util/ProtectedRoute'
 import SideMenu from './views/homeProfile/components/sideMenu/SideMenu'
 import HomeProfile from './views/homeProfile/HomeProfile'
 import ClientPostedJobs from './views/clientPostedJobs/ClientPostedJobs'
+import ArtistBidsMain from './views/artistsBids/ArtistBidsMain'
 
 
 
@@ -23,7 +24,7 @@ const UserProfileClient: React.FC= () => {
           } />
           <Route path = {`/artists-jobs`} element = {
             <ProtectedRoute requiredRoles={['artist']}>
-              <span> Your Jobs </span>
+              <ArtistBidsMain />
             </ProtectedRoute>
           } />
         </Routes> 

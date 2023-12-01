@@ -34,7 +34,7 @@ const FullJobModal: React.FC<Props> = ({
 
     useEffect(() => {
         function handleClickOutside(event) {
-          if (ref.current && !ref.current.contains(event.target)) {
+          if (ref.current && !ref.current.contains(event.target) && !drawerOpen) {
             setJobOpen(false);
           }
         }
@@ -43,7 +43,7 @@ const FullJobModal: React.FC<Props> = ({
         return () => {
           document.removeEventListener("mousedown", handleClickOutside);
         };
-      }, [setJobOpen]);
+      }, [drawerOpen, setJobOpen]);
 
       const painTolerance = (tolerance: string | number) => {
         switch(tolerance){

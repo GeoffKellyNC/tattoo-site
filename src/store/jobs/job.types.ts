@@ -4,3 +4,6 @@ export const ADD_JOB = 'ADD_JOB';
 export const DELETE_JOB = 'DELETE_JOB';
 
 export const SET_ALL_ACTIVE_JOBS = 'SET_ALL_ACTIVE_JOBS'
+
+export const SET_ARTISTS_JOB_BIDS = 'SET_ARTISTS_JOB_BIDS'
+export const ADD_ARTISTS_JOB_BID = 'ADD_ARTISTS_JOB_BID'

@@ -3,6 +3,7 @@ import { combineReducers } from "redux";
 // Imported Reducers
 import { accountType } from './user/user.reducer'
 import { allActiveJobs } from './jobs/jobs.reducer'
+import { artistCurrentBids } from './jobs/jobs.reducer'
 import { artistDetails } from './user/user.reducer'
 import { appLoading } from "./app/app.reducer";
 import { appNotifications } from "./notifications/notify.reducer";
@@ -21,6 +22,7 @@ import { userRole } from './user/user.reducer'
 const rootReducer = combineReducers({
     accountType,
     allActiveJobs,
+    artistCurrentBids,
     artistDetails,
     appLoading,
     appNotifications,

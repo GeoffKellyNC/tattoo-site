@@ -1,5 +1,6 @@
 import * as jobTypes from './job.types'
-import { UserJobType , UserJobActionType} from './ts-types/jobTypes'
+import { UserJobType , UserJobActionType, JobBidType} from './ts-types/jobTypes'
+
 
 
 export function userJobs(state: UserJobType[] = [], action: UserJobActionType) {
@@ -25,3 +26,16 @@ export function allActiveJobs(state: UserJobType[] = [],  action: UserJobActionT
             return state
     }
 }
+
+export function artistCurrentBids(state: JobBidType[] = [], action){
+    switch(action.type){
+        case jobTypes.SET_ARTISTS_JOB_BIDS:
+            return action.payload
+        case jobTypes.ADD_ARTISTS_JOB_BID:
+            return [...state, action.payload]
+        default:
+            return state
+    }
+}
+
+

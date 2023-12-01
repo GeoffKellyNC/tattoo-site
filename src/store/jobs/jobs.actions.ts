@@ -95,4 +95,97 @@ export const getAllActiveJobs = () => async (dispatch: Dispatch): Promise<void> 
     }
 }
 
+export const getArtistsCurrentBids = () => async (dispatch: Dispatch): Promise<void> => {
+    try {
+        
+        const bidRes = await axiosWithAuth().get(`${BASE_URL}/jobs/get-job-bids-artist`)
+
+        console.log('Artists Job Bids: ', bidRes.data.data) //!REMOVE
+
+        dispatch({
+            type: jobTypes.SET_ARTISTS_JOB_BIDS,
+            payload: bidRes.data.data
+        })
+
+        return
+
+    } catch (error) {
+        console.log('Error Getting Artists Current Bids!', error) //!TODO: Handle This Error
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error Getting Artists Current Bids!'
+            }
+        })
+    }
+}
+
+export const getJobById = (jobId: string) => async (dispatch: Dispatch): Promise<UserJobType> => {
+    try {
+        
+        const res = await axiosWithAuth().get(`${BASE_URL}/jobs/get-job-by-id/${jobId}`)
+
+        return res.data.data
+
+    } catch (error) {
+        console.log('Error Getting Job By Id: ', error) //!TODO: Handle This Error
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error Getting Job By Id!'
+            }
+        })
+    }
+}
+
+export const createJobBid = (jobId: string, artistId: string, bidData: {bidAmount: string, artistDetails: string}, jobOwnerId: string) => async (dispatch: Dispatch): Promise<void> => {
+    try {
+        
+        const res = await axiosWithAuth().post(`${BASE_URL}/jobs/create-job-bid`, {jobId, artistId, data: bidData, jobOwnerId})
+
+        console.log('Create Job Bid: ', res.data.data) //!REMOVE
+
+        if(res.status !== 200) {
+            dispatch({
+                type: notifyTypes.SET_NOTIFY,
+                payload: {
+                    type: 'error',
+                    message: 'Error Creating Job Bid!'
+                }
+            })
+            return
+        }
+
+        dispatch({
+            type: jobTypes.ADD_ARTISTS_JOB_BID,
+            payload: res.data.data
+        })
+
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'success',
+                message: 'Bid Created!'
+            }
+        })
+
+        return
+
+    } catch (error) {
+        console.log('Error Creating Job Bid: ', error) //!TODO: Handle This Error
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error Creating Job Bid!'
+            }
+        })
+    }
+}
+
+
+
+
 

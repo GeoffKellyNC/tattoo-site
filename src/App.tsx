@@ -34,7 +34,8 @@ interface Props {
   getUserJobs: () => Promise<unknown>,
   getAllActiveJobs: () => Promise<void>,
   getLocationData: (lat: string, lng: string) => Promise<boolean>,
-  appLoading: boolean
+  appLoading: boolean,
+  getArtistsCurrentBids: () => Promise<void>
 }
 
 
@@ -44,6 +45,7 @@ const App: React.FC<Props>  = ({
   getUserJobs,
   getAllActiveJobs,
   getLocationData,
+  getArtistsCurrentBids,
   appLoading
 })  => {
   const [isMobile, setIsMobile] = useState(false)
@@ -100,14 +102,14 @@ const App: React.FC<Props>  = ({
       await getClientUploadedImages()
       await getUserJobs()
       await getAllActiveJobs()
-      await setLocation()
-      // setLoading(false)
+      await getArtistsCurrentBids()
+      await setLocation() //? Needs to remain last in this function
       dispatch({
         type: appTypes.SET_APP_LOADING,
         payload: false
       })
       
-  }, [verifyUserAccess, getClientUploadedImages, getUserJobs, getAllActiveJobs, setLocation, dispatch])
+  }, [verifyUserAccess, getClientUploadedImages, getUserJobs, getAllActiveJobs, setLocation, getArtistsCurrentBids, dispatch])
 
 
 
@@ -215,6 +217,8 @@ const ConnectedApp = connect(mapStateToProps, {
   getUserJobs: jobActions.getUserJobs,
   getAllActiveJobs: jobActions.getAllActiveJobs,
   getLocationData: userAction.getLocationData,
+  getArtistsCurrentBids: jobActions.getArtistsCurrentBids
+
 })(App)
 
 

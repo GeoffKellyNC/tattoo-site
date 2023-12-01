@@ -25,3 +25,20 @@ export interface UserJobActionType {
     type: string;
     payload: UserJobType;
 }
+
+export interface JobBidType {
+    job_id: string,
+    artists_id: string,
+    job_owner_id: string,
+    proposed_price: string,
+    proposded_data: string | Date,
+    timestamp: string | Date,
+    attr1: string,
+    attr2: string,
+    attr3: string,
+    attr4: string,
+    attr5: string,
+    attr6: string,
+    attr7: string,
+    attr8: string
+}
