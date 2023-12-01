@@ -9,12 +9,12 @@ import ArtistBidItem from './ArtistBidItem'
 
 interface Props {
   userData: UserData,
-  artistCurrentBids: JobBidType[]
+  artistCurrentBids: JobBidType[],
 }
 
 const ArtistBidsMain: React.FC<Props> = ({
   userData,
-  artistCurrentBids
+  artistCurrentBids,
 }) => {
   return (
     <ArtistBidsBody>
@@ -23,7 +23,7 @@ const ArtistBidsMain: React.FC<Props> = ({
         </ArtBidTop>
         <BidsContainer>
           { 
-            artistCurrentBids.length > 1 ? (
+            artistCurrentBids.length > 0 ? (
               artistCurrentBids.map((bid, idx) => {
                return <ArtistBidItem bidData = {bid} key = {idx} />
               })
@@ -36,7 +36,7 @@ const ArtistBidsMain: React.FC<Props> = ({
 
 const mapStateToProps = (state: RootState) => ({
   userData: state.userData,
-  artistCurrentBids: state.artistCurrentBids
+  artistCurrentBids: state.artistCurrentBids,
 })
 
 const ConnectedArtistBidsMain = connect(mapStateToProps, null)(ArtistBidsMain)
@@ -56,6 +56,13 @@ const ArtBidTop = styled.div`
 `
 
 const BidsContainer = styled.div`
+
+  display: flex;
+  flex-direction: row;
+  width: 85%;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: space-between;
 
 
 `

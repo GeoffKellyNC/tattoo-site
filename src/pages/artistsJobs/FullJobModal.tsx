@@ -21,12 +21,14 @@ import { TbPigMoney } from "react-icons/tb";
 
 interface Props {
     data: UserJobType,
-    setJobOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setJobOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    showButton?: boolean
 }
 
 const FullJobModal: React.FC<Props> = ({
     data,
-    setJobOpen
+    setJobOpen,
+    showButton = true
 }) => {
     const [drawerOpen, setDrawerOpen] = useState<boolean>(false)
 
@@ -130,10 +132,14 @@ const FullJobModal: React.FC<Props> = ({
                         data.job_characteristics.pain_tolerance ? painTolerance(data.job_characteristics.pain_tolerance) : null
                     }
                 </div>
-                <div className = 'make-bid info-section'>
-                    <TbPigMoney color = 'pink' size =  {'1.5rem'} className = 'icon' />
-                    <button onClick = {() => setDrawerOpen(true)} className = 'make-bid-btn quick-text'> Make an Offer </button>
-            </div>
+                {
+                    showButton && (
+                    <div className = 'make-bid info-section'>
+                        <TbPigMoney color = 'pink' size =  {'1.5rem'} className = 'icon' />
+                        <button onClick = {() => setDrawerOpen(true)} className = 'make-bid-btn quick-text'> Make an Offer </button>
+                    </div>
+                    )
+                }
             </div>
         </div>
         <ModalBody>

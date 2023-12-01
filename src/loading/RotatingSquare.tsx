@@ -28,16 +28,16 @@ const FullPageSpinnerBox = styled.div`
   align-items: center;
 `;
 
-const ConfigureBorder = styled.div<{ clockwise?: boolean }>`
-  width: 150px; /* Increased size */
-  height: 150px; /* Increased size */
+const ConfigureBorder = styled.div<{ clockwise?: string }>`
+  width: 150px;
+  height: 150px;
   padding: 3px;
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${({ clockwise }) => clockwise ? '#fb5b53' : 'rgb(63,249,220)'};
-  animation: ${({ clockwise }) => clockwise ? spinClockwise : spinCounterClockwise} 3s ease-in-out 0s infinite alternate;
+  background: ${({ clockwise }) => clockwise === 'true' ? '#fb5b53' : 'rgb(63,249,220)'};
+  animation: ${({ clockwise }) => clockwise === 'true' ? spinClockwise : spinCounterClockwise} 3s ease-in-out 0s infinite alternate;
 `;
 
 const ConfigureCore = styled.div`
@@ -50,7 +50,7 @@ const ConfigureCore = styled.div`
 const RotatingSquareLoader: React.FC = () => {
   return (
     <FullPageSpinnerBox>
-      <ConfigureBorder clockwise>
+      <ConfigureBorder clockwise="true">
         <ConfigureCore />
       </ConfigureBorder>
       <ConfigureBorder>

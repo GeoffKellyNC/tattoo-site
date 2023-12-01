@@ -121,7 +121,7 @@ export const getArtistsCurrentBids = () => async (dispatch: Dispatch): Promise<v
     }
 }
 
-export const getJobById = (jobId: string) => async (dispatch: Dispatch): Promise<UserJobType> => {
+export const getJobById = (jobId: string) => async (dispatch: Dispatch): Promise<UserJobType | boolean> => {
     try {
         
         const res = await axiosWithAuth().get(`${BASE_URL}/jobs/get-job-by-id/${jobId}`)
@@ -137,6 +137,8 @@ export const getJobById = (jobId: string) => async (dispatch: Dispatch): Promise
                 message: 'Error Getting Job By Id!'
             }
         })
+
+        return false
     }
 }
 
