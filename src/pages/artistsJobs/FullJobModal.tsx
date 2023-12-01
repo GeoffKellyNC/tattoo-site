@@ -1,6 +1,8 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { UserJobType } from '../../store/jobs/ts-types/jobTypes'
 import styled from 'styled-components'
+
+import MakeBidDrawer from './MakeBidDrawer';
 
 //Icons
 import { IoLocationSharp } from "react-icons/io5";
@@ -8,6 +10,10 @@ import { GiTakeMyMoney } from "react-icons/gi";
 import { MdStyle } from "react-icons/md";
 import { TbRulerMeasure } from "react-icons/tb";
 import { IoBody } from "react-icons/io5";
+import { FaBriefcaseMedical } from "react-icons/fa6";
+import { BsFillEmojiSunglassesFill } from "react-icons/bs";
+import { TbPigMoney } from "react-icons/tb";
+
 
 
 
@@ -22,6 +28,7 @@ const FullJobModal: React.FC<Props> = ({
     data,
     setJobOpen
 }) => {
+    const [drawerOpen, setDrawerOpen] = useState<boolean>(false)
 
     const ref = useRef(null);
 
@@ -37,6 +44,48 @@ const FullJobModal: React.FC<Props> = ({
           document.removeEventListener("mousedown", handleClickOutside);
         };
       }, [setJobOpen]);
+
+      const painTolerance = (tolerance: string | number) => {
+        switch(tolerance){
+          case 'low':
+            return (
+                <>
+                    <BsFillEmojiSunglassesFill size = {'1.4rem'} title = 'LOW pain tolerance' color = 'green' />
+                    <span className = 'quick-text'> Low Pain Tolerance </span>
+                </>
+                )
+          case 'moderate':
+            return (
+                <>
+                    <BsFillEmojiSunglassesFill size = {'1.4rem'} title = 'MODERATE pain tolerance' color = 'yellow' />
+                    <span className = 'quick-text'> Moderate Pain Tolerance </span>
+                </>
+            )
+          case 'high':
+            return (
+                <>
+                    <BsFillEmojiSunglassesFill size = {'1.4rem'} title = 'HIGH pain tolerance' color = 'red' />
+                    <span className = 'quick-text'> High Pain Tolerance </span>
+                </>
+            )
+          default: 
+            return
+        }
+      }
+
+      const determineMedical = (allergy: string | number, skin_condition: string | number): string => {
+
+
+        if (allergy === 'true' && skin_condition === 'true'){
+            return 'Has Allergy and Skin Condition'
+        } else if(skin_condition === 'true'){
+            return 'Has Skin Condition'
+        } else if(allergy === 'true'){
+            return 'Has Allergy'
+        } else {
+            return 'No Medical Conditions'
+        }
+      }
 
 
         
@@ -66,6 +115,25 @@ const FullJobModal: React.FC<Props> = ({
                     <IoBody color = '#05abff' size =  {'1.5rem'} className = 'icon' />
                     <span className = 'quick-text'> {data.job_characteristics.body_placement} </span>
                 </div>
+                {
+                    data.job_characteristics.has_allergy === 'true' || data.job_characteristics.skin_condition === 'true' ? (
+                        <div className = 'medical info-section'>
+                            <FaBriefcaseMedical color = '#05abff' size =  {'1.5rem'} className = 'icon' />
+                            <span className = 'quick-text'> {
+                                determineMedical(data.job_characteristics.has_allergy, data.job_characteristics.skin_condition)
+                            } </span>
+                        </div>
+                    ) : null
+                }
+                <div className = 'pain info-section'>
+                    {
+                        data.job_characteristics.pain_tolerance ? painTolerance(data.job_characteristics.pain_tolerance) : null
+                    }
+                </div>
+                <div className = 'make-bid info-section'>
+                    <TbPigMoney color = 'pink' size =  {'1.5rem'} className = 'icon' />
+                    <button onClick = {() => setDrawerOpen(true)} className = 'make-bid-btn quick-text'> Make an Offer </button>
+            </div>
             </div>
         </div>
         <ModalBody>
@@ -73,6 +141,22 @@ const FullJobModal: React.FC<Props> = ({
                 <p className = 'desc-text'> {data.job_desc}  </p>
             </div>
         </ModalBody>
+        <ModalPhotosSection>
+            <div className = 'photos body-section'>
+                <p className = 'photos-text'> Photos </p>
+            </div>
+            <div className = 'photos-container'>
+                {
+                   data.job_photos.length < 1 ? <span className = 'no-image'> No Images Uploaded </span> : data.job_photos.map((photo, index) => {
+                        return <img key = {index} src = {photo} alt = 'job' className = 'photo' />
+                    })
+                }
+            </div>
+        </ModalPhotosSection>
+        <MakeBidDrawer 
+            drawerOpen = {drawerOpen} 
+            setDrawerOpen = {setDrawerOpen}
+            jobData = {data} />
     </JobModalContainer>
   )
 }
@@ -112,8 +196,7 @@ const JobModalContainer = styled.div`
     .quick-info-section{
         display: flex;
         width: 100%;
-        gap: 5rem;
-        
+        gap: 2rem;
     }
 
     .icon {
@@ -142,6 +225,25 @@ const JobModalContainer = styled.div`
         align-items: center;
         gap: 0.8rem;
     }
+
+    .make-bid-btn {
+        height: auto;
+        padding: 0.5rem;
+        border: none;
+        background-color: #f55963;
+        font-family: ${pr => pr.theme.font.family.secondary};
+        font-size: ${pr => pr.theme.font.size.s};
+        color: white;
+        cursor: pointer;
+        margin-bottom: 5px;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+            background-color: white;
+            color: #f55963;
+            scale: 1.1;
+        }
+    }
 `
 
 const ModalBody = styled.div`
@@ -162,4 +264,73 @@ const ModalBody = styled.div`
         margin-bottom: 2rem;
     }
 
+
 `
+
+const ModalPhotosSection = styled.div`
+    height: 48%; // Set a specific height
+    overflow-y: auto; // Make it scrollable
+
+    .no-image {
+        font-size: 1.25rem;
+        font-family: ${pr => pr.theme.font.family.secondary};
+        padding: 0 1rem;
+        margin-bottom: 2rem;
+        color: yellow;
+    }
+
+    .photos-text {
+        font-size: 3rem;
+        font-family: ${pr => pr.theme.font.family.secondary};
+        padding: 0 1rem;
+        margin-bottom: 2rem;
+
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background-color: #f55963; 
+    }
+     
+    ::-webkit-scrollbar-thumb {
+        background: #f55963; 
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: #f55963; 
+    }
+
+    .photos-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        padding: 0 1rem;
+        gap: 2rem;
+
+        @media (max-width: 600px) {
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @media (min-width: 601px) and (max-width: 1024px) {
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+
+    .photo {
+        flex: 0 0 auto;
+        margin: 0.5rem;
+        width: 25%;
+        height: 25%;
+    }
+`;
