@@ -554,13 +554,11 @@ export const getLocationData = (lat: string, lng: string) => async (dispatch: Di
 
         const BASE_URL: string = import.meta.env.VITE_REACT_APP_API_ENDPOINT
 
-        console.log("GETTING USER LOCATOIN!") //!REMOVE
 
         const data = { latitude: lat, longitude: lng}
         
         const res = await axiosWithAuth().post(`${BASE_URL}/user/location-data`, data)
     
-        console.log('location res', res.data.data) //!REMOVE
 
         dispatch({
             type: userTypes.SET_USER_CURRENT_LOCATION,

@@ -100,7 +100,6 @@ export const getArtistsCurrentBids = () => async (dispatch: Dispatch): Promise<v
         
         const bidRes = await axiosWithAuth().get(`${BASE_URL}/jobs/get-job-bids-artist`)
 
-        console.log('Artists Job Bids: ', bidRes.data.data) //!REMOVE
 
         dispatch({
             type: jobTypes.SET_ARTISTS_JOB_BIDS,
@@ -181,7 +180,6 @@ export const createJobBid = (jobId: string, artistId: string, bidData: {bidAmoun
         
         const res = await axiosWithAuth().post(`${BASE_URL}/jobs/create-job-bid`, {jobId, artistId, data: bidData, jobOwnerId})
 
-        console.log('Create Job Bid: ', res.data.data) //!REMOVE
 
         if(res.status !== 200) {
             dispatch({

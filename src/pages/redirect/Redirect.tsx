@@ -41,7 +41,8 @@ const Redirect: React.FC<RedirectProps> = ({
         };
     
         const handleError = (error) => {
-            console.error('Geolocation Error: ', error); //!REMOVE
+            console.error('Geolocation Error: ', error);
+            return;
         };
 
         return new Promise<void>((resolve) => {
@@ -57,7 +58,7 @@ const Redirect: React.FC<RedirectProps> = ({
                     }
                 );
             } else {
-                console.log("GEOLOCATION NOT SUPPORTED!"); //!REMOVE
+                console.log("GEOLOCATION NOT SUPPORTED!");
                 resolve();
             }
         });

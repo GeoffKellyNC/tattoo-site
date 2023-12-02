@@ -6,7 +6,6 @@ const sendPasswordResetEmailApi = async (user_email: string): Promise<boolean> =
             user_email: user_email
             });
 
-        console.log('Request Email Response: ', res.data) //!REMOVE
 
         if(res.status !== 200) {
             return false;

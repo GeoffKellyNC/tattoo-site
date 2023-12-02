@@ -37,7 +37,6 @@ const MakeBidDrawer: React.FC<Props> = ({
     }
 
     const onSubmit = async () => {
-        console.log(formValues) //!REMOVE
        await createJobBid(jobData.job_id, userData.unxid, formValues, jobData.owner_id)
        setFormValues(initialFormValues)
        return
