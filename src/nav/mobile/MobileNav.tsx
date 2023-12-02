@@ -19,13 +19,15 @@ import { FaMoneyBill1 } from "react-icons/fa6";
 
 interface Props {
     logoutUser: () => Promise<void>
-    isAuthenticated: boolean
+    isAuthenticated: boolean,
+    accountType: string
 }
 
 
 const MobileNav: React.FC<Props> = ({
     logoutUser,
-    isAuthenticated
+    isAuthenticated,
+    accountType
 }) => {
     const [menuOpen, setMenuOpen] = useState<boolean>(false)
 
@@ -98,10 +100,14 @@ const MobileNav: React.FC<Props> = ({
                                     <PiUsersFourFill size = {'2rem'} className = 'icon' />
                                     <span onClick = {handleUserList} className = 'nav-item'>View Users</span>
                                 </div>
-                                <div className = 'nav-item-container'>
-                                    <FaMoneyBill1 size = {'2rem'} className = 'icon'  />
-                                    <span onClick = {handlePostedJobs} className = 'nav-item'>View Posted Jobs</span>
-                                </div>
+                                {
+                                    accountType === 'artist' && (
+                                    <div className = 'nav-item-container'>
+                                        <FaMoneyBill1 size = {'2rem'} className = 'icon' />
+                                        <span onClick = {handlePostedJobs} className = 'nav-item'>Posted Jobs</span>
+                                    </div>
+                                    )
+                                }
                             </>
                         )
                     }
@@ -114,7 +120,8 @@ const MobileNav: React.FC<Props> = ({
 }
 
 const mapStateToProps = ( st: RootState) => ({
-    isAuthenticated: st.isAuthenticated
+    isAuthenticated: st.isAuthenticated,
+    accountType: st.userData.account_type
 }) 
 
 const ConnectedMobileNav = connect(mapStateToProps, {
