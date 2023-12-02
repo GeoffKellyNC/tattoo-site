@@ -23,7 +23,6 @@ const StyledBetaBanner = styled.div`
     align-items: center;
     z-index: 1000;
     font-size: 1.2rem;
-    font-weight: bold;
     color: white;
     font-family: ${pr => pr.theme.font.family.secondary};
 

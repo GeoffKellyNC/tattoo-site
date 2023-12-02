@@ -46,7 +46,6 @@ const LoggedOutNavContainer = styled.div`
 
         .link {
             cursor: pointer;
-            font-weight: 500; /* slightly bold for emphasis */
             padding: 0.5rem 1rem; /* clickable area */
             border-radius: 4px; /* rounded corners */
             transition: background-color 0.25s ease, transform 0.15s ease; /* smooth transitions */

@@ -99,7 +99,6 @@ const LoggedInNavContainer = styled.div`
 
         .user-name {
             font-size: 1rem;
-            font-weight: bold;
             margin-right: 1rem;
             font-family: 'Roboto', sans-serif;
             cursor: pointer;
@@ -136,7 +135,6 @@ const LoggedInNavContainer = styled.div`
         .link {
             cursor: pointer;
             font-size: 0.9rem;
-            font-weight: 600;
             padding: 0.3rem 0.8rem;
             border-radius: 8px;
             color: white;
