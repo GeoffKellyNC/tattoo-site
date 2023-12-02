@@ -227,7 +227,7 @@ const RegisterForm: React.FC<RegisterProps> = ({
                 onChange={onChange}
                 value = {formValues.user_name}
                 className = 'reg-input input-username'
-                placeholder='Username - Unique and used to login'
+                placeholder='Username'
             />
             <StyledInput 
                 type = 'text'
@@ -260,7 +260,7 @@ const RegisterForm: React.FC<RegisterProps> = ({
                 className = 'reg-input input-account-type'
             >
                 <option value = ''> Select Account Type </option>
-                <option value = 'artist'> Artist </option>
+                <option value = 'artist'> Artist ($5.99/month) </option>
                 <option value = 'client'> Client </option>
             </StyledSelect>
             <StyledButton 
@@ -283,9 +283,17 @@ export default connect((st: RootState) => ({
 
 const StyledRegisterWrapper = styled.div`
   display: flex;
+  height: auto;
   justify-content: center;
   align-items: center;
   padding: 2em;
+
+  input {
+    &:focus {
+        border-color: #eeff00 !important;
+        outline: none;
+    }
+  }
 
 
 `;
@@ -294,36 +302,47 @@ const StyledTitle = styled.h1`
   color: ${({ theme }) => theme.color.white};
   margin-bottom: 1em;
   text-align: center;
-  font-family: ${({ theme }) => theme.font.family.primary};
+  font-size: 2.5rem;
+  border-bottom: 1px solid #888;
+  font-family: ${({ theme }) => theme.font.family.secondary};
 `;
 
 const StyledRegisterForm = styled.form`
-  background: ${({ theme }) => theme.color.red};
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  padding: 2em;
-  margin-top: 5rem;
-  width: 100%;
-  max-width: 600px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    padding: 2em;
+    height: auto;
+    margin-top: 5rem;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  border: 1px solid #888;
+
 
 `;
 
 const StyledInput = styled.input`
-  border: 1px solid #888;
-  border-radius: 5px;
-  color: #fff;
-  margin-bottom: 1em;
-  padding: 0.5em;
-  width: 100%;
-  font-family: ${({ theme }) => theme.font.primary};
-  background-color: rgba(255, 255, 255, 0.1);
-  font-family: ${({ theme }) => theme.font.family.primary};
-  &:focus {
-    border-color: #b39ddb; // Muted purple for focus
-  }
+    background-color: rgba(2, 2, 16, 0.8);
+    border: 1px solid #888;
+    border-radius: 5px;
+    color: white;
+    font-family: ${({ theme }) => theme.font.family.secondary};
+    margin-bottom: 1em;
+    padding: 0.5em;
+    width: 100%;
+
+    &:focus {
+        border-color: #eeff00 !important; 
+    }
+
+    &&::placeholder {
+        color: white;
+        font-family: ${({ theme }) => theme.font.family.secondary};
+    }
+
+
 `;
 
 const StyledSelect = styled.select`
@@ -334,21 +353,27 @@ const StyledSelect = styled.select`
   margin-bottom: 1em;
   padding: 0.5em;
   width: 100%;
+
   &:focus {
-    border-color: #b39ddb; // Muted purple for focus
+    border-color: #eeff00; 
   }
 `;
 
 const StyledButton = styled.button`
-  background-color: #a5d6a7; // Soft green color for the button
+  background-color: rgba(2, 2, 16, 0.8); // Soft green color for the button
   border: none;
   border-radius: 5px;
-  color: #fff;
+  color: white;
+  font-family: ${({ theme }) => theme.font.family.secondary};
+    font-size: 2rem;
   cursor: pointer;
   font-weight: 500;
-  padding: 0.8em;
+  padding: 0.2em;
   width: 100%;
+  transition: opacity 0.3s ease;
   &:hover {
-    background-color: darken(#a5d6a7, 10%); // Slightly darker on hover
+    opacity: 0.8;
+    color: black;
+    background-color: #eeff00;
   }
 `;

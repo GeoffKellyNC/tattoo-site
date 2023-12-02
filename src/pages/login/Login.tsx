@@ -103,6 +103,8 @@ const LoginBackground = styled.div`
     @media (max-width: 768px) {
         background: black;
     }
+
+
 `
 
 const LoginStyled = styled.div`
@@ -113,7 +115,6 @@ const LoginStyled = styled.div`
     width: 100%;
     max-width: 400px;
     padding: 40px;
-    background: #69aab8f2;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     position: absolute;
@@ -122,17 +123,32 @@ const LoginStyled = styled.div`
     transform: translate(-50%, -50%);
     color: ${pr => pr.theme.color.white};
 
+    input {
+                
+        &:focus {
+            border-color: #eeff00 !important; 
+            outline: none !important;
+        }
+
+        &::placeholder {
+            color: white;
+        }
+    
+    }
+
 
     .reset-password-link {
         margin-top: 10px;
-        font-size: 14px;
+        font-size: 1.2rem;
         font-weight: 500;
         color: ${pr => pr.theme.color.white};
         text-decoration: none;
         transition: color 0.3s ease;
+        font-family: ${pr => pr.theme.font.family.secondary};
 
         &:hover {
             color: ${pr => pr.theme.color.purple};
+            outline: none;
         }
     }
 
@@ -165,8 +181,8 @@ const LoginStyled = styled.div`
         }
 
         h1 {
-            font-size: ${pr => pr.theme.font.size.md};
-            font-weight: bold;
+            font-family: ${pr => pr.theme.font.family.secondary};
+            font-size: 2.5rem;
 
             @media (max-width: 768px) {
                 font-size: ${pr => pr.theme.font.size.sm};
@@ -187,38 +203,35 @@ const LoginStyled = styled.div`
         }
 
         .form-input {
-            width: 100%;
-            padding: 8px;
-            margin: 5px 0;
+            background-color: rgba(2, 2, 16, 0.8);
             border: 1px solid #888;
             border-radius: 5px;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: ${pr => pr.theme.color.white};
-            outline: none;
-            font-family: ${pr => pr.theme.font.family.primary};
-            transition: border-color 0.3s ease;
+            color: white;
+            font-family: ${({ theme }) => theme.font.family.secondary};
+            margin-bottom: 1em;
+            padding: 0.5em;
+            width: 100%;
 
-            &:focus {
-                border-color: ${pr => pr.theme.color.purple};
-            }
+        
         }
 
         .form-btn {
-            width: 100%;
-            padding: 10px;
-            margin-top: 15px;
-            border: none;
-            border-radius: 5px;
-            background: linear-gradient(45deg,  #373535, #3ad9e5);;
-            font-family: ${pr => pr.theme.font.family.secondary};
-            color: ${pr => pr.theme.color.white};
-            font-size: 1.4rem;
-            cursor: pointer;
-            transition: opacity 0.3s ease;
-
-            &:hover {
-                opacity: 0.5;
-            }
+  background-color: rgba(2, 2, 16, 0.8); // Soft green color for the button
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-family: ${({ theme }) => theme.font.family.secondary};
+    font-size: 2rem;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 0.2em;
+  width: 100%;
+  transition: opacity 0.3s ease;
+  &:hover {
+    opacity: 0.8;
+    color: black;
+    background-color: #eeff00;
+  }
         }
     }
 `;
