@@ -28,6 +28,7 @@ import RotatingSquareLoader from './loading/RotatingSquare'
 import PricingPage from './pages/pricing/PricingPage'
 import ArtistViewActiveJob from './pages/artistsJobs/ArtistViewActiveJob'
 import UserAlertItems from './components/UserAlertItems'
+import BetaBanner from './pages/home/components/BetaBanner'
 
 interface Props {
   accountType: string,
@@ -167,6 +168,7 @@ const App: React.FC<Props>  = ({
       <UserAlertItems />
       <Notifications />
       <AppNav isMobile = { isMobile } />
+      <BetaBanner />
       { !appLoading ?(
       <Routes>
         <Route path='/' element={<Home />} />
