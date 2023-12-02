@@ -146,10 +146,11 @@ const NavContainer = styled.div`
 `;
 
 const TagStyled = styled.span`
-    height: 100px;
+    height: 115px;
     width: 100px;
     padding-top: 10px;
     cursor: pointer;
+    margin-left: -60px;
 
     .linked-i {
         font-size: 150%; /* Adjust this percentage as needed for the desired 'I' size */

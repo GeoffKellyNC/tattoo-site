@@ -8,6 +8,14 @@ import { RootState } from '../../store/root.reducer'
 import { BiMenu } from 'react-icons/bi'
 import { AiOutlineClose } from 'react-icons/ai'
 
+import { BiHomeHeart } from "react-icons/bi";
+import { TbLogout2 } from "react-icons/tb";
+import { PiUsersFourFill } from "react-icons/pi";
+import { FaMoneyBill1 } from "react-icons/fa6";
+
+
+
+
 
 interface Props {
     logoutUser: () => Promise<void>
@@ -69,21 +77,35 @@ const MobileNav: React.FC<Props> = ({
         {
             !menuOpen ? null : (
             <div className = 'nav-body'>
-                <span onClick={handleHomeClick}  className = 'nav-item'>Home</span>
-                {
-                    !isAuthenticated ? (
-                        <>
-                            <span onClick={handleLoginClick} className = 'nav-item'>Login</span>
-                            <span onClick={handleRegisterClick} className = 'nav-item'>Register</span>
-                        </>
-                    ) : (
-                        <>
-                            <span onClick = {handleLogout} className = 'nav-item'>Logout</span>
-                            <span onClick = {handleUserList} className = 'nav-item'>View Users</span>
-                            <span onClick = {handlePostedJobs} className = 'nav-item'>View Posted Jobs</span>
-                        </>
-                    )
-                }
+                <div className = 'link-container'>
+                    <div className = 'nav-item-container'>
+                        <BiHomeHeart size = {'2rem'} className = 'icon'  />
+                        <span onClick={handleHomeClick}  className = 'nav-item'>Home</span>
+                    </div>
+                    {
+                        !isAuthenticated ? (
+                            <>
+                                <span onClick={handleLoginClick} className = 'nav-item'>Login</span>
+                                <span onClick={handleRegisterClick} className = 'nav-item'>Register</span>
+                            </>
+                        ) : (
+                            <>
+                                <div className = 'nav-item-container'>
+                                    <TbLogout2 size = {'2rem'} className = 'icon' />
+                                    <span onClick = {handleLogout} className = 'nav-item'>Logout</span>
+                                </div>
+                                <div className = 'nav-item-container'>
+                                    <PiUsersFourFill size = {'2rem'} className = 'icon' />
+                                    <span onClick = {handleUserList} className = 'nav-item'>View Users</span>
+                                </div>
+                                <div className = 'nav-item-container'>
+                                    <FaMoneyBill1 size = {'2rem'} className = 'icon'  />
+                                    <span onClick = {handlePostedJobs} className = 'nav-item'>View Posted Jobs</span>
+                                </div>
+                            </>
+                        )
+                    }
+                </div>
             </div>
             )
         }
@@ -113,8 +135,8 @@ const MobileNavStyled = styled.div<{ menuOpen: boolean }>`
 
   .nav-icon {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: -16px;
+    right: -9px;
     cursor: pointer;
     padding: 10px;
     z-index: 1100;
@@ -128,31 +150,46 @@ const MobileNavStyled = styled.div<{ menuOpen: boolean }>`
   .nav-body {
     height: 100vh;
     width: 100vw;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: #151728;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    background-color: #151728;
     padding: 20px;
     transition: transform 0.3s ease-in-out;
     transform: translateX(${props => props.menuOpen ? '0' : '-100%'}); 
   }
+
+
+  .link-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 5rem;
+    gap: 3rem;
+  }
+
+    .nav-item-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
 
   .nav-item {
     margin: 10px 0;
     font-size: 1.5rem;
     cursor: pointer;
     padding: 10px 20px;
-    text-align: center;
     width: 100%;
     transition: background-color 0.3s ease;
+    font-family: ${pr => pr.theme.font.family.secondary};
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.1);
     }
   }
+
+  .icon {
+    color: ${pr => pr.theme.color.pink};
+  }
+
+
 `;
 

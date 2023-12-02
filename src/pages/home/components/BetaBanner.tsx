@@ -27,10 +27,11 @@ const StyledBetaBanner = styled.div`
     font-family: ${pr => pr.theme.font.family.secondary};
 
     @media (max-width: 600px) {
-        font-size: 0.9rem;
+        font-size: 0.6rem;
     }
 
     @media (max-width: 1240px){
-        font-size: 1rem;
+        font-size: 0.7rem;
+        height: 25px;
     }
 `

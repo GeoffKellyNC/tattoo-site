@@ -54,6 +54,11 @@ const LoggedOutNavContainer = styled.div`
                 background-color: rgba(255,20,147, 0.5); /* subtle highlight on hover */
                 transform: translateY(-2px); /* subtle lift on hover */
             }
+
+
+            @media (max-width: 1024px) {
+                font-size: 0.8rem;
+            }
         }
     }
 `;

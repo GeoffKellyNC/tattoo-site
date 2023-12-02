@@ -141,6 +141,7 @@ const LoggedInNavContainer = styled.div`
             transition: background-color 0.2s;
             text-decoration: none;
 
+
             &:hover {
                 background-color: rgba(255, 255, 255, 0.1);
             }
