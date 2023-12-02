@@ -25,3 +25,6 @@ dist-ssr
 userObjectCombined.json
 
 src/assets/video
+
+# Local Netlify folder
+.netlify

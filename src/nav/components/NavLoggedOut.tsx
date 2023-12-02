@@ -17,7 +17,7 @@ const NavLoggedOut: React.FC<Props> = ({
 
     const nav = useNavigate()
 
-    const handlePricingClick = () => {
+    const handlePricingClick = () => { 
         nav('/pricing')
         return
     }
