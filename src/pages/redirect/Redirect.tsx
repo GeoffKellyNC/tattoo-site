@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { RootState } from '../../store/root.reducer'
 import { useNavigate } from 'react-router-dom'
 import * as userActions from '../../store/user/user.actions'
+import * as jobActions from '../../store/jobs/jobs.actions'
 import { UserData } from '../../store/user/user.reducer'
 import RotatingSquareLoader from '../../loading/RotatingSquare'
 
@@ -12,7 +13,10 @@ interface RedirectProps {
     userData: UserData,
     getProfileImage: () => Promise<void>
     verifyUserAccess: () => Promise<boolean>,
-    getLocationData: (lat: string, lng: string) => Promise<boolean>
+    getLocationData: (lat: string, lng: string) => Promise<boolean>,
+    getClientsCurrentBids: () => Promise<void>,
+    getUserJobs: () => Promise<unknown>,
+    getArtistsCurrentBids: () => Promise<void>
 
 }
 
@@ -22,7 +26,10 @@ const Redirect: React.FC<RedirectProps> = ({
     userData,
     getProfileImage,
     verifyUserAccess,
-    getLocationData
+    getLocationData,
+    getClientsCurrentBids,  
+    getUserJobs,
+    getArtistsCurrentBids
 }) => {
     const nav = useNavigate();
 
@@ -63,7 +70,10 @@ const Redirect: React.FC<RedirectProps> = ({
             return;
         }
         await getProfileImage();
-        await setLocation(); // Wait for location to be set
+        await getClientsCurrentBids();
+        await getUserJobs();
+        await getArtistsCurrentBids();
+        await setLocation(); //! THIS NEEDS TO BE LAST LOADED
         if (userData.unxid.length > 0 && (userData.account_type === 'client' || userData.account_type === 'artist')) {
             const allowed = await verifyUserAccess();
             if (!allowed) {
@@ -74,7 +84,7 @@ const Redirect: React.FC<RedirectProps> = ({
             return;
         }
         nav('/');
-    }, [getProfileImage, nav, setLocation, userData.account_type, userData.email_verified, userData.unxid, verifyUserAccess]);
+    }, [getClientsCurrentBids, getProfileImage, getUserJobs, nav, setLocation, userData.account_type, userData.email_verified, userData.unxid, verifyUserAccess]);
 
     useEffect(() => {
         handleRedirect();
@@ -94,7 +104,10 @@ const mapStateToProps = (st: RootState) => ({
 const ConnectedRedirect = connect(mapStateToProps, {
     getProfileImage: userActions.getProfileImage,
     verifyUserAccess: userActions.verifyUserAccess,
-    getLocationData: userActions.getLocationData
+    getLocationData: userActions.getLocationData,
+    getClientsCurrentBids: jobActions.getClientsCurrentBids,
+    getUserJobs: jobActions.getUserJobs,
+    getArtistsCurrentBids: jobActions.getArtistsCurrentBids,
 })(Redirect)
 
 export default ConnectedRedirect

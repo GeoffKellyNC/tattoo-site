@@ -121,6 +121,40 @@ export const getArtistsCurrentBids = () => async (dispatch: Dispatch): Promise<v
     }
 }
 
+export const getClientsCurrentBids = () => async (dispatch: Dispatch): Promise<void> => {
+    try {
+        
+        const bidRes = await axiosWithAuth().get(`${BASE_URL}/jobs/get-job-bids-client`)
+
+        if(bidRes.data.data && bidRes.data.data.length > 0){
+            dispatch({
+                type: notifyTypes.SET_USER_DATA_NOTIFY,
+                payload: {
+                    active: true,
+                    message: `You have ${bidRes.data.data.length} new bid${bidRes.data.data.length > 1 ? 's' : ''}!`
+                }
+            })
+        }
+
+        dispatch({
+            type: jobTypes.SET_CLIENTS_JOB_BIDS,
+            payload: bidRes.data.data
+        })
+
+        return
+
+    } catch (error) {
+        console.log('Error Getting Clients Current Bids!', error) //!TODO: Handle This Error
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error Getting Clients Current Bids!'
+            }
+        })
+    }
+}
+
 export const getJobById = (jobId: string) => async (dispatch: Dispatch): Promise<UserJobType | boolean> => {
     try {
         

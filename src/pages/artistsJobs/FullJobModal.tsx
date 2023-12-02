@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { UserJobType } from '../../store/jobs/ts-types/jobTypes'
+import { UserJobType, JobBidType} from '../../store/jobs/ts-types/jobTypes'
 import styled from 'styled-components'
+import { IoClose } from "react-icons/io5";
+
 
 import MakeBidDrawer from './MakeBidDrawer';
+import AddPhotosJob from '../profileClient/views/clientPostedJobs/AddPhotosJob';
 
 //Icons
 import { IoLocationSharp } from "react-icons/io5";
@@ -13,6 +16,9 @@ import { IoBody } from "react-icons/io5";
 import { FaBriefcaseMedical } from "react-icons/fa6";
 import { BsFillEmojiSunglassesFill } from "react-icons/bs";
 import { TbPigMoney } from "react-icons/tb";
+import { IoMdPhotos } from "react-icons/io";
+import { FaMoneyBillAlt } from "react-icons/fa";
+
 
 
 
@@ -22,15 +28,24 @@ import { TbPigMoney } from "react-icons/tb";
 interface Props {
     data: UserJobType,
     setJobOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    showButton?: boolean
+    showButton?: boolean,
+    bidSubmitted?: boolean,
+    accountType: string,
+    jobBids?: JobBidType[],
+    jobHasBid?: boolean,
 }
 
 const FullJobModal: React.FC<Props> = ({
     data,
     setJobOpen,
-    showButton = true
+    showButton = true,
+    bidSubmitted = false,
+    accountType,
+    jobBids,
+    jobHasBid = false
 }) => {
     const [drawerOpen, setDrawerOpen] = useState<boolean>(false)
+    const [addingPhoto, setAddingPhoto] = useState<boolean>(false)
 
     const ref = useRef(null);
 
@@ -38,6 +53,7 @@ const FullJobModal: React.FC<Props> = ({
         function handleClickOutside(event) {
           if (ref.current && !ref.current.contains(event.target) && !drawerOpen) {
             setJobOpen(false);
+            setAddingPhoto(false)
           }
         }
     
@@ -93,7 +109,15 @@ const FullJobModal: React.FC<Props> = ({
         
 
   return (
-    <JobModalContainer ref = {ref}>
+    <JobModalContainer ref = {ref} className = 'MODAL-CONTAINER'>
+            {showButton && (
+            <button 
+                onClick={() => setJobOpen(false)} 
+                className='close-modal-btn'
+            >
+                <IoClose size={'2rem'}/>
+            </button>
+        )}
         <div className = 'job-modal-header'>
             <span className = 'job-title'>{data.job_title}</span>
             <div className = 'quick-info-section'>
@@ -133,11 +157,40 @@ const FullJobModal: React.FC<Props> = ({
                     }
                 </div>
                 {
-                    showButton && (
+                    showButton && !bidSubmitted && accountType === 'artist' && (
                     <div className = 'make-bid info-section'>
                         <TbPigMoney color = 'pink' size =  {'1.5rem'} className = 'icon' />
                         <button onClick = {() => setDrawerOpen(true)} className = 'make-bid-btn quick-text'> Make an Offer </button>
                     </div>
+                    )
+                }
+                {
+                    bidSubmitted && (
+                        <div className = 'bid-submitted info-section'>
+                            <TbPigMoney color = 'pink' size =  {'1.5rem'} className = 'icon' />
+                            <span className = 'quick-text'> Bid Submitted </span>
+                        </div>
+                    )
+                }
+                {
+                    accountType === 'client' && (
+                        <div className = 'add-photos info-section'>
+                            <IoMdPhotos color = 'pink' size =  {'1.5rem'} className = 'icon' />
+
+                            {
+                                addingPhoto ? <AddPhotosJob setAddingPhoto={setAddingPhoto} jobId = {data.job_id} /> : (
+                                    <button onClick = {() => setAddingPhoto(true)} className = 'make-bid-btn quick-text'> Add Photos </button>
+                                )
+                            }
+                        </div>
+                    )
+                }
+                {
+                    jobHasBid && (
+                        <div className = 'bid-count info-section'>
+                            <FaMoneyBillAlt color = 'green' size =  {'1.5rem'} className = 'icon' />
+                            <span className = 'quick-text'> Job has {jobBids.length} bids! </span>
+                        </div>
                     )
                 }
             </div>
@@ -186,9 +239,33 @@ const JobModalContainer = styled.div`
     border-radius: 10px;
     border: 1px solid rgba( 255, 255, 255, 0.18 );
 
+
+    @media (max-width: 1024px) { // For tablets and below
+        position: fixed; 
+        top: 56%;
+        left: 50%;
+        right: 0;
+        bottom: 0; 
+        width: 100vw;
+        height: 100vh; // Ensure the modal takes full viewport height
+        overflow-y: auto; // Enable scrolling on the y-axis
+        z-index: 1000; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        justify-content: center; 
+
+        .close-modal-btn {
+            position: absolute;
+            top: 1rem; // Adjust to the desired space from the top
+            right: 1rem; // Adjust to the desired space from the right
+            z-index: 1001; // Above the modal backdrop
+        }
+    }
+
     .job-modal-header {
         width: 100%;
-        height: 20%;
+        height: auto;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -199,11 +276,26 @@ const JobModalContainer = styled.div`
         padding: 0 1rem;
     }
 
-    .quick-info-section{
+    .quick-info-section {
         display: flex;
         width: 100%;
         gap: 2rem;
+        flex-wrap: wrap;
+
+        @media (min-width: 601px) and (max-width: 1024px) {
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @media (max-width: 600px) {
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
     }
+    
 
     .icon {
         margin-bottom: 5px;
@@ -222,7 +314,7 @@ const JobModalContainer = styled.div`
     }
 
     .quick-text {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
 
 
@@ -259,13 +351,26 @@ const ModalBody = styled.div`
     justify-content: flex-start;
     border-bottom: 1px solid #f55963;
 
+
+
     .desc-text {
         font-size: 1.25rem;
         font-family: ${pr => pr.theme.font.family.secondary};
+
+        @media (max-width: 600px) {
+            font-size: 1rem;
+        }
+
+        @media (min-width: 601px) and (max-width: 1024px) {
+            font-size: 1rem;
+        }
+
     }
 
     .desc {
-        width: 80%;
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
         padding: 0 1rem;
         margin-bottom: 2rem;
     }
@@ -274,8 +379,8 @@ const ModalBody = styled.div`
 `
 
 const ModalPhotosSection = styled.div`
-    height: 48%; // Set a specific height
-    overflow-y: auto; // Make it scrollable
+    max-height: 48%;
+    overflow-y: scroll; // Make it scrollable
 
     .no-image {
         font-size: 1.25rem;
@@ -336,7 +441,9 @@ const ModalPhotosSection = styled.div`
     .photo {
         flex: 0 0 auto;
         margin: 0.5rem;
-        width: 25%;
-        height: 25%;
+        width: 100%; /* Make the width responsive */
+        max-width: 200px; /* Adjust max-width as per your design */
+        height: auto; /* This will maintain the aspect ratio of the photo */
+    }
     }
 `;

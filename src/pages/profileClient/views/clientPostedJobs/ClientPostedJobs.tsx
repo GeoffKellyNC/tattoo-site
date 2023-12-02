@@ -3,24 +3,33 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 // import * as jobActions from '../../../store/jobs/jobs.actions'
 import { RootState } from '../../../../store/root.reducer'
-import { UserJobType } from '../../../../store/jobs/ts-types/jobTypes'
+import { UserJobType, JobBidType } from '../../../../store/jobs/ts-types/jobTypes'
 
 import CreateJobForm from './CreateJobForm'
-import ClientOwnJob from './ClientOwnJob'
+import ActiveJobListing from '../../../artistsJobs/ActiveJobListing'
 
 
-interface Props {
-  userJobs: UserJobType[]
+interface Props { 
+  userJobs: UserJobType[],
+  clientCurrentBids: JobBidType[],
+  accountType: string
 }
 
+
 const ClientPostedJobs: React.FC<Props> = ({
-  userJobs
+  userJobs,
+  clientCurrentBids,
+  accountType
 }) => {
   return (
     <StyledClientPostedJobs>
         <div className='jobs-header'>
             <div className = 'command-container'>
               <CreateJobForm />
+             <div className = 'bid-count-container'>
+              <span className = 'bid-count-text'> Bids: </span>
+              <span className = 'bid-count'> {clientCurrentBids.length} </span>
+             </div>
             </div>
         </div>
         <div className='job-container'>
@@ -30,7 +39,7 @@ const ClientPostedJobs: React.FC<Props> = ({
               <span className = 'no-jobs-text'> NO JOBS POSTED </span>
             </div>
           ) : (
-            userJobs.map((job: UserJobType, idx: number) => <ClientOwnJob key = {idx} job = {job} />)
+            userJobs.map((job: UserJobType, idx: number) => <ActiveJobListing key = {idx} job = {job} accountType= {accountType} clientCurrentBids = {clientCurrentBids} />)
           )
         }
         </div>
@@ -39,7 +48,9 @@ const ClientPostedJobs: React.FC<Props> = ({
 }
 
 const mapStateToProps = (st: RootState) => ({
-    userJobs: st.userJobs
+    userJobs: st.userJobs,
+    clientCurrentBids: st.clientCurrentBids,
+    accountType: st.accountType
 })
 
 const ConnectedClientPostedJobs = connect(mapStateToProps, null)(ClientPostedJobs)
@@ -62,6 +73,16 @@ const StyledClientPostedJobs = styled.div`
       justify-content: flex-start;
       align-items: center;
       padding: 0 1rem;
+      gap: 5rem;
+      margin-top: 1rem;
+    }
+
+    .bid-count-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: ${pr => pr.theme.font.family.secondary};
+      font-size: 1.5rem;
     }
 
     .no-job-container {
@@ -79,10 +100,14 @@ const StyledClientPostedJobs = styled.div`
 
     .job-container {
       display: flex;
-      flex-direction: column;
-      width: 100%;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      width: 90%;
+      margin: 0 auto;
       height: auto;
-      overflow: auto;
       min-height: 100vh;  // Added min-height
     }
 

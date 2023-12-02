@@ -18,6 +18,19 @@ interface NotifyAction {
     }
 }
 
+interface UserDataNotifyState {
+    active: boolean,
+    message: string
+}
+
+interface UserDataNotifyAction {
+    type: string,
+    payload: {
+        active: boolean,
+        message: string
+    }
+}
+
 
 
 // Payload : {type: string, message: string}
@@ -36,6 +49,17 @@ export function appNotifications(state: NotifyState = {active: false, type: '', 
             return state
         case notifyTypes.CLEAR_NOTIFY:
             return {active: false, type: '', message: ''}
+        default:
+            return state
+    }
+}
+
+export function userDataNotifications(state: UserDataNotifyState = {active: false, message: ''},  action: UserDataNotifyAction){
+    switch(action.type){
+        case notifyTypes.SET_USER_DATA_NOTIFY:
+            return {active: action.payload.active, message: action.payload.message}
+        case notifyTypes.CLEAR_USER_DATA_NOTIFY:
+            return ''
         default:
             return state
     }

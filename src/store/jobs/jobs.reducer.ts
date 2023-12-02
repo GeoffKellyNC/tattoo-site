@@ -38,4 +38,15 @@ export function artistCurrentBids(state: JobBidType[] = [], action){
     }
 }
 
+export function clientCurrentBids(state: JobBidType[] = [], action){
+    switch(action.type){
+        case jobTypes.SET_CLIENTS_JOB_BIDS:
+            return action.payload
+        case jobTypes.ADD_CLIENTS_JOB_BID:
+            return [...state, action.payload]
+        default:
+            return state
+    }
+}
+
 

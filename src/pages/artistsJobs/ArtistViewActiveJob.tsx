@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { RootState } from '../../store/root.reducer'
-import { UserJobType } from '../../store/jobs/ts-types/jobTypes'
+import { UserJobType, JobBidType } from '../../store/jobs/ts-types/jobTypes'
 import * as jobActions from '../../store/jobs/jobs.actions'
 
 import ActiveJobListing from './ActiveJobListing'
@@ -11,12 +11,16 @@ import bannerImg from '../../assets/test-banner.png'
 
 interface Props {
   allActiveJobs: UserJobType[],
-  getAllActiveJobs: () => Promise<void>
+  getAllActiveJobs: () => Promise<void>,
+  artistCurrentBids: JobBidType[],
+  accountType: string
 }
 
 const ArtistViewActiveJob: React.FC<Props> = ({
   allActiveJobs,
-  getAllActiveJobs
+  getAllActiveJobs,
+  artistCurrentBids,
+  accountType
 }) => {
 
   useEffect(() => {
@@ -43,7 +47,11 @@ const ArtistViewActiveJob: React.FC<Props> = ({
             <div> No Active Jobs </div>
           ) : (
             allActiveJobs.map((jobObj: UserJobType) => {
-            return <ActiveJobListing key = {jobObj.job_id} job = {jobObj} />
+            return <ActiveJobListing 
+                      key = {jobObj.job_id} 
+                      job = {jobObj} 
+                      artistCurrentBids = {artistCurrentBids} 
+                      accountType = {accountType} />
             })
           )
         }
@@ -53,7 +61,9 @@ const ArtistViewActiveJob: React.FC<Props> = ({
 }
 
 const mapStateToProps = (st: RootState) => ({
-  allActiveJobs: st.allActiveJobs
+  allActiveJobs: st.allActiveJobs,
+  artistCurrentBids: st.artistCurrentBids,
+  accountType: st.accountType
 })
 
 const ConnectedArtistViewActiveJob = connect(mapStateToProps, {

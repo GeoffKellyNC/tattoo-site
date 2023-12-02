@@ -48,4 +48,11 @@ const Tagline = styled.span`
         padding-left: 2.7rem;
         text-align: center;
     }
+
+    @media (min-width: 601px) and (max-width: 1024px) { /* Tablet devices */
+        font-size: 1.5rem;
+        top: -7%;
+        padding-left: 2.7rem;
+        text-align: center;
+    }
 `;

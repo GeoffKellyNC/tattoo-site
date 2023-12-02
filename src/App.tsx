@@ -27,15 +27,18 @@ import UserProfileClient from './pages/profileClient/UserProfileClient'
 import RotatingSquareLoader from './loading/RotatingSquare'
 import PricingPage from './pages/pricing/PricingPage'
 import ArtistViewActiveJob from './pages/artistsJobs/ArtistViewActiveJob'
+import UserAlertItems from './components/UserAlertItems'
 
 interface Props {
+  accountType: string,
   verifyUserAccess: () => Promise<boolean>,
   getClientUploadedImages: () => Promise<void>
   getUserJobs: () => Promise<unknown>,
   getAllActiveJobs: () => Promise<void>,
   getLocationData: (lat: string, lng: string) => Promise<boolean>,
   appLoading: boolean,
-  getArtistsCurrentBids: () => Promise<void>
+  getArtistsCurrentBids: () => Promise<void>,
+  getClientsCurrentBids: () => Promise<void>
 }
 
 
@@ -46,7 +49,9 @@ const App: React.FC<Props>  = ({
   getAllActiveJobs,
   getLocationData,
   getArtistsCurrentBids,
-  appLoading
+  getClientsCurrentBids,
+  appLoading,
+  accountType
 })  => {
   const [isMobile, setIsMobile] = useState(false)
 
@@ -102,14 +107,15 @@ const App: React.FC<Props>  = ({
       await getClientUploadedImages()
       await getUserJobs()
       await getAllActiveJobs()
-      await getArtistsCurrentBids()
+      accountType === 'artist' ? await getArtistsCurrentBids() : null
+      accountType === 'client' ? await getClientsCurrentBids() : null
       await setLocation() //? Needs to remain last in this function
       dispatch({
         type: appTypes.SET_APP_LOADING,
         payload: false
       })
       
-  }, [verifyUserAccess, getClientUploadedImages, getUserJobs, getAllActiveJobs, setLocation, getArtistsCurrentBids, dispatch])
+  }, [verifyUserAccess, getClientUploadedImages, getUserJobs, getAllActiveJobs, accountType, getArtistsCurrentBids, getClientsCurrentBids, setLocation, dispatch])
 
 
 
@@ -158,6 +164,7 @@ const App: React.FC<Props>  = ({
 
   return (
     <>
+      <UserAlertItems />
       <Notifications />
       <AppNav isMobile = { isMobile } />
       { !appLoading ?(
@@ -208,7 +215,8 @@ const App: React.FC<Props>  = ({
 }
 
 const mapStateToProps = (st: RootState) => ({
-  appLoading: st.appLoading
+  appLoading: st.appLoading,
+  accountType: st.accountType
 })
 
 const ConnectedApp = connect(mapStateToProps, {
@@ -217,7 +225,8 @@ const ConnectedApp = connect(mapStateToProps, {
   getUserJobs: jobActions.getUserJobs,
   getAllActiveJobs: jobActions.getAllActiveJobs,
   getLocationData: userAction.getLocationData,
-  getArtistsCurrentBids: jobActions.getArtistsCurrentBids
+  getArtistsCurrentBids: jobActions.getArtistsCurrentBids,
+  getClientsCurrentBids: jobActions.getClientsCurrentBids
 
 })(App)
 

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { UserJobType } from '../../store/jobs/ts-types/jobTypes'
+import React, { useState, useEffect } from 'react'
+import { UserJobType, JobBidType } from '../../store/jobs/ts-types/jobTypes'
 import styled from 'styled-components'
 
 import defaultImg from '../../assets/defaultJobImg.png'
@@ -10,10 +10,15 @@ import FullJobModal from './FullJobModal'
 //Imported Icons
 import { FaBriefcaseMedical } from "react-icons/fa6";
 import { BsFillEmojiSunglassesFill } from "react-icons/bs";
+import { FaMoneyBillAlt } from "react-icons/fa";
 
 
 interface Props {
-    job: UserJobType
+    job: UserJobType,
+    artistCurrentBids?: JobBidType[],
+    clientCurrentBids?: JobBidType[],
+    accountType: string
+
 }
 
 const painTolerance = (tolerance: string | number) => {
@@ -29,8 +34,34 @@ const painTolerance = (tolerance: string | number) => {
   }
 }
 
-const ActiveJobListing: React.FC<Props> = ({job}) => {
+const ActiveJobListing: React.FC<Props> = ({
+  job,
+  artistCurrentBids,
+  accountType,
+  clientCurrentBids
+}) => {
   const [jobOpen, setJobOpen] = useState<boolean>(false)
+  const [bidSubmitted, setBidSubmitted] = useState<boolean>(false)
+  const [jobHasBid, setJobHasBid] = useState<boolean>(false)
+  const [jobBids, setJobBids] = useState<JobBidType[]>([])
+  const [numOfBids, setNumOfBids] = useState<number>(0)
+
+  useEffect(() => {
+    if(accountType === 'artist' && artistCurrentBids.length > 0){
+      const found = artistCurrentBids.find(bid => bid.job_id === job.job_id)
+      if(found){
+        setBidSubmitted(true)
+      }
+    }
+
+    if(accountType === 'client' && clientCurrentBids.length > 0){
+        const newJobBids = clientCurrentBids.filter(bid => bid.job_id === job.job_id);
+        setJobBids(newJobBids); 
+        setNumOfBids(newJobBids.length); 
+        setJobHasBid(newJobBids.length > 0);
+    }
+  }, [accountType, artistCurrentBids, clientCurrentBids, job.job_id, jobBids])
+
 
   const handleJobClick = (event) => {
     event.stopPropagation();
@@ -39,8 +70,16 @@ const ActiveJobListing: React.FC<Props> = ({job}) => {
 
   return (
     <>
-            {
-        jobOpen && <FullJobModal data = {job} setJobOpen = {setJobOpen} /> 
+      {
+        jobOpen && (
+          <FullJobModal 
+            data = {job} 
+            setJobOpen = {setJobOpen} 
+            bidSubmitted = {bidSubmitted} 
+            accountType= {accountType}
+            jobBids={jobBids}
+            jobHasBid = {jobHasBid} /> 
+            )
       }
       <JobContainer onClick = {handleJobClick}>
 
@@ -65,6 +104,17 @@ const ActiveJobListing: React.FC<Props> = ({job}) => {
             </div>
             <span className = 'job-title'> {job.job_title} </span>
             <span className = 'job-budget'> ${job.job_budget} </span>
+            {
+              jobHasBid && (
+                <div className = 'bid-count-container'>
+                  <FaMoneyBillAlt color = 'green' />
+                  <span className = 'bid-count'> Job has {numOfBids} bids! </span>
+                </div>
+              )
+            }
+            {
+              bidSubmitted && <span className = 'bid-submitted'> Bid Submitted </span>
+            }
           </JobBody>
           <button className = 'view-job-btn'> View Job </button>
       </JobContainer>

@@ -7,6 +7,7 @@ import { artistCurrentBids } from './jobs/jobs.reducer'
 import { artistDetails } from './user/user.reducer'
 import { appLoading } from "./app/app.reducer";
 import { appNotifications } from "./notifications/notify.reducer";
+import { clientCurrentBids } from './jobs/jobs.reducer'
 import { userData } from "./user/user.reducer";
 import { isAuthenticated } from "./user/user.reducer";
 import { profileImages } from "./user/user.reducer";
@@ -17,6 +18,7 @@ import { viewUserDetails } from './user/user.reducer'
 import { userCurrentLocation } from './user/user.reducer'
 import { userJobs } from './jobs/jobs.reducer'
 import { userRole } from './user/user.reducer'
+import { userDataNotifications } from "./notifications/notify.reducer";
 
 
 const rootReducer = combineReducers({
@@ -27,6 +29,7 @@ const rootReducer = combineReducers({
     appLoading,
     appNotifications,
     clientUserImages,
+    clientCurrentBids,
     isAuthenticated,
     profileImages,
     userData,
@@ -34,6 +37,7 @@ const rootReducer = combineReducers({
     userContactProfile,
     viewUserDetails,
     userCurrentLocation,
+    userDataNotifications,
     userJobs,
     userRole
 });

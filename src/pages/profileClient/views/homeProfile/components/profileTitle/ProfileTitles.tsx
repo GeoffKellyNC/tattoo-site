@@ -5,7 +5,7 @@ import { RootState } from '../../../../../../store/root.reducer'
 import { ProfileImageType } from '../../../../../../store/user/types/userStateTypes'
 import { UserData } from '../../../../../../store/user/user.reducer'
 
-import bannerImg from '../../../../../../assets/profile-banner3.jpg'
+import bannerImg from '../../../../../../assets/profile-banner3.png'
 import UploadProfileImg from '../UploadProfileImg'
 
 interface Props {
@@ -99,7 +99,7 @@ const ProfileTitleStyled = styled.div`
         left: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        // object-fit: cover;
         object-position: center;
         border-radius: 4px;
 
