@@ -4,7 +4,6 @@ import styled from 'styled-components'
 
 // Components
 import Header from './components/Header'
-import BetaBanner from './components/BetaBanner'
 
 const Home: React.FC = () => {
 

@@ -30,7 +30,7 @@ interface Props {
     setJobOpen: React.Dispatch<React.SetStateAction<boolean>>,
     showButton?: boolean,
     bidSubmitted?: boolean,
-    accountType: string,
+    accountType?: string,
     jobBids?: JobBidType[],
     jobHasBid?: boolean,
 }

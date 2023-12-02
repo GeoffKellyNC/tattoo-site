@@ -13,12 +13,14 @@ interface Props {
     bidData: JobBidType,
     getJobById: (jobId: string) => Promise<UserJobType | boolean>,
     userData: UserData,
+    accountType: string
 
 }
 
 const ArtistBidItem: React.FC<Props> = ({
   bidData,
-  getJobById
+  getJobById,
+  accountType
 }) => {
 const [loadingData, setLoadingData] = useState<boolean>(false);
 const [jobData, setJobData] = useState(null);
@@ -58,7 +60,7 @@ useEffect(() => {
 return (
   <>
     {
-      jobOpen && <FullJobModal data = {jobData} setJobOpen = {setJobOpen} showButton = {false} />
+      jobOpen && <FullJobModal accountType = {accountType} data = {jobData} setJobOpen = {setJobOpen} showButton = {false} />
     }
     <BidContainer onClick = {handleJobClick}>
       {loadingData ? (
@@ -105,10 +107,11 @@ return (
 
 const mapStateToProps = (state: RootState) => ({
     userData: state.userData,
+    accountType: state.accountType
 })
 
 const ConnectedArtisBidItem = connect(mapStateToProps, {
-    getJobById: jobActions.getJobById
+    getJobById: jobActions.getJobById,
 })(ArtistBidItem)
 
 export default ConnectedArtisBidItem
