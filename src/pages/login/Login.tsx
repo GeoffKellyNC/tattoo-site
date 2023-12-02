@@ -64,7 +64,6 @@ const Login: React.FC<PropsFromRedux> = ({ loginUser, setNotification }) => {
                 <h1> LOGIN </h1>
             </div>
             <div className='login-form'>
-                <label> LOGIN </label>
                 <input
                     type='email'
                     name='email'
@@ -122,6 +121,7 @@ const LoginStyled = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     color: ${pr => pr.theme.color.white};
+    border: 1px solid #888;
 
     input {
                 
@@ -183,6 +183,7 @@ const LoginStyled = styled.div`
         h1 {
             font-family: ${pr => pr.theme.font.family.secondary};
             font-size: 2.5rem;
+            border-bottom: 1px solid #888;
 
             @media (max-width: 768px) {
                 font-size: ${pr => pr.theme.font.size.sm};
