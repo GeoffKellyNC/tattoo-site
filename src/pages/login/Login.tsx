@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { connect, ConnectedProps } from 'react-redux';
 import * as notifyActions from '../../store/notifications/notify.actions';
 import * as userActions from '../../store/user/user.actions';
-import loginBG from '../../assets/login-bg.jpg'
 
 
 const linkdLogo = 'https://storage.googleapis.com/tattoo-user-uploaded-images/app-images/logo/linkd-logo.png'
@@ -93,10 +92,7 @@ const Login: React.FC<PropsFromRedux> = ({ loginUser, setNotification }) => {
 export default connector(Login);
 
 const LoginBackground = styled.div`
-    background-image: url(${loginBG});
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-color: #151828;
     height: 100vh;
     width: 100%;
     position: absolute;
@@ -117,7 +113,7 @@ const LoginStyled = styled.div`
     width: 100%;
     max-width: 400px;
     padding: 40px;
-    background: rgba(25, 25, 25, 0.95);
+    background: #69aab8f2;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     position: absolute;
@@ -213,15 +209,15 @@ const LoginStyled = styled.div`
             margin-top: 15px;
             border: none;
             border-radius: 5px;
-            background: linear-gradient(45deg, #8428d8, #e53a40);
+            background: linear-gradient(45deg,  #373535, #3ad9e5);;
+            font-family: ${pr => pr.theme.font.family.secondary};
             color: ${pr => pr.theme.color.white};
-            font-size: 16px;
-            font-weight: 500;
+            font-size: 1.4rem;
             cursor: pointer;
             transition: opacity 0.3s ease;
 
             &:hover {
-                opacity: 0.9;
+                opacity: 0.5;
             }
         }
     }

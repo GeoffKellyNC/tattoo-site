@@ -20,6 +20,9 @@ interface Props {
     accountType: string
 }
 
+const linkdLogo = 'https://storage.googleapis.com/tattoo-user-uploaded-images/app-images/logo/linkd-logo.png'
+
+
 const AppNav: React.FC<Props> = ({
     isAuthenticated,
     userData,
@@ -55,11 +58,9 @@ const AppNav: React.FC<Props> = ({
   return (
     <NavContainer>
         <div className = 'logo-container'>
-            <div className = 'name-container' onClick={handleLogoClick}>
-                <span className = 'app-name letters'>L</span>
-                <span className = 'app-name i letters'>I</span>
-                <span className = 'app-name letters'>NK'D</span>
-            </div>
+            <TagStyled>
+                <img onClick={handleLogoClick} src={linkdLogo} alt="linkd logo" />
+            </TagStyled>
         </div>
         {
             isAuthenticated ? (
@@ -141,6 +142,17 @@ const NavContainer = styled.div`
     .i {
         font-size: 2rem;
         color: ${pr => pr.theme.color.pink};
+    }
+`;
+
+const TagStyled = styled.span`
+    height: 100px;
+    width: 100px;
+    padding-top: 10px;
+    cursor: pointer;
+
+    .linked-i {
+        font-size: 150%; /* Adjust this percentage as needed for the desired 'I' size */
     }
 `;
 

@@ -13,7 +13,7 @@ const Container = styled.div`
 `;
 
 const TitleSection = styled.div`
-    background-color: ${pr => pr.theme.color.red};
+    background-color: #f57c3f;
     text-align: center;
     height: 40%;
     display: flex;
@@ -130,12 +130,6 @@ const Button = styled.button`
     
 `;
 
-// const SubTextTop = styled.span`
-//     font-size: 24px;
-//     color: ${pr => pr.theme.color.white};
-//     font-weight: bold;
-
-// `
 
 const SubTextBottom = styled.p`
     font-size: 24px;
@@ -152,15 +146,19 @@ const ListItem = styled.li`
     list-style-type: none; /* Removes the default dots */
     position: relative;
     padding-left: 30px; /* Creates space for the custom icon */
+    font-family: ${pr => pr.theme.font.family.secondary};
+    font-size: 2rem;
+    color: white;
+
 
     &::before {
-        content: ''; /* Empty content is necessary for the pseudo-element */
+        content: '';
         position: absolute;
         left: 0;
         top: 50%;
         transform: translateY(-50%);
-        width: 20px; /* Width of your custom icon */
-        height: 20px; /* Height of your custom icon */
+        width: 30px; 
+        height: 30px; 
         background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAACXBIWXMAAAsTAAALEwEAmpwYAAABcElEQVR4nO2TvUoDQRSFV0tBjY0SsLHQJmJha6WCBPK354yLP5hYiBba2lilUbCwVJ9B30FfIKCteRFx72xkZNZdSdJtMlpIDgzM7Azn23vnjOeN9JeKyHUBdn8dJGRdyB3nxppc61kDZ5FSm04hotSBKLVn56ZcnhDyzgB5J+amWJwKycUEdChAQ8hbA8y6AQB5DbQF+BRy337T5ImQR04BmjTxAB7SPfH940ipraEhGnjtAthqVjXwmN6LkNemVJrJbCxKFUytlktMnvsAcVW2daHvL4lSKyGwnRliAfGl1mo5U61OauBUgOW+trXt3kcQLKRVZVZsTLbSiux76AEksdXAualU5gZ7yUAnbgu/QfavBXjS5EsKsEkLfZ9DAdIhZOsdmE/PGM8bSyIcxzmzNPDWAwA6NqqavBDySoBLAW4iYGMgQFyJUgUhox8AWfdcygTBtAD3NpZJZBtuAV2xjdfN5rjnWkLWU8BI/1dfeTgDFDbGiEIAAAAASUVORK5CYII=');
         background-repeat: no-repeat;
         background-size: contain;
