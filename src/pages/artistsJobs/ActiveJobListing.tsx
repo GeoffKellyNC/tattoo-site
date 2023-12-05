@@ -60,7 +60,7 @@ const ActiveJobListing: React.FC<Props> = ({
         setNumOfBids(newJobBids.length); 
         setJobHasBid(newJobBids.length > 0);
     }
-  }, [accountType, artistCurrentBids, clientCurrentBids, job.job_id, jobBids])
+  }, [accountType, artistCurrentBids, clientCurrentBids, job.job_id])
 
 
   const handleJobClick = (event) => {
@@ -81,7 +81,7 @@ const ActiveJobListing: React.FC<Props> = ({
             jobHasBid = {jobHasBid} /> 
             )
       }
-      <JobContainer onClick = {handleJobClick}>
+      <JobContainer onClick = {handleJobClick} jobHasBid = {jobHasBid}>
 
           <JobHeader>
             <img 
@@ -125,12 +125,13 @@ const ActiveJobListing: React.FC<Props> = ({
 export default ActiveJobListing
 
 
-const JobContainer = styled.div`
+const JobContainer = styled.div<{jobHasBid: boolean}>`
     width: 20%;
     border-radius: 10px;
     transition: all 0.2s ease-in-out;
     background-color: #151718;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    border: ${({jobHasBid}) => jobHasBid ? '1px solid gold' : 'none'};
 
     &:hover {
       scale: 1.1;

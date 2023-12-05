@@ -19,6 +19,7 @@ import { userCurrentLocation } from './user/user.reducer'
 import { userJobs } from './jobs/jobs.reducer'
 import { userRole } from './user/user.reducer'
 import { userDataNotifications } from "./notifications/notify.reducer";
+import { artistFullData } from "./user/user.reducer";
 
 
 const rootReducer = combineReducers({
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     allActiveJobs,
     artistCurrentBids,
     artistDetails,
+    artistFullData,
     appLoading,
     appNotifications,
     clientUserImages,

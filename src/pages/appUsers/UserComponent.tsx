@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled from 'styled-components'; 
 import { UserFullProfile } from '../../store/user/types/userStateTypes';
 
 import { IoLogoDiscord } from 'react-icons/io5';
@@ -27,8 +27,15 @@ const UserComponent: React.FC<{ user: UserFullProfile }> = ({ user }) => {
     const nav = useNavigate()
 
     const handleNav = () => {
-        nav(`/user/view/${user.unxid}`)
-        return
+        if(user.account_type === 'client') {
+            nav(`/user/view/${user.unxid}`)
+            return
+        }
+
+        if(user.account_type === 'artist') {
+            nav(`/user/artist/${user.unxid}`)
+            return
+        }
     }
 
     return (

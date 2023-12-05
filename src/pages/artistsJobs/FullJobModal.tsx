@@ -5,6 +5,7 @@ import { IoClose } from "react-icons/io5";
 
 
 import MakeBidDrawer from './MakeBidDrawer';
+import ClientViewBid from './ClientViewBid';
 import AddPhotosJob from '../profileClient/views/clientPostedJobs/AddPhotosJob';
 
 //Icons
@@ -46,12 +47,13 @@ const FullJobModal: React.FC<Props> = ({
 }) => {
     const [drawerOpen, setDrawerOpen] = useState<boolean>(false)
     const [addingPhoto, setAddingPhoto] = useState<boolean>(false)
+    const [bidDrawerOpen, setBidDrawerOpen] = useState<boolean>(false)
 
     const ref = useRef(null);
 
     useEffect(() => {
         function handleClickOutside(event) {
-          if (ref.current && !ref.current.contains(event.target) && !drawerOpen) {
+          if (ref.current && !ref.current.contains(event.target) && !drawerOpen && !bidDrawerOpen) {
             setJobOpen(false);
             setAddingPhoto(false)
           }
@@ -61,7 +63,7 @@ const FullJobModal: React.FC<Props> = ({
         return () => {
           document.removeEventListener("mousedown", handleClickOutside);
         };
-      }, [drawerOpen, setJobOpen]);
+      }, [bidDrawerOpen, drawerOpen, setJobOpen]);
 
       const painTolerance = (tolerance: string | number) => {
         switch(tolerance){
@@ -186,10 +188,11 @@ const FullJobModal: React.FC<Props> = ({
                     )
                 }
                 {
-                    jobHasBid && (
+                    jobHasBid && accountType === 'client' && (
                         <div className = 'bid-count info-section'>
                             <FaMoneyBillAlt color = 'green' size =  {'1.5rem'} className = 'icon' />
                             <span className = 'quick-text'> Job has {jobBids.length} bids! </span>
+                            <button onClick = {() => setBidDrawerOpen(true)} className = 'make-bid-btn quick-text'> View Bids </button>
                         </div>
                     )
                 }
@@ -216,6 +219,11 @@ const FullJobModal: React.FC<Props> = ({
             drawerOpen = {drawerOpen} 
             setDrawerOpen = {setDrawerOpen}
             jobData = {data} />
+        <ClientViewBid
+            bidDrwaerOpen = {bidDrawerOpen}
+            setBidDrwaerOpen = {setBidDrawerOpen}
+            jobBids = {jobBids}
+            jobData={data} />
     </JobModalContainer>
   )
 }

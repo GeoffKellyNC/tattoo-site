@@ -7,6 +7,8 @@ import SideMenu from './views/homeProfile/components/sideMenu/SideMenu'
 import HomeProfile from './views/homeProfile/HomeProfile'
 import ClientPostedJobs from './views/clientPostedJobs/ClientPostedJobs'
 import ArtistBidsMain from './views/artistsBids/ArtistBidsMain'
+import ArtistSettings from './views/settings/ArtistSettings'
+import UserSettings from './views/settings/UserSettings'
 
 
 
@@ -25,6 +27,16 @@ const UserProfileClient: React.FC= () => {
           <Route path = {`/artists-jobs`} element = {
             <ProtectedRoute requiredRoles={['artist']}>
               <ArtistBidsMain />
+            </ProtectedRoute>
+          } />
+          <Route path = {'/artist-settings'} element = {
+            <ProtectedRoute requiredRoles={['artist']}>
+              <ArtistSettings />
+            </ProtectedRoute>
+          } />
+          <Route path = {'/client-settings'} element = {
+            <ProtectedRoute requiredRoles={['client']}>
+              <UserSettings />
             </ProtectedRoute>
           } />
         </Routes> 

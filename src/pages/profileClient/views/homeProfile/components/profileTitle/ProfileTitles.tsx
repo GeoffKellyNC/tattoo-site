@@ -5,6 +5,7 @@ import { RootState } from '../../../../../../store/root.reducer'
 import { ProfileImageType } from '../../../../../../store/user/types/userStateTypes'
 import { UserData } from '../../../../../../store/user/user.reducer'
 
+
 import bannerImg from '../../../../../../assets/profile-banner3.png'
 import UploadProfileImg from '../UploadProfileImg'
 
@@ -20,16 +21,17 @@ const ProfileTitles: React.FC<Props> = ({
   return (
     <ProfileTitleStyled>
         <div className = 'profile-avatar'>
+            <UploadProfileImg />
+            <div className='image-user-name'>
             <img 
                 src = {profileImages?.image_url ? profileImages.image_url : 'https://storage.googleapis.com/tattoo-user-uploaded-images/profile-images/DALL%C2%B7E%202023-10-28%2019.20.25.png'} 
                 alt = 'profile avatar' 
                 className='profile-image' />
             <span className = 'profile-name'>{ userData.display_name }</span>
         </div>
+        </div>
         <img src = {bannerImg} alt = 'profile banner' className='profile-cover' />
         <div className="profile-menu">
-          <a className="profile-menu-link active"></a>
-          <UploadProfileImg />
         </div>
     </ProfileTitleStyled>
   )
@@ -71,6 +73,7 @@ const ProfileTitleStyled = styled.div`
         position: absolute;
         align-items: center;
         display: flex;
+        flex-direction: column;
         z-index: 1;
         bottom: 16px;
         left: 24px;
@@ -122,6 +125,12 @@ const ProfileTitleStyled = styled.div`
         cursor: pointer;
 
    
+    }
+
+    .image-user-name {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
     }
 
 `

@@ -1,5 +1,9 @@
 import * as userTypes from './user.types'
-import { UserFullProfile, UserFullProfileAction, ArtistsUserType } from './types/userStateTypes';
+import { 
+    UserFullProfile, 
+    UserFullProfileAction, 
+    ArtistsUserType,
+    ArtistFullProfile} from './types/userStateTypes';
 
 export interface SetUserDataAction {
     type: string;
@@ -208,3 +212,15 @@ export function userCurrentLocation(state = null, action){
             return state
     }
 }
+
+export function artistFullData(state: ArtistFullProfile | null = null, action: {type: string, payload: ArtistFullProfile}) {
+    switch(action.type){
+        case userTypes.SET_ARTIST_FULL_PROFILE:
+            return action.payload
+        default:
+            return state
+    }
+}
+
+
+

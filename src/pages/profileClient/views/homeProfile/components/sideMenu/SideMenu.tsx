@@ -26,6 +26,7 @@ const SideMenu: React.FC<Props> = ({
 
     const url = useResolvedPath("").pathname;
 
+
   return (
     <SideMenuStyled className = 'LOOKHERE'>
         <span className = 'logo'>
@@ -50,15 +51,14 @@ const SideMenu: React.FC<Props> = ({
                     ) : (
                         <Link to = {`${url}/artists-jobs`} className = 'menu-item'>
                             <FaRegMoneyBillAlt />
-                            <span>Tattoo Requests</span>
+                            <span> Bids </span>
                         </Link>
                     )
                 }
-
-                <span className = 'menu-item'>
+                <Link to = {accountType === 'artist' ? `${url}/artist-settings` : `${url}/client-settings`} className='menu-item'>
                     <RiUserSettingsLine />
-                    <span>Settings</span>
-                </span>
+                    <span> Settings </span>
+                </Link>
                 {
                     userRole === 'admin' && (
                         <span className = 'menu-item'>

@@ -9,7 +9,7 @@ import { UserJobType } from '../../store/jobs/ts-types/jobTypes'
 import { Drawer, Form, Input, Button, Typography } from 'antd'
 
 const { TextArea } = Input
-const { Title, Text } = Typography
+const { Title, Text } = Typography 
 
 interface Props {
     userData: UserData,

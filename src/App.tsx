@@ -15,7 +15,7 @@ import AppNav from './nav/AppNav'
 import AppUsersHome from './pages/appUsers/AppUsersHome'
 import EmailVerify from './pages/resetPassword/EmailVerify'
 import EmailNotVerified from './pages/helperPages/EmailNotVerified'
-import FullProfileView from './pages/fullProfileView/FullProfileView'
+import FullProfileView from './pages/fullProfileViewClient/FullProfileView'
 import Home from './pages/home/Home'
 import Login from './pages/login/Login'
 import Notifications from './components/Notifications'
@@ -29,6 +29,7 @@ import PricingPage from './pages/pricing/PricingPage'
 import ArtistViewActiveJob from './pages/artistsJobs/ArtistViewActiveJob'
 import UserAlertItems from './components/UserAlertItems'
 import BetaBanner from './pages/home/components/BetaBanner'
+import ArtistFullProfile from './pages/fullProfileViewArtist/ArtistFullProfile'
 
 interface Props {
   accountType: string,
@@ -185,6 +186,11 @@ const App: React.FC<Props>  = ({
         <Route path = '/artist/all-active-jobs' element = {
           <ProtectedRoute requiredRoles={["artist"]}>
             <ArtistViewActiveJob />
+          </ProtectedRoute>
+        } />
+        <Route path = '/user/artist/:unxid' element = {
+          <ProtectedRoute requiredRoles = {["client", 'artist']}>
+            <ArtistFullProfile />
           </ProtectedRoute>
         } />
         <Route path = '/user/view/:unxid' element = {

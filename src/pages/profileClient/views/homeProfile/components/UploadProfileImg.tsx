@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import * as userActions from '../../../../../store/user/user.actions';  // Replace with the actual path
+import * as userActions from '../../../../../store/user/user.actions'; 
+import styled from 'styled-components';
 
 interface Props {
     uploadProfileImage: (file: File) => void;
@@ -34,10 +35,10 @@ const UploadProfileImg: React.FC<Props> = ({ uploadProfileImage }) => {
     };
 
     return (
-        <div>
+        <ClientUserImagesSection>
             <input type="file" onChange={handleFileChange} ref={fileInputRef} />
             <button onClick={handleUpload}>Upload</button>
-        </div>
+        </ClientUserImagesSection>
     );
 }
 
@@ -46,3 +47,8 @@ const mapDispatchToProps = {
 }
 
 export default connect(null, mapDispatchToProps)(UploadProfileImg);
+
+
+const ClientUserImagesSection = styled.section`
+
+`

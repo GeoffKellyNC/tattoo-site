@@ -2,6 +2,8 @@ import { axiosWithAuth } from "../../api/axiosWithAuth";
 import { Dispatch } from "redux";
 import * as jobTypes from "./job.types";
 import * as notifyTypes from '../notifications/notify.types';
+import * as userTypes from '../user/user.types';
+import { ArtistFullProfile } from "../user/types/userStateTypes";
 import { UserJobType } from "./ts-types/jobTypes";
 
 
@@ -216,6 +218,32 @@ export const createJobBid = (jobId: string, artistId: string, bidData: {bidAmoun
                 message: 'Error Creating Job Bid!'
             }
         })
+    }
+}
+
+
+export const getArtistDataForBid =  (artistId: string) => async (dispatch: Dispatch): Promise<ArtistFullProfile | boolean>  => {
+    try {
+        const res = await axiosWithAuth().get(`${BASE_URL}/jobs/get-artist-details-bid/${artistId}`)
+
+        dispatch({
+            type: userTypes.SET_ARTIST_FULL_PROFILE,
+            payload: res.data.data
+        })
+
+        return res.data.data
+
+
+    } catch (error) {
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error Getting Artist Data For Bid!'
+            }
+        })
+        console.log('Error Getting Artist Data For Bid: ', error) //!TODO: Handle This Error
+        return false
     }
 }
 

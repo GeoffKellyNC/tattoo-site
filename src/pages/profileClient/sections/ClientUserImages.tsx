@@ -1,8 +1,11 @@
 /* eslint-disable react-refresh/only-export-components */
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { RootState } from '../../../store/root.reducer'
 import styled from 'styled-components'
+import UploadClientImage from '../views/homeProfile/components/UploadClientImage'
+
+import { BiSolidImageAdd } from "react-icons/bi";
 
 
 
@@ -34,11 +37,25 @@ interface Image {
 const ClientUserImages: React.FC<ClientUserImagesProps> = ({
     clientUserImages,
 }) => {
+    const [addImage, setAddImage] = useState<boolean>(false)
 
     const previewImages = clientUserImages.slice(0, 6)
+
+    const handleAddImage = () => {
+        setAddImage(!addImage)
+    }
     
   return (
     <ClientUserImagesSection>
+        <ClientUserImagesHeader>
+            <h2> My Images </h2>
+            <BiSolidImageAdd 
+                title = 'Add Image' 
+                color = 'white' 
+                size = '2rem'
+                onClick = {handleAddImage} />
+            {addImage && <UploadClientImage />}
+        </ClientUserImagesHeader>
         <div className = 'photo-section'>
             {
                 previewImages.length < 1 ? <span className='no-images'> No Images Uploaded </span> :
@@ -113,6 +130,23 @@ const ClientUserImagesSection = styled.div`
             align-items: center;
         }
 
+`
+
+const ClientUserImagesHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h2 {
+        color: white;
+        font-family: ${(pr) => pr.theme.font.family.secondary};
+    }
+
+    @media (max-width: ${(pr) => pr.theme.media.phone}) {
+        flex-direction: column;
+        gap: 1rem;
+    }
 
 
 `

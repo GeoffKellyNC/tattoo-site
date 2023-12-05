@@ -19,6 +19,7 @@ const UsersList: React.FC = () => {
 
             try {
                 const fetchedUsers = await fetchUsers(page);
+                console.log('fetchedUsers: ', fetchedUsers) //!REMOVE
                 setUsers(prevUsers => [...prevUsers, ...fetchedUsers]);
 
                 // If no users are returned, set hasMore to false

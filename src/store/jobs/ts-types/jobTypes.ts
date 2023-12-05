@@ -28,7 +28,7 @@ export interface UserJobActionType {
 
 export interface JobBidType {
     job_id: string,
-    artists_id: string,
+    artist_id: string,
     job_owner_id: string,
     proposed_price: string,
     proposded_date: string | Date,
