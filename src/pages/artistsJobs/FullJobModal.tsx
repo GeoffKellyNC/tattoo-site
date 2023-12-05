@@ -219,11 +219,11 @@ const FullJobModal: React.FC<Props> = ({
             drawerOpen = {drawerOpen} 
             setDrawerOpen = {setDrawerOpen}
             jobData = {data} />
-        <ClientViewBid
+       { accountType === 'client' && <ClientViewBid
             bidDrwaerOpen = {bidDrawerOpen}
             setBidDrwaerOpen = {setBidDrawerOpen}
             jobBids = {jobBids}
-            jobData={data} />
+            jobData={data} />}
     </JobModalContainer>
   )
 }
