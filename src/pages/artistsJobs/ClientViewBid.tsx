@@ -1,5 +1,6 @@
 import React from 'react'
 import { JobBidType, UserJobType } from '../../store/jobs/ts-types/jobTypes';
+import { ArtistFullProfile } from '../../store/user/types/userStateTypes';
 import { Drawer } from 'antd';
 import * as jobActions from '../../store/jobs/jobs.actions';
 import { connect } from 'react-redux';
@@ -11,7 +12,7 @@ interface Props {
     bidDrwaerOpen: boolean;
     setBidDrwaerOpen: React.Dispatch<React.SetStateAction<boolean>>;
     jobBids: JobBidType[];
-    getArtistDataForBid: (artistId: string) => Promise<void>;
+    getArtistDataForBid: (artistId: string) => Promise<ArtistFullProfile | boolean>;
     jobData: UserJobType;
 
 }
