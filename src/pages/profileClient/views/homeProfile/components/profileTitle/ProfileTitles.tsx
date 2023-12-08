@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { RootState } from '../../../../../../store/root.reducer'
 import { ProfileImageType } from '../../../../../../store/user/types/userStateTypes'
 import { UserData } from '../../../../../../store/user/user.reducer'
+import { FaEdit } from "react-icons/fa";
 
 
 import bannerImg from '../../../../../../assets/profile-banner3.png'
@@ -21,12 +22,14 @@ const ProfileTitles: React.FC<Props> = ({
   return (
     <ProfileTitleStyled>
         <div className = 'profile-avatar'>
-            <UploadProfileImg />
             <div className='image-user-name'>
+        <div className = 'profile-image-container'>
             <img 
                 src = {profileImages?.image_url ? profileImages.image_url : 'https://storage.googleapis.com/tattoo-user-uploaded-images/profile-images/DALL%C2%B7E%202023-10-28%2019.20.25.png'} 
                 alt = 'profile avatar' 
                 className='profile-image' />
+                <UploadProfileImg Icon={FaEdit} />
+        </div>
             <span className = 'profile-name'>{ userData.display_name }</span>
         </div>
         </div>
@@ -52,6 +55,12 @@ const ProfileTitleStyled = styled.div`
     min-height: 250px;
     max-height: 350px;
     z-index: 1;
+
+    .profile-image-container {
+        position: relative;
+        display: inline-block;
+    }
+ 
 
     &::after {
         content: "";
