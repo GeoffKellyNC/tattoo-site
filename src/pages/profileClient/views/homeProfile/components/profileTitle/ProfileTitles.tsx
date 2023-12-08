@@ -17,7 +17,7 @@ interface Props {
 
 const ProfileTitles: React.FC<Props> = ({
     profileImages,
-    userData
+    userData 
 }) => {
   return (
     <ProfileTitleStyled>
