@@ -17,12 +17,13 @@ const UploadProfileImg: React.FC<Props> = ({ uploadProfileImage, Icon }) => {
         const files = event.target.files;
         if (files && files.length > 0) {
             setFile(files[0]);
-            uploadProfileImage(files[0]); // Auto-upload on file selection
+            uploadProfileImage(files[0]); 
         }
     };
 
     const triggerFileInput = () => {
         fileInputRef.current?.click();
+        console.log(file)
     };
 
     return (
