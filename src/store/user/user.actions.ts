@@ -50,6 +50,10 @@ interface SetAccountTypeAction {
     payload: string;
 }
 
+interface SocketConnectAction {
+    type: 'CONNECT_SOCKET';
+    unx_id: string;
+}
 
 
 
@@ -90,11 +94,14 @@ export const registerUser = (data: RegisterTypes) => async (dispatch: Dispatch<N
     }
 };
 
-export const loginUser = (data: {email: string, password: string}) => async (dispatch: Dispatch<UserAction | NotifyAction | SetUserDataAction | SetClientProfileDetailsAction | SetUserContactProfileAction | SetUserRoleAction | SetAccountTypeAction>): Promise<LoginReturnType> => {
+export const loginUser = (data: {email: string, password: string}) => async (dispatch: Dispatch<UserAction | NotifyAction | SetUserDataAction | SetClientProfileDetailsAction | SetUserContactProfileAction | SetUserRoleAction | SetAccountTypeAction | SocketConnectAction>): Promise<LoginReturnType> => {
     try {
+        console.log('Logging In User') //!REMOVE
         const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/auth/login`, data, {
             withCredentials: true
         });
+
+        console.log('Login Response: ', res) //!REMOVE
 
         if(res.status === 200) {
             sessionStorage.setItem('user_data', JSON.stringify(res.data.userData));
@@ -132,6 +139,12 @@ export const loginUser = (data: {email: string, password: string}) => async (dis
 
                     return { state: false, unxid: null };
             }
+
+            // dispatch({ 
+            //     type: 'CONNECT_SOCKET', 
+            //     unx_id: res.data.userData.unxid 
+            // });
+
 
             if(decodedData.isAdmin){
                 dispatch({
