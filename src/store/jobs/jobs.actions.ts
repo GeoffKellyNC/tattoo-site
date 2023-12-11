@@ -177,10 +177,10 @@ export const getJobById = (jobId: string) => async (dispatch: Dispatch): Promise
     }
 }
 
-export const createJobBid = (jobId: string, artistId: string, bidData: {bidAmount: string, artistDetails: string}, jobOwnerId: string) => async (dispatch: Dispatch): Promise<void> => {
+export const createJobBid = (jobId: string, artistId: string, bidData: {bidAmount: string, artistDetails: string}, jobOwnerId: string, jobTitle: string) => async (dispatch: Dispatch): Promise<void> => {
     try {
         
-        const res = await axiosWithAuth().post(`${BASE_URL}/jobs/create-job-bid`, {jobId, artistId, data: bidData, jobOwnerId})
+        const res = await axiosWithAuth().post(`${BASE_URL}/jobs/create-job-bid`, {jobId, artistId, data: bidData, jobOwnerId, jobTitle})
 
 
         if(res.status !== 200) {

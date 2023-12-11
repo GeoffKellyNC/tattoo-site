@@ -1,5 +1,4 @@
 import io from 'socket.io-client';
-let socket;
 import * as notifyTypes from '../store/notifications/notify.types';
 
 const {
@@ -13,6 +12,8 @@ interface SocketNotifyData {
     type: string;
     message: string;
 }
+
+let socket;
 
 const socketMiddleware = () => {
     console.log('Starting socket middleware') //!REMOVE
@@ -33,6 +34,16 @@ const socketMiddleware = () => {
                     }
                 })
             });
+
+            socket.on('data_notification', (data: {active: boolean, message: string}) => {
+                dispatch({
+                    type: notifyTypes.SET_USER_DATA_NOTIFY,
+                    payload: {
+                        active: data.active,
+                        message: data.message
+                    }
+                })
+            })
 
             // Add other global event listeners here if needed
         }

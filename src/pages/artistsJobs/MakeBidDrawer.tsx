@@ -16,7 +16,7 @@ interface Props {
     jobData: UserJobType,
     drawerOpen: boolean,
     setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    createJobBid: (jobId: string, artistId: string, bidData: {bidAmount: string, artistDetails: string}, jobOwnerId: string) => Promise<void>
+    createJobBid: (jobId: string, artistId: string, bidData: {bidAmount: string, artistDetails: string}, jobOwnerId: string, jobTitle: string) => Promise<void>
 }
 
 const initialFormValues = {
@@ -37,7 +37,7 @@ const MakeBidDrawer: React.FC<Props> = ({
     }
 
     const onSubmit = async () => {
-       await createJobBid(jobData.job_id, userData.unxid, formValues, jobData.owner_id)
+       await createJobBid(jobData.job_id, userData.unxid, formValues, jobData.owner_id, jobData.job_title)
        setFormValues(initialFormValues)
        return
     }
