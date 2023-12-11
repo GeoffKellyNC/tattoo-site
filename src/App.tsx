@@ -124,7 +124,7 @@ const App: React.FC<Props>  = ({
 
       await setLocation() //? Needs to remain last in this function
       dispatch({
-        type: appTypes.SET_APP_LOADING,
+        type: appTypes.SET_APP_LOADING, 
         payload: false
       })
       

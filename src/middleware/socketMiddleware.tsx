@@ -1,7 +1,13 @@
 import io from 'socket.io-client';
 let socket;
 import * as notifyTypes from '../store/notifications/notify.types';
-const SERVER_URL: string = 'http://192.168.50.106:9001';
+
+const {
+    VITE_REACT_APP_API_ENDPOINT,
+    VITE_REACT_APP_PROD_SERVER_URL,
+} = import.meta.env;
+
+const SERVER_URL: string = import.meta.env.VITE_REACT_APP_LOCAL_MODE ? VITE_REACT_APP_API_ENDPOINT : VITE_REACT_APP_PROD_SERVER_URL;
 
 interface SocketNotifyData {
     type: string;
