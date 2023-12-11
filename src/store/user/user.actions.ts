@@ -55,6 +55,10 @@ interface SocketConnectAction {
     unx_id: string;
 }
 
+interface SocketDisconnectAction {
+    type: 'DISCONNECT_SOCKET';
+}
+
 
 
 // Define return types
@@ -140,10 +144,10 @@ export const loginUser = (data: {email: string, password: string}) => async (dis
                     return { state: false, unxid: null };
             }
 
-            // dispatch({ 
-            //     type: 'CONNECT_SOCKET', 
-            //     unx_id: res.data.userData.unxid 
-            // });
+            dispatch({ 
+                type: 'CONNECT_SOCKET', 
+                unx_id: res.data.userData.unxid 
+            });
 
 
             if(decodedData.isAdmin){
@@ -223,7 +227,7 @@ export const loginUser = (data: {email: string, password: string}) => async (dis
 };
 
 
-export const logoutUser = () => async (dispatch: Dispatch<UserAction | NotifyAction>): Promise<void> => {
+export const logoutUser = () => async (dispatch: Dispatch<UserAction | NotifyAction | SocketDisconnectAction>): Promise<void> => {
     try {
         const res = await axiosWithAuth().post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/auth/logout`);
 
@@ -234,6 +238,10 @@ export const logoutUser = () => async (dispatch: Dispatch<UserAction | NotifyAct
             dispatch({
                 type: userTypes.SET_USER_DATA,
                 payload: false
+            });
+
+            dispatch({
+                type: 'DISCONNECT_SOCKET'
             });
     
             dispatch({

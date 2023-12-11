@@ -1,6 +1,12 @@
 import io from 'socket.io-client';
 let socket;
-const SERVER_URL: string = 'http://192.168.50.103:9001';
+import * as notifyTypes from '../store/notifications/notify.types';
+const SERVER_URL: string = 'http://192.168.50.106:9001';
+
+interface SocketNotifyData {
+    type: string;
+    message: string;
+}
 
 const socketMiddleware = () => {
     console.log('Starting socket middleware') //!REMOVE
@@ -11,8 +17,15 @@ const socketMiddleware = () => {
                 query: { unx_id: action.unx_id }
             });
 
-            socket.on('notification', (data) => {
-                dispatch({ type: 'RECEIVE_NOTIFICATION', data });
+            socket.on('notification', (data: SocketNotifyData) => {
+                console.log('Received notification: ', data); //!REMOVE
+                dispatch({
+                    type: notifyTypes.SET_NOTIFY,
+                    payload: {
+                        type: data.type,
+                        message: data.message,
+                    }
+                })
             });
 
             // Add other global event listeners here if needed

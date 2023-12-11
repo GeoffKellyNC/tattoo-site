@@ -7,6 +7,7 @@ import * as jobActions from './store/jobs/jobs.actions'
 import * as appTypes from './store/app/app.types'
 import * as notifyTypes from './store/notifications/notify.types'
 import { RootState } from './store/root.reducer'
+import { UserFullProfile } from './store/user/types/userStateTypes'
 
 
 
@@ -40,7 +41,8 @@ interface Props {
   getLocationData: (lat: string, lng: string) => Promise<boolean>,
   appLoading: boolean,
   getArtistsCurrentBids: () => Promise<void>,
-  getClientsCurrentBids: () => Promise<void>
+  getClientsCurrentBids: () => Promise<void>,
+  userData: UserFullProfile
 }
 
 
@@ -53,7 +55,8 @@ const App: React.FC<Props>  = ({
   getArtistsCurrentBids,
   getClientsCurrentBids,
   appLoading,
-  accountType
+  accountType,
+  userData
 })  => {
   const [isMobile, setIsMobile] = useState(false)
 
@@ -111,13 +114,21 @@ const App: React.FC<Props>  = ({
       await getAllActiveJobs()
       accountType === 'artist' ? await getArtistsCurrentBids() : null
       accountType === 'client' ? await getClientsCurrentBids() : null
+
+      if(userData.unxid){
+        dispatch({ 
+          type: 'CONNECT_SOCKET', 
+          unx_id: userData.unxid 
+        });
+      }
+
       await setLocation() //? Needs to remain last in this function
       dispatch({
         type: appTypes.SET_APP_LOADING,
         payload: false
       })
       
-  }, [verifyUserAccess, getClientUploadedImages, getUserJobs, getAllActiveJobs, accountType, getArtistsCurrentBids, getClientsCurrentBids, setLocation, dispatch])
+  }, [verifyUserAccess, getClientUploadedImages, getUserJobs, getAllActiveJobs, accountType, getArtistsCurrentBids, getClientsCurrentBids, userData.unxid, setLocation, dispatch])
 
 
 
@@ -224,7 +235,8 @@ const App: React.FC<Props>  = ({
 
 const mapStateToProps = (st: RootState) => ({
   appLoading: st.appLoading,
-  accountType: st.accountType
+  accountType: st.accountType,
+  userData: st.userData
 })
 
 const ConnectedApp = connect(mapStateToProps, {
