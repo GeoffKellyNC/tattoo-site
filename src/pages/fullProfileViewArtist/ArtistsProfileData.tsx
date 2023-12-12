@@ -21,6 +21,9 @@ const defaultProfileImg = 'https://storage.googleapis.com/tattoo-user-uploaded-i
 const ArtistsProfileData: React.FC<Props> = ({
     data
 }) => {
+
+    
+
   return (
     <DataContainer>
         <Header>

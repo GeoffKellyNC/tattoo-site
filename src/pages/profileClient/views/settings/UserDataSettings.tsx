@@ -1,14 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { UserData } from '../../../../store/user/user.reducer'
 import styled from 'styled-components'
 import { format } from 'date-fns'
 
+//COMPONENTS
+import EditGeneralDrawer from './forms/EditGeneralDrawer';
+
+//ICONS
 import { IoPersonSharp } from "react-icons/io5";
 import { LiaUserNinjaSolid } from "react-icons/lia";
 import { CgWebsite } from "react-icons/cg";
 import { MdEmail } from "react-icons/md";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { CiCalendarDate } from "react-icons/ci";
+import { CiEdit } from "react-icons/ci";
+
+
+
+
 
 
 
@@ -23,10 +32,14 @@ interface Props {
 const UserDataSettings: React.FC<Props> = ({
     userData
 }) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+
+
   return (
     <>
-      <Header className = 'header-container'>
+      <Header>
         <h2 className = 'header-text'> GENERAL </h2>
+        <CiEdit size = {'2rem'} className = 'edit-icon' onClick = {() => setIsOpen(true)}/>
       </Header>
       <UserDataContainer>
           <div className = 'info-container name-container'>
@@ -60,6 +73,15 @@ const UserDataSettings: React.FC<Props> = ({
             <span className = 'user-text cust-id-text'>{userData.unxid}</span>
           </div>
       </UserDataContainer>
+      {
+        isOpen && (
+          <EditGeneralDrawer 
+            userData = {userData}
+            isOpen = {isOpen}
+            setIsOpen = {setIsOpen}
+          />
+        )
+      }
     </>
   )
 }
@@ -71,6 +93,13 @@ const Header = styled.div`
   font-family: ${pr => pr.theme.font.family.secondary};
   font-weight: 200;
   margin: 0 1.2rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  .edit-icon {
+    margin-top: 2.2rem;
+  }
 
 `
 
