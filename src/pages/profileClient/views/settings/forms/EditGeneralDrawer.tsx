@@ -18,7 +18,7 @@ const EditGeneralDrawer: React.FC<Props> = ({
 }) => {
     const [values, setValues] = useState({
         user_email: userData.user_email,
-        user_name: userData.user_name
+        display_name: userData.display_name
     })
 
     const onChange = (e) => {
@@ -28,13 +28,13 @@ const EditGeneralDrawer: React.FC<Props> = ({
     const handleSubmit = async (e) => {
         e.preventDefault();
     
-        const isUserNameChanged = userData.user_name !== values.user_name;
+        const isDisplayNameChanged = userData.display_name !== values.display_name;
         const isUserEmailChanged = userData.user_email !== values.user_email;
     
-        if (isUserNameChanged && isUserEmailChanged) {
+        if (isDisplayNameChanged && isUserEmailChanged) {
             console.log('Updating both username and email'); 
             return
-        } else if (isUserNameChanged) {
+        } else if (isDisplayNameChanged) {
             console.log('Updating UserName'); //!REMOVE
             return
         } else if (isUserEmailChanged) {
@@ -66,8 +66,8 @@ const EditGeneralDrawer: React.FC<Props> = ({
                 />
                 <input 
                     type = 'text'
-                    name = 'user_name'
-                    value = {values.user_name}
+                    name = 'display_name'
+                    value = {values.display_name}
                     onChange={onChange}
                     className = 'form-input'
                 />
