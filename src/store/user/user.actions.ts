@@ -112,7 +112,6 @@ export const loginUser = (data: {email: string, password: string}) => async (dis
             sessionStorage.setItem('artist_data', JSON.stringify(res.data.artistDetials))
             sessionStorage.setItem('jwtToken', res.data.jwtToken);
             sessionStorage.setItem('userProfileDetails', JSON.stringify(res.data.userProfileDetails));
-            sessionStorage.setItem('userContactProfile', JSON.stringify(res.data.userContactDetails));
             sessionStorage.setItem('userClientImages', JSON.stringify(res.data.clientUploadedImages));
 
             const decodedData: DecodedDataType = res.data.decoded_data
@@ -596,6 +595,207 @@ export const getLocationData = (lat: string, lng: string) => async (dispatch: Di
             payload: {
                 type: 'error',
                 message: 'Error Getting Location!'
+            }
+        })
+        return false
+    }
+}
+
+
+export const updateUserData = (data: {display_name: string | null, user_email: string | null}, type: string) => async (dispatch: Dispatch) => {
+    try {
+        const BASE_URL = import.meta.env.VITE_REACT_APP_API_ENDPOINT
+
+        await axiosWithAuth().post(`${BASE_URL}/user/update-user-data`, {data, type})
+
+        return true
+        
+    } catch (error) {
+        console.log('Error updating user data: ', error) //TODO: Handle this error
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error Updating User Data'
+            }
+        })
+        return false
+    }
+}
+
+interface UpdateArtistDetailsDataType {
+    years_experience: number;
+    studio_affiliation: boolean;
+    studio_url: string;
+    is_licenced: boolean;
+    portfolio_url: string;
+    uses_booking_system: boolean;
+    studio_name: string | boolean;
+}
+
+export const updateArtistDetails = (data: UpdateArtistDetailsDataType) => async (dispatch: Dispatch) => {
+    try {
+        const BASE_URL = import.meta.env.VITE_REACT_APP_API_ENDPOINT
+
+        const res = await axiosWithAuth().post(`${BASE_URL}/user/update-artist-details`, data)
+
+        dispatch({
+            type: userTypes.UPDATE_ARTIST_DETAILS,
+            payload: data
+        })
+
+        if(res.status !== 200) {
+            dispatch({
+                type: notifyTypes.SET_NOTIFY,
+                payload: {
+                    type: 'error',
+                    message: 'Error Updating Artist Details'
+                }
+            })
+            return false
+        }
+
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'info',
+                message: 'Artist Details Updated Successfully'
+            }
+        })
+
+        return true
+        
+    } catch (error) {
+        console.log('Error updating artist details: ', error) //TODO: Handle this error
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error Updating Artist Details'
+            }
+        })
+        return false
+    }
+}
+
+export const getArtistDetails = () => async (dispatch: Dispatch) => {
+    try {
+        const BASE_URL = import.meta.env.VITE_REACT_APP_API_ENDPOINT
+
+        const res = await axiosWithAuth().get(`${BASE_URL}/user/get-artist-details`)
+
+        dispatch({
+            type: userTypes.SET_ARTIST_DETAILS,
+            payload: res.data.data
+        })
+
+        return true
+        
+    } catch (error) {
+        console.log('Error getting artist details: ', error) //TODO: Handle this error
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error Getting Artist Details'
+            }
+        })
+        return false
+    }
+}
+
+interface ContactUpdateType {
+    contact_phone: {
+        value: string;
+        public: boolean;
+    };
+    contact_instagram: {
+        value: string;
+        public: boolean;
+    };
+    contact_snapchat: {
+        value: string;
+        public: boolean;
+    };
+    contact_discord: {
+        value: string;
+        public: boolean;
+    };
+    contact_x: {
+        value: string;
+        public: boolean;
+    };
+}
+
+export const updateContactInfo = (data: ContactUpdateType) => async (dispatch: Dispatch) => {
+    try {
+        const BASE_URL = import.meta.env.VITE_REACT_APP_API_ENDPOINT
+
+        const res = await axiosWithAuth().post(`${BASE_URL}/user/update-contact-info`, data)
+
+        if(res.status !== 200) {
+            dispatch({
+                type: notifyTypes.SET_NOTIFY,
+                payload: {
+                    type: 'error',
+                    message: 'Error Updating Contact Info'
+                }
+            })
+            return false
+        }
+
+        dispatch({
+            type: userTypes.SET_USER_CONTACT_PROFILE,
+            payload: data
+        })
+
+
+
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'info',
+                message: 'Contact Info Updated Successfully'
+            }
+        })
+
+        return true
+        
+    } catch (error) {
+        console.log('Error updating contact info: ', error) //TODO: Handle this error
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error Updating Contact Info'
+            }
+        })
+        return false
+    }
+}
+
+export const getContactDetails = () => async (dispatch: Dispatch) => {
+    try {
+        const BASE_URL = import.meta.env.VITE_REACT_APP_API_ENDPOINT
+
+        const res = await axiosWithAuth().get(`${BASE_URL}/user/get-contact-details`)
+
+        console.log('CONTACT DETAILS: ', res.data.data) //!REMOVE
+
+        dispatch({
+            type: userTypes.SET_USER_CONTACT_PROFILE,
+            payload: res.data.data
+        })
+
+        return true
+        
+    } catch (error) {
+        console.log('Error getting contact details: ', error) //TODO: Handle this error
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error Getting Contact Details'
             }
         })
         return false

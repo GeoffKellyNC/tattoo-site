@@ -14,7 +14,7 @@ interface Props {
 }
 
 
-const ArtistFullProfile: React.FC<Props> = ({
+const ArtistFullProfileView: React.FC<Props> = ({
     artistFullData,
     getArtistDataForBid
 }) => {
@@ -63,7 +63,7 @@ const mapStateToProps = (st: RootState) => ({
 
 const ConnectedArtistFullProfile = connect(mapStateToProps, {
     getArtistDataForBid: jobActions.getArtistDataForBid
-})(ArtistFullProfile)
+})(ArtistFullProfileView)
 
 
 export default ConnectedArtistFullProfile

@@ -3,18 +3,21 @@ import { UserData } from '../../../../../store/user/user.reducer'
 import { Drawer } from 'antd'
 import { connect } from 'react-redux'
 import * as userActions from '../../../../../store/user/user.actions'
+import styled from 'styled-components'
 
 
 interface Props {
     userData: UserData,
     isOpen: boolean,
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    updateUserData: (data: {user_email: string | null, display_name: string | null}, type: string) => Promise<boolean>
 }
 
 const EditGeneralDrawer: React.FC<Props> = ({
     userData,
     isOpen,
-    setIsOpen
+    setIsOpen,
+    updateUserData
 }) => {
     const [values, setValues] = useState({
         user_email: userData.user_email,
@@ -29,34 +32,40 @@ const EditGeneralDrawer: React.FC<Props> = ({
         e.preventDefault();
     
         const isDisplayNameChanged = userData.display_name !== values.display_name;
+
         const isUserEmailChanged = userData.user_email !== values.user_email;
     
         if (isDisplayNameChanged && isUserEmailChanged) {
-            console.log('Updating both username and email'); 
+            await updateUserData(values, 'both')
+            setIsOpen(false);
             return
+
         } else if (isDisplayNameChanged) {
-            console.log('Updating UserName'); //!REMOVE
+            await updateUserData(values, 'display_name')
+            setIsOpen(false);
             return
+
         } else if (isUserEmailChanged) {
-            console.log('Updating User Email'); //!REMOVE
+           await updateUserData(values, 'email')
+           setIsOpen(false);
             return
         }
-        console.log('Nothing Changed!') //!REMOVE
+
         setIsOpen(false);
+        return
     };
     
 
   return (
     <>
-        <Drawer
+        <StyledDrawer
             title = "Edit General Info"
             placement='right'
             onClose = {() => setIsOpen(false)}
-            size = 'large'
             open = {isOpen}
             onClick = {(e) => e.stopPropagation()}
         >
-            <div className = 'form-continer'>
+            <FormContainer>
                 <input 
                     type = 'email'
                     name = 'user_email'
@@ -72,15 +81,66 @@ const EditGeneralDrawer: React.FC<Props> = ({
                     className = 'form-input'
                 />
                 <button onClick = {(e) => handleSubmit(e)}> Make Changes </button>
-            </div>
+            </FormContainer>
 
-        </Drawer>
+        </StyledDrawer>
     </>
   )
 }
 
 const ConnectedEditGeneralDrawer = connect(null, ({
-
+    updateUserData: userActions.updateUserData
 }))(EditGeneralDrawer)
 
 export default ConnectedEditGeneralDrawer
+
+const StyledDrawer = styled(Drawer)`
+    .ant-drawer-header {
+        background-color: ${props => props.theme.color.red};
+        color: white;
+        font-family: ${props => props.theme.font.family.secondary};
+        font-size: 4rem;
+        font-weight: 700;
+    }
+
+    .ant-drawer-body {
+        background-color: rgba(0,0,0,0.9);
+    }
+
+`
+
+const FormContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .form-input {
+        width: 100%;
+        max-width: 400px;
+        height: 40px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: none;
+        padding-left: 10px;
+        font-size: 1.2rem;
+        font-family: ${props => props.theme.font.family.secondary};
+    }
+
+    button {
+        width: 100%;
+        max-width: 400px;
+        height: 40px;
+        border-radius: 5px;
+        border: none;
+        background-color: ${props => props.theme.color.red};
+        color: white;
+        font-size: 1.2rem;
+        font-family: ${props => props.theme.font.family.secondary};
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba(255,0,0,0.8);
+        }
+    }
+
+`

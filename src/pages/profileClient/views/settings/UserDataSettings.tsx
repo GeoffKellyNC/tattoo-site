@@ -99,6 +99,13 @@ const Header = styled.div`
 
   .edit-icon {
     margin-top: 2.2rem;
+    cursor: pointer;
+    color: ${pr => pr.theme.color.white};
+    transition: color 0.2s ease-in-out;
+
+    &:hover {
+      color: ${pr => pr.theme.color.red};
+    }
   }
 
 `

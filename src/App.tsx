@@ -30,19 +30,21 @@ import PricingPage from './pages/pricing/PricingPage'
 import ArtistViewActiveJob from './pages/artistsJobs/ArtistViewActiveJob'
 import UserAlertItems from './components/UserAlertItems'
 import BetaBanner from './pages/home/components/BetaBanner'
-import ArtistFullProfile from './pages/fullProfileViewArtist/ArtistFullProfile'
+import ArtistFullProfileView from './pages/fullProfileViewArtist/ArtistFullProfile'
 
 interface Props {
   accountType: string,
+  userData: UserFullProfile
+  appLoading: boolean,
   verifyUserAccess: () => Promise<boolean>,
   getClientUploadedImages: () => Promise<void>
   getUserJobs: () => Promise<unknown>,
   getAllActiveJobs: () => Promise<void>,
   getLocationData: (lat: string, lng: string) => Promise<boolean>,
-  appLoading: boolean,
   getArtistsCurrentBids: () => Promise<void>,
   getClientsCurrentBids: () => Promise<void>,
-  userData: UserFullProfile
+  getArtistDetails: () => Promise<boolean>,
+  getContactDetails: () => Promise<boolean>
 }
 
 
@@ -56,7 +58,9 @@ const App: React.FC<Props>  = ({
   getClientsCurrentBids,
   appLoading,
   accountType,
-  userData
+  userData,
+  getArtistDetails,
+  getContactDetails
 })  => {
   const [isMobile, setIsMobile] = useState(false)
 
@@ -110,10 +114,18 @@ const App: React.FC<Props>  = ({
 
       await verifyUserAccess()
       await getClientUploadedImages()
+
       await getUserJobs()
       await getAllActiveJobs()
+      await getContactDetails()
+      
+      //!Artist specific
       accountType === 'artist' ? await getArtistsCurrentBids() : null
+      accountType === 'artist' ? await getArtistDetails() : null
+
+      //!Client specific
       accountType === 'client' ? await getClientsCurrentBids() : null
+
 
       if(userData.unxid){
         dispatch({ 
@@ -128,7 +140,7 @@ const App: React.FC<Props>  = ({
         payload: false
       })
       
-  }, [verifyUserAccess, getClientUploadedImages, getUserJobs, getAllActiveJobs, accountType, getArtistsCurrentBids, getClientsCurrentBids, userData.unxid, setLocation, dispatch])
+  }, [verifyUserAccess, getClientUploadedImages, getUserJobs, getAllActiveJobs, getContactDetails, accountType, getArtistsCurrentBids, getArtistDetails, getClientsCurrentBids, userData.unxid, setLocation, dispatch])
 
 
 
@@ -201,7 +213,7 @@ const App: React.FC<Props>  = ({
         } />
         <Route path = '/user/artist/:unxid' element = {
           <ProtectedRoute requiredRoles = {["client", 'artist']}>
-            <ArtistFullProfile />
+            <ArtistFullProfileView />
           </ProtectedRoute>
         } />
         <Route path = '/user/view/:unxid' element = {
@@ -246,7 +258,9 @@ const ConnectedApp = connect(mapStateToProps, {
   getAllActiveJobs: jobActions.getAllActiveJobs,
   getLocationData: userAction.getLocationData,
   getArtistsCurrentBids: jobActions.getArtistsCurrentBids,
-  getClientsCurrentBids: jobActions.getClientsCurrentBids
+  getClientsCurrentBids: jobActions.getClientsCurrentBids,
+  getArtistDetails: userAction.getArtistDetails,
+  getContactDetails: userAction.getContactDetails
 
 })(App)
 

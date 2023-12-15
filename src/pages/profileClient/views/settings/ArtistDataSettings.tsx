@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { ArtistsUserType  } from '../../../../store/user/types/userStateTypes'
 
@@ -8,6 +8,10 @@ import { TbCertificate } from "react-icons/tb";
 import { FaLink } from "react-icons/fa";
 import { RiProfileFill } from "react-icons/ri";
 import { RiReservedLine } from "react-icons/ri";
+import { CiEdit } from "react-icons/ci";
+
+import EditArtistsDataDrawer from './forms/EditArtistDataDrawer';
+ 
 
 
 
@@ -22,10 +26,12 @@ interface Props {
 const ArtistDataSettings: React.FC<Props> = ({
     artistDetails
 }) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   return (
     <>
       <Header className = 'header-container'>
         <h2 className = 'header-text'> ARTIST </h2>
+        <CiEdit size = {'2rem'} className = 'edit-icon' onClick = {() => setIsOpen(true)} />
       </Header>
       <StyledArtistData>
           <div className='info-container'>
@@ -71,6 +77,10 @@ const ArtistDataSettings: React.FC<Props> = ({
             </span>
           </div>
       </StyledArtistData>
+      <EditArtistsDataDrawer 
+        artistDetails = {artistDetails}
+        isOpen = {isOpen}
+        setIsOpen = {setIsOpen} />
     </>
   )
 }
@@ -82,6 +92,19 @@ const Header = styled.div`
   font-family: ${pr => pr.theme.font.family.secondary};
   font-weight: 200;
   margin: 0 1.2rem;
+  display: flex;
+  gap: 1rem;
+
+  .edit-icon {
+    margin-top: 4.7rem;
+    cursor: pointer;
+    color: ${pr => pr.theme.color.white};
+    transition: color 0.2s ease-in-out;
+
+    &:hover {
+      color: ${pr => pr.theme.color.red};
+    }
+  }
 
 `
 
@@ -122,6 +145,8 @@ const StyledArtistData = styled.div`
     font-size: 1.8rem;
     font-weight: 400;
   }
+
+
 
 
 `

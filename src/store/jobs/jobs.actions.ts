@@ -211,7 +211,7 @@ export const createJobBid = (jobId: string, artistId: string, bidData: {bidAmoun
 
     } catch (error) {
         console.log('Error Creating Job Bid: ', error) //!TODO: Handle This Error
-        dispatch({
+        dispatch({ 
             type: notifyTypes.SET_NOTIFY,
             payload: {
                 type: 'error',

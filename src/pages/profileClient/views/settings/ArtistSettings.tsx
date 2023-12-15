@@ -24,7 +24,6 @@ const ArtistSettings: React.FC<Props> = ({
     artistDetails,
     userContactProfile,
 }) => {
-  console.log('UserData: ', userData)
 
   return (
     <StyledArtistSettings>

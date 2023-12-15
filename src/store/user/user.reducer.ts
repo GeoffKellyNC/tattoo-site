@@ -168,7 +168,7 @@ export function userContactProfile(state = {}, action: SetUserContactProfileActi
         case userTypes.SET_USER_CONTACT_PROFILE:
             return action.payload;
         default:
-            return sessionStorage.getItem('userContactProfile') ? JSON.parse(sessionStorage.getItem('userContactProfile') as string) : state;
+            return state;
     }
 }
 
@@ -198,8 +198,19 @@ export function artistDetails(state: ArtistsUserType = {} as ArtistsUserType, ac
     switch(action.type){
         case userTypes.SET_ARTIST_DETAILS:
             return action.payload
+        case userTypes.UPDATE_ARTIST_DETAILS:
+            return {
+                ...state,
+                years_experience: action.payload.years_experience,
+                studio_affiliation: action.payload.studio_affiliation,
+                studio_name: action.payload.studio_name,
+                studio_url: action.payload.studio_url,
+                is_licenced: action.payload.is_licenced,
+                portfolio: action.payload.portfolio_url,
+                uses_booking_system: action.payload.uses_booking_system,
+            }
         default:
-            return sessionStorage.getItem('artist_data') ? JSON.parse(sessionStorage.getItem('artist_data') as string) : state
+            return state
     }
 }
 

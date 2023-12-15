@@ -1,5 +1,6 @@
 import io from 'socket.io-client';
 import * as notifyTypes from '../store/notifications/notify.types';
+import * as userActions from '../store/user/user.actions';
 
 const {
     VITE_REACT_APP_API_ENDPOINT,
@@ -45,7 +46,10 @@ const socketMiddleware = () => {
                 })
             })
 
-            // Add other global event listeners here if needed
+            socket.on('log_out', () => {
+                console.log("LOGGING OUT!!!") //!REMOVE
+                dispatch(userActions.logoutUser())
+            })
         }
 
         // Handling socket disconnection

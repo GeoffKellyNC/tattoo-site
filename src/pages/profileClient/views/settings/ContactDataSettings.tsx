@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ContactInfo } from '../../../../store/user/types/userStateTypes'
 import styled from 'styled-components'
+
+import EditContactDataDrawer from './forms/EditContactDataDrawer';
 
 import { MdOutlinePhoneAndroid } from "react-icons/md";
 import { FaSnapchatSquare } from "react-icons/fa";
 import { IoLogoDiscord } from "react-icons/io5";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { RiInstagramFill } from "react-icons/ri";
+import { CiEdit } from "react-icons/ci";
+
 
 
 
@@ -19,10 +23,12 @@ interface Props {
 const ContactDataSettings: React.FC<Props> = ({
     contactData
 }) => {
+    const [isOpen, setIsOpen] = useState<boolean>(false)
   return (
     <>
         <Header className = 'header-container'>
             <h2 className = 'header-text'> CONTACT </h2>
+            <CiEdit size = {'2rem'} className = 'edit-icon' onClick = {() => setIsOpen(true)} />
         </Header>
         <ContactDataContainer>
             <div className = 'info-container phone-container'>
@@ -71,6 +77,11 @@ const ContactDataSettings: React.FC<Props> = ({
                 </span>
             </div>
         </ContactDataContainer>
+        <EditContactDataDrawer
+            contactData = {contactData}
+            isOpen = {isOpen}
+            setIsOpen = {setIsOpen}
+        />
     </>
   )
 }
@@ -82,6 +93,19 @@ const Header = styled.div`
   font-family: ${pr => pr.theme.font.family.secondary};
   font-weight: 200;
   margin: 0 1.2rem;
+  display: flex;
+  gap: 1rem;
+
+  .edit-icon {
+    margin-top: 4.7rem;
+    cursor: pointer;
+    color: ${pr => pr.theme.color.white};
+    transition: color 0.2s ease-in-out;
+
+    &:hover {
+      color: ${pr => pr.theme.color.red};
+    }
+  }
 
 `
 

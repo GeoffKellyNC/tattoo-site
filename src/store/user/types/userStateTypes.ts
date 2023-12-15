@@ -88,7 +88,7 @@ interface ObjectId {
       is_licenced: boolean;
       is_verified: boolean;
       studio_affiliation: boolean;
-      studio_name: string | null;
+      studio_name: string | null | boolean;
       studio_url: string | null;
       is_pay_hourly: boolean;
       is_pay_fixed: boolean;
@@ -145,6 +145,24 @@ interface ObjectId {
     attr7: string | null;
     attr8: string | null;
   }
+
+  interface UserImage {
+    user_unxid: string;
+    user_name: string;
+    image_id: string;
+    image_url: string;
+    image_upload_date: Date; // or Date for a Date object
+    num_likes: number;
+    num_comments: number;
+    comments: Array<string>; // Replace 'any' with a more specific type if comments have a defined structure
+    num_reports: number;
+    title: string | null;
+    description: string | null;
+    is_active: boolean;
+    is_deleted: boolean;
+    deleted_date: string | null; // or Date for a Date object
+    deleted_by: string | null;
+  }
   
   export interface ArtistFullProfile {
     _id: string;
@@ -178,6 +196,7 @@ interface ObjectId {
     user: User;
     contactInfo: ContactInfo;
     profileImage: ProfileImageType;
+    userImages: UserImage[];
   }
   
   
