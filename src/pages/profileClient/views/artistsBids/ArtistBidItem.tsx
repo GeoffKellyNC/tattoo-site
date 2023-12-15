@@ -121,11 +121,16 @@ const BidContainer = styled.div`
   border: 1px solid red;
   width: 30%;
   height: 100%;
+  margin: 1rem;
 
   &:hover {
     scale: 1.1;
   }
   
+  @media (max-width: 1024px) {
+    width: 60%;
+    height: 100%;
+  }
 
 `
 
@@ -163,4 +168,6 @@ const BidItem = styled.div`
     justify-content: space-evenly;
     align-items: center;
   }
+
+
 `;

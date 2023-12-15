@@ -233,35 +233,30 @@ export default FullJobModal
 
 const JobModalContainer = styled.div`
     min-width: 75%;
-    height: 75%;
-    position: fixed; // Changed from absolute to fixed
+    max-height: 75vh; // Set a maximum height
+    overflow-y: auto; // Enable vertical scrolling within the modal
+    position: fixed; // Use fixed to keep the modal in place
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); // Added transform property
+    transform: translate(-50%, -50%);
     z-index: 100;
     color: white;
-    background: rgba( 2, 0, 10, 0.8 );
-    box-shadow: 0 8px 32px 0 rgba( 31, 10, 31, 0.37 );
-    backdrop-filter: blur( 4px );
-    -webkit-backdrop-filter: blur( 4px );
+    background: rgba(2, 0, 10, 0.8);
+    box-shadow: 0 8px 32px 0 rgba(31, 10, 31, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding-bottom: 20px; // Add padding to avoid content being cut off
 
 
     @media (max-width: 1024px) { // For tablets and below
-        position: fixed; 
-        top: 56%;
-        left: 50%;
-        right: 0;
-        bottom: 0; 
         width: 100vw;
-        height: 100vh; // Ensure the modal takes full viewport height
-        overflow-y: auto; // Enable scrolling on the y-axis
-        z-index: 1000; 
-        display: flex; 
-        flex-direction: column; 
-        align-items: center; 
-        justify-content: center; 
+        height: 100vh;
+        max-height: none; // Remove max-height for full screen view
+        top: 2rem;
+        left: 0;
+        transform: none;
 
         .close-modal-btn {
             position: absolute;
@@ -437,12 +432,14 @@ const ModalPhotosSection = styled.div`
             justify-content: center;
             flex-direction: column;
             align-items: center;
+            overflow-y: scroll;
         }
 
         @media (min-width: 601px) and (max-width: 1024px) {
             justify-content: center;
             flex-direction: column;
             align-items: center;
+            overflow-y: scroll;
         }
     }
 

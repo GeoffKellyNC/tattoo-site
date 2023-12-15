@@ -74,8 +74,7 @@ const ArtistContainer = styled.div`
     width: 90%;
     height: 100vh;
     margin: 0 auto;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
+
     
     
 `

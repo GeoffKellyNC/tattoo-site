@@ -64,6 +64,7 @@ const App: React.FC<Props>  = ({
 })  => {
   const [isMobile, setIsMobile] = useState(false)
 
+
   const dispatch = useDispatch()
 
   const setLocation = useCallback((): Promise<void> => {

@@ -46,14 +46,45 @@ export default ConnectedArtistBidsMain
 
 
 const ArtistBidsBody = styled.div`
+  
 
 
 `
 
 const ArtBidTop = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: 2rem;
+  margin: 2rem 0;
+  font-weight: 500;
+  color: #fff;
+  font-family: ${props => props.theme.font.family.secondary};
 
+  @media (max-width: 1024px) {
+    font-size: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+  }
+
+  @media (max-width: 500px) {
+    font-size: 1rem;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 350px) {
+    font-size: 0.7rem;
+  }
 
 `
+
+
 
 const BidsContainer = styled.div`
 
@@ -63,6 +94,15 @@ const BidsContainer = styled.div`
   margin: 0 auto;
   flex-wrap: wrap;
   justify-content: space-between;
+
+
+  @media (max-width: 1024px) {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
 
 
 `

@@ -113,6 +113,7 @@ const Header = styled.div`
     padding: 2rem;
     gap: 2rem;
     align-items: flex-end;
+    flex-wrap: wrap;
     border-bottom: 1px solid #fff;
 
 

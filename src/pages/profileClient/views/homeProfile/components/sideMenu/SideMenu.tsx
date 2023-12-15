@@ -38,31 +38,31 @@ const SideMenu: React.FC<Props> = ({
             <span className = 'menu-title'>{userData.user_name}</span>
             <div className = 'link-container'>
                 <Link to = {`${url}`} className = 'menu-item'>
-                    <HiOutlineHomeModern />
+                    <HiOutlineHomeModern className = 'menu-icon' />
                     <span>Home</span>
                 </Link>
 
                 {
                     accountType === 'client' ? (
                         <Link to={`${url}/posted-jobs`} className = 'menu-item'>
-                            <TbGitPullRequest />
+                            <TbGitPullRequest className = 'menu-icon' />
                             <span>My Requests </span>
                         </Link>
                     ) : (
                         <Link to = {`${url}/artists-jobs`} className = 'menu-item'>
-                            <FaRegMoneyBillAlt />
+                            <FaRegMoneyBillAlt className = 'menu-icon' />
                             <span> Bids </span>
                         </Link>
                     )
                 }
                 <Link to = {accountType === 'artist' ? `${url}/artist-settings` : `${url}/client-settings`} className='menu-item'>
-                    <RiUserSettingsLine />
+                    <RiUserSettingsLine className = 'menu-icon'  />
                     <span> Settings </span>
                 </Link>
                 {
                     userRole === 'admin' && (
                         <span className = 'menu-item'>
-                            <MdOutlineAdminPanelSettings />
+                            <MdOutlineAdminPanelSettings className = 'menu-icon'  />
                             <span>Admin</span>
                         </span>
                     )
@@ -70,7 +70,7 @@ const SideMenu: React.FC<Props> = ({
                 {
                     userRole === 'mod' || userRole === 'admin' && (
                         <span className = 'menu-item'>
-                            <SiNginxproxymanager />
+                            <SiNginxproxymanager className = 'menu-icon'  />
                             <span>Moderate</span>
                         </span>
                     )
@@ -146,6 +146,10 @@ const SideMenuStyled = styled.div`
 
     }
 
+    .menu-icon {
+        font-size: 1.5rem;
+    }
+
     .menu-item {
         text-decoration: none;
         color: #9c9cab;
@@ -167,11 +171,20 @@ const SideMenuStyled = styled.div`
             justify-content: center;
             z-index: 1;
             font-size: 2rem;
+
+            .menu-icon {
+                font-size: 3rem; 
+            }
         }
+
     }
 
     @media (max-width: ${(pr) => pr.theme.media.tablet}) {
-        width: 70px;  // Slightly increased the width
+        width: 6rem;  // Slightly increased the width
+
+        .menu-icon {
+            font-size: 3rem; 
+        }
 
         .logo {
             display: none;  // Hide the logo
