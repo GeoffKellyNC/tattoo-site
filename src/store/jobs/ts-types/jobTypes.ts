@@ -34,6 +34,7 @@ export interface JobBidType {
     proposded_date: string | Date,
     timestamp: string | Date,
     artist_comments: string,
+    is_active: boolean,
     attr1: string,
     attr2: string,
     attr3: string,

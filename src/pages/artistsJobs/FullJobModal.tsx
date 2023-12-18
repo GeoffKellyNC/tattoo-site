@@ -181,7 +181,7 @@ const FullJobModal: React.FC<Props> = ({
 
                             {
                                 addingPhoto ? <AddPhotosJob setAddingPhoto={setAddingPhoto} jobId = {data.job_id} /> : (
-                                    <button onClick = {() => setAddingPhoto(true)} className = 'make-bid-btn quick-text'> Add Photos </button>
+                                    <button onClick = {() => setAddingPhoto(true)} className = 'make-bid-btn quick-text job-btn'> Add Photos </button>
                                 )
                             }
                         </div>
@@ -328,21 +328,18 @@ const JobModalContainer = styled.div`
     }
 
     .make-bid-btn {
-        height: auto;
-        padding: 0.5rem;
+        font-size: 1rem;
+        margin: 15px 0;
+        background: ${pr => pr.theme.color.pink};
         border: none;
-        background-color: #f55963;
+        border-radius: 5px;
+        colro: white;
         font-family: ${pr => pr.theme.font.family.secondary};
-        font-size: ${pr => pr.theme.font.size.s};
-        color: white;
+        padding: 0.2rem;
         cursor: pointer;
-        margin-bottom: 5px;
-        transition: all 0.2s ease-in-out;
 
         &:hover {
-            background-color: white;
-            color: #f55963;
-            scale: 1.1;
+            background: #f55963;
         }
     }
 `

@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { RootState } from '../../store/root.reducer'
 import { UserJobType, JobBidType } from '../../store/jobs/ts-types/jobTypes'
 import * as jobActions from '../../store/jobs/jobs.actions'
+import {fetchJobs} from '../../api/fetchJobsPage'
 
 import ActiveJobListing from './ActiveJobListing'
 
@@ -17,15 +18,57 @@ interface Props {
 }
 
 const ArtistViewActiveJob: React.FC<Props> = ({
-  allActiveJobs,
-  getAllActiveJobs,
+  // allActiveJobs,
+  // getAllActiveJobs,
   artistCurrentBids,
   accountType
 }) => {
+  const [jobs, setJobs] = useState<UserJobType[]>([])
+  const [page, setPage] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
+
+ useEffect(() => {
+    const loadJobs = async () => {
+      setIsLoading(true)
+
+      try {
+        console.log('GETTING JOBS', page) //!REMOVE
+        const fetchedJobs = await fetchJobs(page)
+        setJobs(prevJobs => [...prevJobs, ...fetchedJobs])
+
+        if (fetchedJobs.length === 0) {
+          setHasMore(false)
+        }
+      } catch (error) {
+        console.error('Error fetching jobs: ', error)
+      }
+
+      setIsLoading(false)
+    }
+
+    loadJobs()
+    console.log('Jobs: ', jobs) //!REMOVE
+  }
+  , [page])
 
   useEffect(() => {
-    getAllActiveJobs()
-  }, [getAllActiveJobs])
+    const handleScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 500) {
+        if (!isLoading && hasMore) {
+          setPage(prevPage => prevPage + 1)
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+
+    
+  }, [hasMore, isLoading])
 
 
   return (
@@ -42,19 +85,14 @@ const ArtistViewActiveJob: React.FC<Props> = ({
         {/* <input type = 'text' placeholder = 'Search' /> */}
       </div>
       <JobsContainer>
-        {
-          allActiveJobs.length < 1 ? (
-            <div> No Active Jobs </div>
-          ) : (
-            allActiveJobs.map((jobObj: UserJobType) => {
-            return <ActiveJobListing 
-                      key = {jobObj.job_id} 
-                      job = {jobObj} 
-                      artistCurrentBids = {artistCurrentBids} 
-                      accountType = {accountType} />
-            })
-          )
-        }
+        {jobs.map(job => (
+          <ActiveJobListing 
+            key = {job.job_id} 
+            job = {job} 
+            artistCurrentBids={artistCurrentBids} 
+            accountType = {accountType} />
+        ))}
+        {isLoading && <div>Loading...</div>}
       </JobsContainer>
     </StyledActiveJobs>
   )

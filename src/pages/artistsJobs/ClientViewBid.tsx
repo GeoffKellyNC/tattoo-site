@@ -4,6 +4,7 @@ import { ArtistFullProfile } from '../../store/user/types/userStateTypes';
 import { Drawer } from 'antd';
 import * as jobActions from '../../store/jobs/jobs.actions';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 
 
 import Bid from './Bid'
@@ -25,7 +26,7 @@ const ClientViewBid: React.FC<Props> = ({
     jobData
 }) => {
   return (
-    <Drawer
+    <DrawerContainer
         title={`Bids for ${jobData.job_title}`}
         placement="right"
         onClose={() => setBidDrwaerOpen(false)}
@@ -51,7 +52,7 @@ const ClientViewBid: React.FC<Props> = ({
                 )
             }
         </div>
-    </Drawer>
+    </DrawerContainer>
   )
 }
 
@@ -61,3 +62,40 @@ const ConnectedClientViewBid = connect(null, {
 })(ClientViewBid)
 
 export default ConnectedClientViewBid
+
+
+const DrawerContainer = styled(Drawer)`
+    .bids-conatiner {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        height: 100%;
+    }
+
+    .ant-drawer-body {
+        background-color: rgb(21, 23, 40);
+        color: white;
+        font-family: ${props => props.theme.font.family.secondary};
+    }
+
+    .ant-drawer-header {
+        color: white;
+        font-family: ${props => props.theme.font.family.secondary};
+        font-size: 4rem;
+        width: 100%;
+        background-color: ${props => props.theme.color.red};
+    }
+
+    .ant-drawer-header-title {
+        font-size: 4rem;
+        color: white;
+    }
+
+    .no-bids {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #000;
+    }
+
+
+`
