@@ -101,7 +101,6 @@ const EditContactDataDrawer: React.FC<Props> = ({
         },
       };
 
-      console.log(fixedData)//!REMOVE
       await updateContactInfo(fixedData);
       setIsOpen(false);
       return;

@@ -17,7 +17,6 @@ interface SocketNotifyData {
 let socket;
 
 const socketMiddleware = () => {
-    console.log('Starting socket middleware') //!REMOVE
     return ({ dispatch }) => next => action => {
         // Handling socket connection
         if (action.type === 'CONNECT_SOCKET') {
@@ -26,7 +25,6 @@ const socketMiddleware = () => {
             });
 
             socket.on('notification', (data: SocketNotifyData) => {
-                console.log('Received notification: ', data); //!REMOVE
                 dispatch({
                     type: notifyTypes.SET_NOTIFY,
                     payload: {
@@ -47,7 +45,6 @@ const socketMiddleware = () => {
             })
 
             socket.on('log_out', () => {
-                console.log("LOGGING OUT!!!") //!REMOVE
                 dispatch(userActions.logoutUser())
             })
         }

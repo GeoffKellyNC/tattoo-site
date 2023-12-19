@@ -1,12 +1,18 @@
 import { axiosWithAuth } from "./axiosWithAuth";
 
 
-export const fetchJobs = async (page: number, limit: number = 10) => {
+export const fetchJobs = async (page: number, limit: number = 10, lat: number, lng: number, radius: string) => {
     try {
         // Construct the URL with optional search and filter parameters
-        const url = `${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/jobs/get-paginated-jobs?page=${page}&limit=${limit}`;
+        const url = `${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/jobs/get-paginated-job-location?page=${page}&limit=${limit}&lat=${lat}&lng=${lng}&radius=${radius}`;
+
+        console.log("Page: ", page) //!REMOVE
+        
 
         const response = await axiosWithAuth().get(url);
+
+        console.log("Response from fetchJobs:", response.data.data); //!REMOVE
+        console.log("Num jobs returned:", response.data.data.length); //!REMOVE
 
         return response.data.data;
     } catch (error) {

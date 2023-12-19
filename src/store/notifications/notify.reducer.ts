@@ -26,7 +26,7 @@ interface UserDataNotifyState {
 interface UserDataNotifyAction {
     type: string,
     payload: {
-        active: boolean,
+        active: boolean, 
         message: string
     }
 }

@@ -100,12 +100,10 @@ export const registerUser = (data: RegisterTypes) => async (dispatch: Dispatch<N
 
 export const loginUser = (data: {email: string, password: string}) => async (dispatch: Dispatch<UserAction | NotifyAction | SetUserDataAction | SetClientProfileDetailsAction | SetUserContactProfileAction | SetUserRoleAction | SetAccountTypeAction | SocketConnectAction>): Promise<LoginReturnType> => {
     try {
-        console.log('Logging In User') //!REMOVE
         const res = await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/auth/login`, data, {
             withCredentials: true
         });
 
-        console.log('Login Response: ', res) //!REMOVE
 
         if(res.status === 200) {
             sessionStorage.setItem('user_data', JSON.stringify(res.data.userData));
@@ -576,6 +574,11 @@ export const getLocationData = (lat: string, lng: string) => async (dispatch: Di
 
 
         const data = { latitude: lat, longitude: lng}
+
+        dispatch({
+            type: userTypes.SET_USER_CURRENT_CORDS,
+            payload: { lat: Number(lat), lng: Number(lng) }
+        })
         
         const res = await axiosWithAuth().post(`${BASE_URL}/user/location-data`, data)
     
@@ -780,7 +783,6 @@ export const getContactDetails = () => async (dispatch: Dispatch) => {
 
         const res = await axiosWithAuth().get(`${BASE_URL}/user/get-contact-details`)
 
-        console.log('CONTACT DETAILS: ', res.data.data) //!REMOVE
 
         dispatch({
             type: userTypes.SET_USER_CONTACT_PROFILE,

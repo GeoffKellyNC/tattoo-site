@@ -224,6 +224,21 @@ export function userCurrentLocation(state = null, action){
     }
 }
 
+interface UserCurrentCords {
+    lat: number;
+    lng: number;
+}
+
+
+export function userCurrentCords(state: UserCurrentCords | null = null, action: {type: string, payload: UserCurrentCords}) {
+    switch(action.type){
+        case userTypes.SET_USER_CURRENT_CORDS:
+            return action.payload
+        default:
+            return state
+    }
+}
+
 export function artistFullData(state: ArtistFullProfile | null = null, action: {type: string, payload: ArtistFullProfile}) {
     switch(action.type){
         case userTypes.SET_ARTIST_FULL_PROFILE:

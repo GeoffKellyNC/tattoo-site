@@ -20,6 +20,7 @@ import { userJobs } from './jobs/jobs.reducer'
 import { userRole } from './user/user.reducer'
 import { userDataNotifications } from "./notifications/notify.reducer";
 import { artistFullData } from "./user/user.reducer";
+import { userCurrentCords } from "./user/user.reducer";
 
 
 const rootReducer = combineReducers({
@@ -41,7 +42,8 @@ const rootReducer = combineReducers({
     userCurrentLocation,
     userDataNotifications,
     userJobs,
-    userRole
+    userRole,
+    userCurrentCords
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

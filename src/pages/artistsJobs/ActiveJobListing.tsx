@@ -81,7 +81,7 @@ const ActiveJobListing: React.FC<Props> = ({
             jobHasBid = {jobHasBid} /> 
             )
       }
-      <JobContainer onClick = {handleJobClick} jobHasBid = {jobHasBid}>
+      <JobContainer onClick = {handleJobClick} jobHasBid = {jobHasBid} bidSubmitted = {bidSubmitted}>
 
           <JobHeader>
             <img 
@@ -104,6 +104,7 @@ const ActiveJobListing: React.FC<Props> = ({
             </div>
             <span className = 'job-title'> {job.job_title} </span>
             <span className = 'job-budget'> ${job.job_budget} </span>
+            <span className = 'job-location'> {job.job_location} </span>
             {
               jobHasBid && (
                 <div className = 'bid-count-container'>
@@ -125,13 +126,14 @@ const ActiveJobListing: React.FC<Props> = ({
 export default ActiveJobListing
 
 
-const JobContainer = styled.div<{jobHasBid: boolean}>`
+const JobContainer = styled.div<{jobHasBid: boolean, bidSubmitted: boolean}>`
     width: 20%;
     border-radius: 10px;
     transition: all 0.2s ease-in-out;
     background-color: #151718;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
     border: ${({jobHasBid}) => jobHasBid ? '1px solid gold' : 'none'};
+    border: ${({bidSubmitted}) => bidSubmitted ? '1px solid green' : 'none'};
 
     &:hover {
       scale: 1.1;
@@ -178,7 +180,7 @@ const JobHeader = styled.div`
 
   .job-img {
     width: 100%;
-    height: 80%;
+    height: 250px;
     object-fit: cover;
     border-radius: 10px 10px 0 0;
   }

@@ -1,205 +1,175 @@
-import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { RootState } from '../../store/root.reducer';
+import { UserJobType, JobBidType } from '../../store/jobs/ts-types/jobTypes';
+import { fetchJobs } from '../../api/fetchJobsPage';
+import ArtistJobListTitle from './components/ArtistJobListTitle';
+import ActiveJobListing from './ActiveJobListing';
+// import * as jobActions from '../../store/jobs/jobs.actions'
 import styled from 'styled-components'
-import { RootState } from '../../store/root.reducer'
-import { UserJobType, JobBidType } from '../../store/jobs/ts-types/jobTypes'
-import * as jobActions from '../../store/jobs/jobs.actions'
-import {fetchJobs} from '../../api/fetchJobsPage'
-
-import ActiveJobListing from './ActiveJobListing'
-
-import bannerImg from '../../assets/test-banner.png'
 
 interface Props {
-  allActiveJobs: UserJobType[],
-  getAllActiveJobs: () => Promise<void>,
-  artistCurrentBids: JobBidType[],
-  accountType: string
+  // allActiveJobs: UserJobType[];
+  // getAllActiveJobs: () => Promise<void>;
+  artistCurrentBids: JobBidType[];
+  accountType: string;
+  userCurrentCords: { lat: number; lng: number };
 }
 
 const ArtistViewActiveJob: React.FC<Props> = ({
-  // allActiveJobs,
-  // getAllActiveJobs,
   artistCurrentBids,
-  accountType
+  accountType,
+  userCurrentCords
 }) => {
-  const [jobs, setJobs] = useState<UserJobType[]>([])
-  const [page, setPage] = useState(1)
-  const [isLoading, setIsLoading] = useState(false)
-  const [hasMore, setHasMore] = useState(true)
+  const [jobs, setJobs] = useState<UserJobType[]>([]);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [searchType, setSearchType] = useState('distance');
+  // const [textSearchValue, setTextSearchValue] = useState('');
+  const [searchRadius, setSearchRadius] = useState('25'); // This is in miles
+  
 
- useEffect(() => {
+  useEffect(() => {
     const loadJobs = async () => {
-      setIsLoading(true)
-
+      console.log('Loading jobs...') //! REMOVE
+      setIsLoading(true);
       try {
-        console.log('GETTING JOBS', page) //!REMOVE
-        const fetchedJobs = await fetchJobs(page)
-        setJobs(prevJobs => [...prevJobs, ...fetchedJobs])
+        const { lat, lng } = userCurrentCords;
+        const fetchedJobs = await fetchJobs(page, 10, lat, lng, searchRadius);
+        const uniqueJobs = fetchedJobs.filter(job => !jobs.some(j => j.job_id === job.job_id));
+        setJobs(prevJobs => [...prevJobs, ...uniqueJobs]);
+        console.log('Unique jobs: ', uniqueJobs); //! REMOVE
+        console.log('Jobs: ', jobs); //! REMOVE
 
         if (fetchedJobs.length === 0) {
-          setHasMore(false)
+          setHasMore(false);
         }
       } catch (error) {
-        console.error('Error fetching jobs: ', error)
+        console.error('Error fetching jobs: ', error);
       }
 
-      setIsLoading(false)
-    }
+      setIsLoading(false);
+    };
 
-    loadJobs()
-    console.log('Jobs: ', jobs) //!REMOVE
-  }
-  , [page])
+    loadJobs();
+  }, [page, searchRadius, userCurrentCords]);
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 500) {
         if (!isLoading && hasMore) {
-          setPage(prevPage => prevPage + 1)
+          setPage(prevPage => prevPage + 1);
         }
       }
-    }
+    };
 
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [hasMore, isLoading]);
 
-    
-  }, [hasMore, isLoading])
+  useEffect(() => {
+    const loadJobsOnRadiusChange = async () => {
+      setPage(1);
+      setJobs([]);
+      setIsLoading(true);
+
+      try {
+        const { lat, lng } = userCurrentCords;
+        const fetchedJobs = await fetchJobs(1, 10, lat, lng, searchRadius);
+        setJobs(fetchedJobs);
+        setHasMore(fetchedJobs.length > 0);
+      } catch (error) {
+        console.error('Error fetching jobs on radius change: ', error);
+      }
+
+      setIsLoading(false);
+    };
+
+    loadJobsOnRadiusChange();
+  }, [searchRadius, userCurrentCords]);
 
 
   return (
     <StyledActiveJobs>
-      <TitleContainer>
-        <div className = 'title-text-container'>
-          <span className='title'> ACTIVE JOBS </span>
-          <span className = 'subtitle'> Welcome to the Linkd Job Board – Where Art Meets Opportunity!</span>
-          <p className = 'title-description'> This is your canvas for new possibilities. Explore the latest tattoo projects posted by enthusiasts eager for your artistry. Each job listed here is an active opportunity waiting for your unique touch. Browse through, find projects that resonate with your style, and connect with clients looking to bring their vision to life. Express your interest in a job, and if it's a match, we'll notify you. It's time to ink your next masterpiece and grow your clientele with Linkd! </p>
+      <ArtistJobListTitle />
+
+      <SearchContainer>
+        <div>
+          <span> Search Type: </span>
         </div>
-        <BannerImg src = {bannerImg} alt = 'banner' />
-      </TitleContainer>
-      <div className = 'search-container'>
-        {/* <input type = 'text' placeholder = 'Search' /> */}
-      </div>
+        <select 
+          value={searchType}
+          onChange={e => setSearchType(e.target.value)}
+        >
+          <option value='distance'>Distance</option>
+        </select>
+        {searchType === 'distance' && (
+          <select 
+            value={searchRadius}
+            onChange={e => setSearchRadius(e.target.value)}
+          >
+            <option value='10'>10 miles</option>
+            <option value='25'>25 miles</option>
+            <option value='50'>50 miles</option>
+            <option value='100'>100 miles</option>
+            <option value = '250'> 250 miles </option>
+            <option value= '5000'> All Jobs </option>
+          </select>
+        )}
+        <span> Loaded Jobs: {jobs.length} </span>
+      </SearchContainer>
+
       <JobsContainer>
-        {jobs.map(job => (
+        {jobs.map((job, idx) => (
           <ActiveJobListing 
-            key = {job.job_id} 
-            job = {job} 
+            key={idx} 
+            job={job} 
             artistCurrentBids={artistCurrentBids} 
-            accountType = {accountType} />
+            accountType={accountType} 
+          />
         ))}
         {isLoading && <div>Loading...</div>}
+        {!isLoading && jobs.length === 0 && <div>No jobs found</div>}
       </JobsContainer>
+      {!hasMore && (
+        <span className='no-more-jobs'>No more jobs to load</span>
+      )}
     </StyledActiveJobs>
-  )
-}
+  );
+};
 
 const mapStateToProps = (st: RootState) => ({
-  allActiveJobs: st.allActiveJobs,
+  // allActiveJobs: st.allActiveJobs,
   artistCurrentBids: st.artistCurrentBids,
-  accountType: st.accountType
-})
+  accountType: st.accountType,
+  userCurrentCords: st.userCurrentCords
+});
 
 const ConnectedArtistViewActiveJob = connect(mapStateToProps, {
-  getAllActiveJobs: jobActions.getAllActiveJobs
+  // getAllActiveJobs: jobActions.getAllActiveJobs
+})(ArtistViewActiveJob);
 
-})(ArtistViewActiveJob)
+export default ConnectedArtistViewActiveJob;
 
-export default ConnectedArtistViewActiveJob
 
 const StyledActiveJobs = styled.div`
   color: white;
 
-`
-
-const TitleContainer = styled.div`
-  width: 90%;
-  margin: 2rem auto;
-  display: flex;
-  flex-direction: column; /* Stack elements vertically on smaller screens */
-  align-items: center; /* Center align items for smaller screens */
-  background: linear-gradient(180deg, rgba(245,89,63,0.4) 29%, rgba(21,23,40,1) 88%);
-  border-radius: 10px;
-  font-family: ${pr => pr.theme.font.family.primary};
-
-  .title {
-    font-size: 1.5rem; /* Smaller font size for mobile */
-    font-weight: bold;
-    margin: 1rem 0;
-    text-align: center; /* Center text on smaller screens */
-  }
-
-  .subtitle {
-    font-size: 1rem; /* Adjust subtitle font size */
+  .no-more-jobs {
+    width: 100%;
     text-align: center;
-    margin: 0.5rem 0; /* Add margin for spacing */
+    font-size: 1.5rem;
+    font-family: ${pr => pr.theme.font.family.secondary};
+    margin: 2rem 45rem;
+    
   }
-
-  .title-description {
-    font-size: 0.9rem; /* Adjust paragraph font size */
-    text-align: justify;
-    margin: 0.5rem 0; /* Add margin for spacing */
-  }
-
-  .title-text-container {
-    width: 80%; /* Full width on smaller screens */
-    padding: 1rem;
-    display: flex;
-    flex-direction: column; /* Ensure elements are stacked vertically */
-    align-items: center; /* Center align items */
-  }
-
-  @media (min-width: 601px) and (max-width: 1024px) { /* Tablets */
-    .title {
-      font-size: 1.75rem; /* Slightly larger font size for tablets */
-    }
-
-    .title-text-container {
-      width: 60%; /* Adjust width for tablet screens */
-      padding: 2rem;
-    }
-  }
-
-  @media (min-width: 1025px) { /* Larger screens */
-    height: 500px;
-    flex-direction: row; /* Use row direction for larger screens */
-    align-items: flex-start; /* Align items to start for larger screens */
-
-    .title {
-      font-size: 2rem; /* Original font size for larger screens */
-      margin: 2rem 0;
-    }
-
-    .title-text-container {
-      width: 40%; /* Original width on larger screens */
-      padding: 3rem;
-      align-items: flex-start; /* Align items to start for larger screens */
-    }
-  }
-`;
-
-
-
-const BannerImg = styled.img`
-  width: 60%;
-  max-height: 70%;
-  rotate: 3deg;
-  object-fit: cover;
-  position: absolute;
-  top: 1%;
-  left: 37%;
-
-  @media (max-width: 1024px) { /* Mobile devices */
-    display: none;
-  }
-
-
 
 `
+
 
 const JobsContainer = styled.div`
   width: 80%;
@@ -209,6 +179,48 @@ const JobsContainer = styled.div`
   justify-content: space-between;
   gap: 2rem;
 
+
+
+
+  @media (max-width: 600px) { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media (min-width: 601px) and (max-width: 1024px) { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+  }
+
+  @media (min-width: 1025px) { 
+    
+  }
+
+`
+
+const SearchContainer = styled.div`
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: -1rem;
+  font-size: 1.2rem;
+  font-family: ${pr => pr.theme.font.family.secondary};
+
+  select {
+    font-size: 1.2rem;
+    font-family: ${pr => pr.theme.font.family.secondary};
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem;
+    background-color: #f55963;
+  }
 
   @media (max-width: 600px) { 
     display: flex;
