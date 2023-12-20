@@ -23,8 +23,10 @@ const ArtistFullProfileView: React.FC<Props> = ({
     const { unxid } = useParams()
 
     const loadArtistData = useCallback(async () => {
+        console.log('Loading artist data...') //! REMOVE
         setLoadingData(true)
         const res = await getArtistDataForBid(unxid)
+        console.log('Artist data: ', res) //! REMOVE
         
         if (!res) {
             setLoadingData(false)
@@ -36,7 +38,7 @@ const ArtistFullProfileView: React.FC<Props> = ({
 
     useEffect(() => {
         loadArtistData()        
-    }, [artistFullData.user.display_name, loadArtistData])
+    }, [loadArtistData])
 
 
 
