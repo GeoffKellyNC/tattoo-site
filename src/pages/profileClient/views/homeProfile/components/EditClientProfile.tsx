@@ -1,9 +1,10 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { RootState } from '../../../../../store/root.reducer'
 import * as userActions from '../../../../../store/user/user.actions'
+import * as notifyTypes from '../../../../../store/notifications/notify.types'
 
 interface EditClientProfileProps {
     userProfileDetails: RootState['userProfileDetails'],
@@ -22,6 +23,10 @@ const statesArray: string[] = [
     "Wisconsin", "Wyoming", "Puerto Rico"
 ];
 
+const TAG_LINE_MAX_CHARS = 50
+const ABOUT_ME_MAX_CHARS = 500
+const TATTOO_STORY_MAX_CHARS = 1000
+
 
 const EditClientProfile: React.FC<EditClientProfileProps> = ({
     userProfileDetails,
@@ -31,8 +36,95 @@ const EditClientProfile: React.FC<EditClientProfileProps> = ({
     const initialFormValues = { ...userProfileDetails}
 
     const [formValues, setFormValues] = useState(initialFormValues)
+    const [tagLineChars, setTagLineChars] = useState<number>(TAG_LINE_MAX_CHARS)
+    const [aboutMeChars, setAboutMeChars] = useState<number>(ABOUT_ME_MAX_CHARS)
+    const [tattooStoryChars, setTattooStoryChars] = useState<number>(TATTOO_STORY_MAX_CHARS)
+
+    const dispatch = useDispatch()
+
+    const formValidation = () => {
+        if(!formValues.location_city || !formValues.location_state || !formValues.location_zip){
+            dispatch({
+                type: notifyTypes.SET_NOTIFY,
+                payload: {
+                    message: 'Please fill out all location fields',
+                    type: 'error'
+                }
+            })
+
+            return false
+        }
+
+        if(formValues.location_zip.length !== 5){
+            dispatch({
+                type: notifyTypes.SET_NOTIFY,
+                payload: {
+                    message: 'Please enter a valid zipcode',
+                    type: 'error'
+                }
+            })
+
+            setFormValues({
+                ...formValues,
+                location_zip: ''
+            })
+
+            return false
+        }
+
+        if(formValues.profile_tagline.length > TAG_LINE_MAX_CHARS){
+            dispatch({
+                type: notifyTypes.SET_NOTIFY,
+                payload: {
+                    message: 'Tagline must be less than 50 characters',
+                    type: 'error'
+                }
+            })
+
+            return false
+        }
+
+        if(formValues.profile_description.length > ABOUT_ME_MAX_CHARS){
+            dispatch({
+                type: notifyTypes.SET_NOTIFY,
+                payload: {
+                    message: 'About Me must be less than 500 characters',
+                    type: 'error'
+                }
+            })
+
+            return false
+        }
+
+        if(formValues.personal_tattoo_story.length > TATTOO_STORY_MAX_CHARS){
+            dispatch({
+                type: notifyTypes.SET_NOTIFY,
+                payload: {
+                    message: 'Tattoo Story must be less than 1000 characters',
+                    type: 'error'
+                }
+            })
+
+            return false
+        }
+}
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        if(e.target.name === 'profile_tagline'){
+            setTagLineChars(TAG_LINE_MAX_CHARS - e.target.value.length)
+        }
+
+        if(e.target.name === 'profile_description'){
+            setAboutMeChars(ABOUT_ME_MAX_CHARS - e.target.value.length)
+        }
+
+        if(e.target.name === 'personal_tattoo_story'){
+            setTattooStoryChars(TATTOO_STORY_MAX_CHARS - e.target.value.length)
+        }
+
+
+
         setFormValues({
             ...formValues,
             [e.target.name]: e.target.value
@@ -41,6 +133,8 @@ const EditClientProfile: React.FC<EditClientProfileProps> = ({
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
+        const isValid = formValidation()
+        if(!isValid) return
         await updateClientProfileDetails(formValues)
         setFormValues(initialFormValues)
         setOpen(false)
@@ -81,6 +175,7 @@ const EditClientProfile: React.FC<EditClientProfileProps> = ({
                 placeholder={ userProfileDetails.location_zip ? '' : 'No Zipcode Set' }
             />
             <span className = 'label label-tag'> Tag Line: </span>
+            <span className = 'chars_left'> { tagLineChars } characters (50max) </span>
             <input 
                 type = 'text'
                 name = 'profile_tagline'
@@ -93,11 +188,12 @@ const EditClientProfile: React.FC<EditClientProfileProps> = ({
             <input 
                 type = 'number'
                 name = 'number_of_tattoos'
-                value = { formValues.number_of_tattoos }
+                value = { !formValues.number_of_tattoos ? 0 : formValues.number_of_tattoos }
                 onChange={handleChange}
                 className = 'form-input number_of_tattoos'
             />
             <span className = 'label'> About Me: </span>
+            <span className = 'chars_left'> { aboutMeChars } characters (500max) </span>
             <textarea 
                 name = 'profile_description'
                 value = { formValues.profile_description }
@@ -106,6 +202,7 @@ const EditClientProfile: React.FC<EditClientProfileProps> = ({
                 placeholder={ userProfileDetails.profile_description ? '' : 'No About Me Set' }
             />
             <span className = 'label'> Tattoo Story: </span>
+            <span className = 'chars_left'> { tattooStoryChars } characters (1000max) </span>
             <textarea 
                 name = 'personal_tattoo_story'
                 value = { formValues.personal_tattoo_story }
@@ -207,6 +304,12 @@ const EditClientProfileStyled = styled.div`
 
     button:hover {
         background-color: #ff0000;
+    }
+
+    .chars_left {
+        font-size: 0.8rem;
+        color: white;
+        font-family: ${pr => pr.theme.font.family.secondary};
     }
 
 
