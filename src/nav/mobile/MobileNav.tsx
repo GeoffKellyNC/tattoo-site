@@ -12,7 +12,7 @@ import { BiHomeHeart } from "react-icons/bi";
 import { TbLogout2 } from "react-icons/tb";
 import { PiUsersFourFill } from "react-icons/pi";
 import { FaMoneyBill1 } from "react-icons/fa6";
-
+import { UserData } from '../../store/user/user.reducer'
 
 
 
@@ -20,14 +20,16 @@ import { FaMoneyBill1 } from "react-icons/fa6";
 interface Props {
     logoutUser: () => Promise<void>
     isAuthenticated: boolean,
-    accountType: string
+    accountType: string,
+    userData: UserData
 }
 
 
 const MobileNav: React.FC<Props> = ({
     logoutUser,
     isAuthenticated,
-    accountType
+    accountType,
+    userData
 }) => {
     const [menuOpen, setMenuOpen] = useState<boolean>(false)
 
@@ -44,7 +46,7 @@ const MobileNav: React.FC<Props> = ({
     }
 
     const handleHomeClick = () => {
-        nav('/')
+        nav(`/user/client/${userData.unxid}`)
         setMenuOpen(false)
     }
 
@@ -82,7 +84,7 @@ const MobileNav: React.FC<Props> = ({
                 <div className = 'link-container'>
                     <div className = 'nav-item-container'>
                         <BiHomeHeart size = {'2rem'} className = 'icon'  />
-                        <span onClick={handleHomeClick}  className = 'nav-item'>Home</span>
+                        <span onClick={handleHomeClick}  className = 'nav-item'> Home </span>
                     </div>
                     {
                         !isAuthenticated ? (
@@ -121,7 +123,8 @@ const MobileNav: React.FC<Props> = ({
 
 const mapStateToProps = ( st: RootState) => ({
     isAuthenticated: st.isAuthenticated,
-    accountType: st.userData.account_type
+    accountType: st.userData.account_type,
+    userData: st.userData
 }) 
 
 const ConnectedMobileNav = connect(mapStateToProps, {
