@@ -3,6 +3,8 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { JobBidType, UserJobType } from '../../store/jobs/ts-types/jobTypes'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
+import * as jobActions from '../../store/jobs/jobs.actions'
 
 import { MdExpandMore } from "react-icons/md";
 import { MdExpandLess } from "react-icons/md";
@@ -14,13 +16,15 @@ interface Props {
     getArtistDataForBid: (artistId: string) => Promise<any>;
     jobData: UserJobType;
     bidDrwaerOpen: boolean;
+    clientAcceptBid: (job_id: string, artist_id: string) => Promise<boolean>
 }
 
 const Bid: React.FC<Props> = ({
     bidData,
     getArtistDataForBid,
     jobData,
-    bidDrwaerOpen
+    bidDrwaerOpen,
+    clientAcceptBid
 }) => {
     const [artistData, setArtistData] = useState<any>(null)
     const [gettingArtistData, setGettingArtistData] = useState<boolean>(true)
@@ -44,8 +48,10 @@ const Bid: React.FC<Props> = ({
         getArtistData()
     }, [getArtistData, bidDrwaerOpen, jobData.owner_user_name])
 
-
-
+    const acceptBid = async () => {
+        await clientAcceptBid(jobData.job_id, bidData.artist_id)
+        return
+    }
 
   return (
     <>
@@ -75,7 +81,9 @@ const Bid: React.FC<Props> = ({
                     {
                         bidData.is_active && wantsComments && (
                             <div className = 'button-container'>
-                                <button className = 'accept'> Accept Bid </button>
+                                <button
+                                    onClick={() => acceptBid()}
+                                    className = 'accept'> Accept Bid </button>
                                 <button className = 'decline'> Decline Bid </button>
                             </div>
                         ) 
@@ -87,7 +95,10 @@ const Bid: React.FC<Props> = ({
   )
 }
 
-export default Bid
+const ConnectedBid = connect(null, {
+    clientAcceptBid: jobActions.clientAcceptBid
+})(Bid)
+export default ConnectedBid
 
 
 
