@@ -164,81 +164,48 @@ const StyledActiveJobs = styled.div`
     text-align: center;
     font-size: 1.5rem;
     font-family: ${pr => pr.theme.font.family.secondary};
-    margin: 2rem 45rem;
-    
+    margin: 2rem auto; // Adjusted for better centering
   }
-
-`
-
+`;
 
 const JobsContainer = styled.div`
   width: 80%;
-  margin: 5rem auto;
+  margin: 2rem auto; // Adjusted margin
   display: flex;
+  flex-direction: column; // Changed to column for all sizes
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 2rem;
-
-
-
-
-  @media (max-width: 600px) { 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  @media (min-width: 601px) and (max-width: 1024px) { 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    
-  }
+  gap: 1rem; // Adjusted gap
 
   @media (min-width: 1025px) { 
-    
+    flex-direction: row; // Row direction for larger screens
+    justify-content: space-between; // Space out items on larger screens
   }
-
-`
+`;
 
 const SearchContainer = styled.div`
   width: 80%;
-  margin: 0 auto;
+  margin: 1rem auto; // Adjusted margin
   display: flex;
-  justify-content: space-around;
+  flex-direction: column; // Stack elements vertically
+  justify-content: center;
   align-items: center;
-  gap: -1rem;
+  gap: 1rem; // Adjusted gap
   font-size: 1.2rem;
   font-family: ${pr => pr.theme.font.family.secondary};
 
   select {
-    font-size: 1.2rem;
-    font-family: ${pr => pr.theme.font.family.secondary};
+    font-size: 1rem; // Adjusted font size
     border: none;
     border-radius: 5px;
     padding: 0.5rem;
     background-color: #f55963;
   }
 
-  @media (max-width: 600px) { 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  @media (min-width: 601px) and (max-width: 1024px) { 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    
-  }
-
   @media (min-width: 1025px) { 
-    
+    flex-direction: row; // Row direction for larger screens
+    justify-content: space-around; // Space out elements on larger screens
   }
+`;
 
-`

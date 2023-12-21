@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { UserData } from '../../../../../store/user/user.reducer'
 import { Drawer } from 'antd'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import * as userActions from '../../../../../store/user/user.actions'
+import * as notifyTypes from '../../../../../store/notifications/notify.types'
 import styled from 'styled-components'
+import checkEmail from '../../../../../helpers/checkEmail'
 
 
 interface Props {
@@ -28,8 +30,70 @@ const EditGeneralDrawer: React.FC<Props> = ({
         setValues({...values, [e.target.name]: e.target.value})
     }
 
+    const dispatch = useDispatch()
+
+
+    const validateForm = () => {
+        const { user_email, display_name } = values
+
+        if(!user_email && !display_name) {
+            dispatch({
+                type: notifyTypes.SET_NOTIFY,
+                payload: {
+                    message: 'Please enter a new email or display name',
+                    type: 'error'
+                }
+            })
+            return false
+        }
+
+        if (user_email && !display_name) {
+            dispatch({
+                type: notifyTypes.SET_NOTIFY,
+                payload: {
+                    message: 'Please enter a new display name',
+                    type: 'error'
+                }
+            })
+            return false
+        }
+
+        if (!user_email && display_name) {
+            dispatch({
+                type: notifyTypes.SET_NOTIFY,
+                payload: {
+                    message: 'Please enter a new email',
+                    type: 'error'
+                }
+            })
+            return false
+        }
+
+
+        if (user_email && !checkEmail(user_email)) {
+            dispatch({
+                type: notifyTypes.SET_NOTIFY,
+                payload: {
+                    message: 'Email is already in use',
+                    type: 'error'
+                }
+            })
+            return false
+        }
+
+        return true
+    }
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const isValid = validateForm()
+
+        if (!isValid) {
+  
+            return
+        }
     
         const isDisplayNameChanged = userData.display_name !== values.display_name;
 

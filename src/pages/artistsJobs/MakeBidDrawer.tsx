@@ -54,7 +54,7 @@ const MakeBidDrawer: React.FC<Props> = ({
             <MakeBidDrawerStyled>
                 <BidHeader>
                     <p>Job Title: {jobData.job_title}</p>
-                    <p>Job Budget: {jobData.job_budget}</p>
+                    <p>Job Budget: ${jobData.job_budget}</p>
                     <p>Job Deadline: {format(new Date(jobData.job_expiry_date), 'MMMM dd, yyyy')}</p>
                 </BidHeader>
                 <FormStyled onFinish={onSubmit}>
@@ -97,7 +97,7 @@ export default ConnectedMakeBidDrawer
 
 const StyledDrawer = styled(Drawer)`
   .ant-drawer-body {
-    background-color: rgb(21, 23, 40);
+    background-color: rgb(0,0,0,1); // A subtle blue
     color: white;
     font-family: ${props => props.theme.font.family.secondary};
 
@@ -140,10 +140,28 @@ const FormStyled = styled(Form)`
         color: white;
 
     }
+
+    input {
+        background-color: ${pr => pr.theme.color.red};
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-family: ${props => props.theme.font.family.secondary};
+
+    }
+
+    textarea {
+        background-color: ${pr => pr.theme.color.red};
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-family: ${props => props.theme.font.family.secondary};
+
+    }
 `
 
 const Instructions = styled.div`
-    background-color:  #6E3133; // A subtle blue
+    background-color:  #e1055c; // A subtle blue
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 20px;
@@ -165,7 +183,7 @@ const SubmitButton = styled(Button)`
 
 const BidProcessInfo = styled.div`
     margin-top: 20px;
-    background-color: #6E3133; // A very subtle purple
+    background-color: #e1055c; // A very subtle purple
     padding: 15px;
     border-radius: 8px;
     font-size: 14px;

@@ -88,6 +88,7 @@ const UserDataSettings: React.FC<Props> = ({
 
 export default UserDataSettings
 
+
 const Header = styled.div`
   font-size: 2.4rem;
   font-family: ${pr => pr.theme.font.family.secondary};
@@ -108,8 +109,15 @@ const Header = styled.div`
     }
   }
 
-`
+  @media (max-width: 600px) {
+    font-size: 1.8rem; /* Adjust header font size for mobile */
 
+    .edit-icon {
+      margin-top: 1.2rem;
+      font-size: 1.5rem; /* Adjust icon size for mobile */
+    }
+  }
+`;
 
 const UserDataContainer = styled.div`
   display: flex;
@@ -117,7 +125,6 @@ const UserDataContainer = styled.div`
   flex-wrap: wrap;
   gap: 2rem;
   align-items: center;
-
 
   .info-container {
     display: flex;
@@ -129,11 +136,20 @@ const UserDataContainer = styled.div`
     color: ${pr => pr.theme.color.white};
     letter-spacing: 2px;
     margin: 0;
+
+    @media (max-width: 600px) {
+      font-size: 1.2rem; /* Adjust font size for mobile */
+      gap: 0.5rem; /* Reduce gap between icon and text */
+    }
   }
 
   .icon {
     font-size: 1.8rem;
     color: #ffe600;
+
+    @media (max-width: 600px) {
+      font-size: 1.4rem; /* Adjust icon size for mobile */
+    }
   }
 
   .info-label {
@@ -142,18 +158,22 @@ const UserDataContainer = styled.div`
     color: #f1637b;
     text-transform: uppercase;
 
+    @media (max-width: 600px) {
+      font-size: 1.4rem; /* Adjust label font size for mobile */
+    }
   }
 
   .user-text {
     font-size: 1.8rem;
     font-weight: 400;
+
+    @media (max-width: 600px) {
+      font-size: 1.4rem; /* Adjust text font size for mobile */
+    }
   }
 
   .cust-id-text {
     text-transform: uppercase;
   }
+`;
 
-
-
-
-`

@@ -107,6 +107,8 @@ const EditClientProfile: React.FC<EditClientProfileProps> = ({
 
             return false
         }
+
+        return true
 }
 
 

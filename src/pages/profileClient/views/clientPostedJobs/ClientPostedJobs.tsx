@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 // import * as jobActions from '../../../store/jobs/jobs.actions'
 import { RootState } from '../../../../store/root.reducer'
 import { UserJobType, JobBidType } from '../../../../store/jobs/ts-types/jobTypes'
+import { UserFullProfile } from '../../../../store/user/types/userStateTypes'
 
 import CreateJobForm from './CreateJobForm'
 import ActiveJobListing from '../../../artistsJobs/ActiveJobListing'
@@ -12,14 +13,16 @@ import ActiveJobListing from '../../../artistsJobs/ActiveJobListing'
 interface Props { 
   userJobs: UserJobType[],
   clientCurrentBids: JobBidType[],
-  accountType: string
+  accountType: string,
+  userData: UserFullProfile
 }
 
 
 const ClientPostedJobs: React.FC<Props> = ({
   userJobs,
   clientCurrentBids,
-  accountType
+  accountType,
+  userData
 }) => {
   return (
     <StyledClientPostedJobs>
@@ -32,6 +35,17 @@ const ClientPostedJobs: React.FC<Props> = ({
              </div>
             </div>
         </div>
+        <Header>
+        <div className="title-container">
+          <span className="title-text">{userData.display_name}'s Tattoo Requests</span>
+        </div>
+        <div className="desc-container">
+          <span className="desc-text">
+            Welcome to your tattoo request page. You can create a new job by clicking the "Create Job" button.
+            View your posted jobs to check for new bids, and click on a job to add photos and view details.
+          </span>
+        </div>
+      </Header>
         <div className='job-container'>
         {
           userJobs.length < 1 ? (
@@ -50,7 +64,8 @@ const ClientPostedJobs: React.FC<Props> = ({
 const mapStateToProps = (st: RootState) => ({
     userJobs: st.userJobs,
     clientCurrentBids: st.clientCurrentBids,
-    accountType: st.accountType
+    accountType: st.accountType,
+    userData: st.userData
 })
 
 const ConnectedClientPostedJobs = connect(mapStateToProps, null)(ClientPostedJobs)
@@ -108,11 +123,101 @@ const StyledClientPostedJobs = styled.div`
       width: 90%;
       margin: 0 auto;
       height: auto;
-      min-height: 100vh;  // Added min-height
+      min-height: 80vh;  // Added min-height
     }
 
     @media (max-width: 1000px) {
-      // Additional styles for mobile view can go here if needed
+      .command-container {
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 0;
+      }
+
+      .bid-count-container {
+        font-size: 1rem;
+      }
+
+      .job-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+      }
     }
+`;
+
+const Header = styled.div`
+    padding: 2rem;
+    background-color:  #ffb800; // Updated color for a more sleek look
+    border-radius: 8px; // Added rounded corners
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); // Added subtle shadow for depth
+    font-family: ${pr => pr.theme.font.family.secondary};
+
+    .title-container {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 0;
+    }
+
+    .title-text {
+      font-size: 2.5rem; // Slightly larger font for emphasis
+      font-weight: 600;
+      color: #272a3a;
+      margin-bottom: 0.5rem; // Added margin for better spacing
+    }
+
+    .desc-container {
+      display: flex;
+      align-items: center;
+      font-size: 1.2rem; // Adjusted font size for readability
+      color: #272a3a;
+      line-height: 1.5; // Improved line spacing
+    }
+
+    @media (max-width: 1000px) {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      margin-bottom: 1rem;
+
+      .title-container {
+        padding: 0;
+      }
+
+      .title-text {
+        font-size: 2rem;
+      }
+
+      .desc-container {
+        font-size: 1rem;
+        text-align: center;
+      }
+
+      .desc-text {
+        padding: 0 1rem;
+      }
+
+      .desc-text {
+        padding: 0 1rem;
+      }
+
+
+    }
+
+    @media (max-width: 600px) {
+      .title-text {
+        font-size: 1.5rem;
+      }
+    }
+
+
+
+
 `;
 

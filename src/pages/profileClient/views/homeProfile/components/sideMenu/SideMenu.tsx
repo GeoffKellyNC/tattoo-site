@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { RootState } from '../../../../../../store/root.reducer'
 import { UserData } from '../../../../../../store/user/user.reducer'
 import { Link, useResolvedPath } from 'react-router-dom'
+import { useMobileCheck } from '../../../../../../hooks/isMobile'
 
 import {HiOutlineHomeModern} from 'react-icons/hi2'
 import {TbGitPullRequest} from 'react-icons/tb'
@@ -30,9 +31,11 @@ const SideMenu: React.FC<Props> = ({
 
     const url = useResolvedPath("").pathname;
 
+    const isMobile = useMobileCheck()
+
 
   return (
-    <SideMenuStyled className = 'LOOKHERE'>
+    <SideMenuStyled className = 'LOOKHERE' id = {isMobile ? 'is-mobile' : null}>
         <span className = 'logo'>
             {
                 accountType
@@ -108,6 +111,8 @@ const ConnectedSideMenu = connect(mapStateToProps, null)(SideMenu);
 export default ConnectedSideMenu;
 
 
+
+
 const SideMenuStyled = styled.div`
     width: 260px;
     border-right: 1px solid #272a3a;
@@ -156,14 +161,14 @@ const SideMenuStyled = styled.div`
         padding-top: 10px;
         border-bottom: 1px solid #272a3a;
 
-        @media (max-width: ${(pr) => pr.theme.media.tablet}) {
-            margin-top: 100px;
+        @media (max-width: 1000px) {
+            flex-direction: row; /* Align icons in a row */
+            flex-wrap: wrap; /* Allow wrapping if there are many icons */
+            justify-content: center; /* Center the icons */
+            gap: 30px; /* Adjust gap between icons */
+            padding-top: 0; /* Adjust padding as needed */
+            border: none; /* Remove border */
         }
-
-    }
-
-    .menu-icon {
-        font-size: 1.5rem;
     }
 
     .menu-item {
@@ -177,41 +182,34 @@ const SideMenuStyled = styled.div`
         font-family: 'Source Sans Pro', sans-serif;
         font-weight: 600;
         cursor: pointer;
-        flex-shrink: 0;  // Prevents the menu items from shrinking.
 
         &active, &:hover {
             color: #fff;
         }
 
-        @media (max-width: ${(pr) => pr.theme.media.tablet}) {
-            justify-content: center;
-            z-index: 1;
-            font-size: 2rem;
+        @media (max-width: 1000px) {
+            font-size: 2rem; /* Adjust font size for mobile */
 
             .menu-icon {
-                font-size: 3rem; 
+                font-size: 2rem; /* Adjust icon size for mobile */
+
+                @media (max-width: 1000px) {
+                    color: #efcb03; /* Adjust icon color for mobile */
+                }
+            }
+
+            span {
+                display: none; /* Hide the text labels on mobile */
             }
         }
-
     }
 
-    @media (max-width: ${(pr) => pr.theme.media.tablet}) {
-        width: 6rem;  // Slightly increased the width
+    @media (max-width: 1000px) {
+        width: 100%; /* Adjust the width for mobile view */
+        border-right: none; /* Optional: Remove border for mobile view */
 
-        .menu-icon {
-            font-size: 3rem; 
-        }
-
-        .logo {
-            display: none;  // Hide the logo
-        }
-
-        .menu-title {
-            display: none;  // Hide the username
-        }
-
-        .menu-item span:last-child {
-            display: none;  // Hide the text of each menu item
+        .logo, .menu-title {
+            display: none; /* Hide logo and menu title on mobile */
         }
     }
 `;

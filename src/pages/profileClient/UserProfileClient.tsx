@@ -2,6 +2,7 @@ import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import ProtectedRoute from '../../util/ProtectedRoute'
+import { useMobileCheck } from '../../hooks/isMobile'
 
 import SideMenu from './views/homeProfile/components/sideMenu/SideMenu'
 import HomeProfile from './views/homeProfile/HomeProfile'
@@ -15,10 +16,11 @@ import ClientAcceptedJobs from './views/clientAcceptedJobs/ClientAcceptedJobs'
 
 
 const UserProfileClient: React.FC= () => { 
+  const isMobile = useMobileCheck()
 
   return (
     <UserProfileStyled className = 'MAIN-CONTAINER'>
-        <SideMenu />
+        {!isMobile && <SideMenu />}
         <Routes>
           <Route path = '/' element = {<HomeProfile />} />
           <Route path = {`/posted-jobs`} element = {

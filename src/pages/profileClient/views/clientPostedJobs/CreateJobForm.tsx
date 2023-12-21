@@ -1,328 +1,550 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { Drawer, Button, Spin } from 'antd';
-import { connect } from 'react-redux'
-import * as jobActions from '../../../../store/jobs/jobs.actions'
-import { UserFullProfile } from '../../../../store/user/types/userStateTypes'
+import { connect, useDispatch } from 'react-redux';
+import * as jobActions from '../../../../store/jobs/jobs.actions';
+import { UserFullProfile } from '../../../../store/user/types/userStateTypes';
+import * as notifyTypes from '../../../../store/notifications/notify.types';
 
-import { RiAddCircleLine } from 'react-icons/ri'
+const MAX_DESC_CHAR_COUNT = 1000;
 
 const initialFormValues = {
-    job_title: '',
-    job_location: '',
-    job_zipcode: '',
-    job_characteristics: {
-        size: '',
-        color: '',
-        style: '',
-        body_placement: '',
-        pain_tolerance: '',
-        has_allergy: '',
-        skin_condition: '' 
-    },
-    job_budget: 0,
-    job_expiry_date: '',
-    job_desc: '',
-    job_photos: []
-}
+  job_title: '',
+  job_location: '',
+  job_zipcode: '',
+  job_characteristics: {
+    size: '',
+    color: '',
+    style: '',
+    body_placement: '',
+    pain_tolerance: '',
+    has_allergy: '',
+    skin_condition: '',
+  },
+  job_budget: 0,
+  job_expiry_date: '',
+  job_desc: '',
+  job_photos: [],
+};
 
 interface Props {
-    createJob: (job) => Promise<void>,
-    userData: UserFullProfile
+  createJob: (job) => Promise<void>;
+  userData: UserFullProfile;
 }
 
+const CreateJobForm: React.FC<Props> = ({ createJob, userData }) => {
+  const [open, setOpen] = useState<boolean>(false);
+  const [formValue, setFormValue] = useState(initialFormValues);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [descCharCount, setDescCharCount] = useState<number>(MAX_DESC_CHAR_COUNT);
 
-const CreateJobForm: React.FC<Props> = ({
-    createJob,
-    userData
-}) => {
-    const [open, setOpen] = useState<boolean>(false);
-    const [formValue, setFormValue] = useState(initialFormValues);
-    const [loading, setLoading] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
-    const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value, type } = e.target;
-    
-        let inputValue = value;
-        if (type === "checkbox") {
-            inputValue = (e.target as HTMLInputElement).checked.toString();
-        }
-    
-        const keys = name.split('.');
-    
-        const updatedState = { ...formValue };
-        let pointer = updatedState;
-    
-        keys.forEach((key, index) => {
-            if(index === keys.length - 1) {
-                pointer[key] = inputValue;
-            } else {
-                pointer = pointer[key];
-            }
-        });
-    
-        setFormValue(updatedState);
+  const validateForm = () => {
+    if(formValue.job_title === '') {
+      dispatch({
+        type: notifyTypes.SET_NOTIFY,
+        payload: {
+            message: 'Please enter a job title',
+            type: 'error',
+        },
+      });
+      return false;
+    }
+
+    if(formValue.job_location === '') {
+      dispatch({
+        type: notifyTypes.SET_NOTIFY,
+        payload: {
+            message: 'Please enter a job location',
+            type: 'error',
+        },
+      });
+      return false;
+    }
+
+    if(formValue.job_zipcode.length !== 5 || isNaN(Number(formValue.job_zipcode))) {
+      dispatch({
+        type: notifyTypes.SET_NOTIFY,
+        payload: {
+            message: 'Please enter a valid zipcode',
+            type: 'error',
+        },
+      });
+      return false;
+    }
+
+    if(formValue.job_characteristics.size === '') {
+      dispatch({
+        type: notifyTypes.SET_NOTIFY,
+        payload: {
+            message: 'Please select a size',
+            type: 'error',
+        },
+      });
+      return false;
+    }
+
+    if(formValue.job_characteristics.body_placement === '') {
+      dispatch({
+        type: notifyTypes.SET_NOTIFY,
+        payload: {
+            message: 'Please select a body placement',
+            type: 'error',
+        },
+      });
+      return false;
+    }
+
+    if(formValue.job_characteristics.pain_tolerance === '') {
+      dispatch({
+        type: notifyTypes.SET_NOTIFY,
+        payload: {
+            message: 'Please select a pain tolerance',
+            type: 'error',
+        },
+      });
+      return false;
+    }
+
+    if(formValue.job_characteristics.color === '') {
+      dispatch({
+        type: notifyTypes.SET_NOTIFY,
+        payload: {
+            message: 'Please select a color',
+            type: 'error',
+        },
+      });
+      return false;
+    }
+
+    if(formValue.job_characteristics.style === '') {
+      dispatch({
+        type: notifyTypes.SET_NOTIFY,
+        payload: {
+            message: 'Please select a style',
+            type: 'error',
+        },
+      });
+      return false;
+    }
+
+    if(formValue.job_budget === 0) {
+      dispatch({
+        type: notifyTypes.SET_NOTIFY,
+        payload: {
+            message: 'Please enter a budget',
+            type: 'error',
+        },
+      });
+      return false;
+    }
+
+    if(formValue.job_desc.length === 0) {
+      dispatch({
+        type: notifyTypes.SET_NOTIFY,
+        payload: {
+            message: 'Please enter a job description',
+            type: 'error',
+        },
+      });
+      return false;
+    }
+
+    if(formValue.job_desc.length > MAX_DESC_CHAR_COUNT) {
+      dispatch({
+        type: notifyTypes.SET_NOTIFY,
+        payload: {
+            message: 'Job description cannot exceed 1000 characters',
+            type: 'error',
+        },
+      });
+      return false;
+    }
+
+    return true;
+
+
+  }
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+
+    if(name === 'job_desc') {
+        setDescCharCount(MAX_DESC_CHAR_COUNT - value.length);
+    }
+
+    let inputValue = value;
+    if (type === 'checkbox') {
+      inputValue = (e.target as HTMLInputElement).checked.toString();
+    }
+
+    const keys = name.split('.');
+
+    const updatedState = { ...formValue };
+    let pointer = updatedState;
+
+    keys.forEach((key, index) => {
+      if (index === keys.length - 1) {
+        pointer[key] = inputValue;
+      } else {
+        pointer = pointer[key];
+      }
+    });
+
+    setFormValue(updatedState);
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    console.log(formValue);
+    const finalData = {
+      ...formValue,
+      owner_user_name: userData.user_name,
     };
-    
+    const isValid = validateForm();
+    if(!isValid) {
+      setLoading(false);
+      return;
+    }
+    await createJob(finalData);
+    setLoading(false);
+    setFormValue(initialFormValues);
+    toggleClose();
+  };
 
-    const handleSubmit = async () => {
-        setLoading(true);
-        console.log(formValue);
-        const finalData = {
-            ...formValue,
-            owner_user_name: userData.user_name
+  const toggleOpen = () => {
+    setOpen(true);
+  };
+
+  const toggleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <ContainerStyled>
+      <button className='create-job-btn' onClick={toggleOpen}> Create Job </button>
+      <StyledDrawer
+        title="Add A Job Request"
+        placement="right"
+        closable={true}
+        onClose={toggleClose}
+        open={open}
+        size="large"
+        extra={
+          <>
+            {loading && <Spin size="large" />}
+            <Button type="primary" onClick={handleSubmit}>
+              Submit
+            </Button>
+          </>
         }
-        await createJob(finalData);
-        setLoading(false);
-        setFormValue(initialFormValues);
-        toggleClose();
-    }
+      >
+        <FormContainer>
+            <label htmlFor="job_title" className="f-label">
+              Job Title
+            </label>
+            <input
+              name="job_title"
+              type="text"
+              id="job_title"
+              placeholder="Enter job title"
+              onChange={onChange}
+              value={formValue.job_title}
+              className="add-input f-title"
+            />
+            <label htmlFor="job_location" className="f-label">
+              Job Location
+            </label>
+            <input
+              name="job_location"
+              type="text"
+              id="job_location"
+              placeholder="City Name"
+              value={formValue.job_location}
+              onChange={onChange}
+              className="add-input"
+            />
 
-    const toggleOpen = () => {
-        setOpen(true);
-    }
+            <input
+              name="job_zipcode"
+              type="text"
+              id="job_zipcode"
+              placeholder="Zip Code"
+              value={formValue.job_zipcode}
+              onChange={onChange}
+              className="add-input"
+            />
 
-    const toggleClose = () => {
-        setOpen(false);
-    }
+            <label htmlFor="job_characteristics.size" className="f-label">
+              Select a size
+            </label>
+            <select
+              name="job_characteristics.size"
+              id="job_characteristics.size"
+              onChange={onChange}
+              value={formValue.job_characteristics.size}
+              className="add-input"
+            >
+              <option value="">Select a size</option>
+              <option value="small">Small</option>
+              <option value="medium">Medium</option>
+              <option value="large">Large</option>
+              <option value="custom">Custom</option>
+            </select>
 
-    return (
-        <ContainerStyled>
-            <RiAddCircleLine onClick={toggleOpen} className='add-icon' />
-            <Drawer
-                title='Add A Job Request'
-                placement='right'
-                closable={true}
-                onClose={toggleClose}
-                open={open}
-                size='large'
-                extra={
-                    <>
-                        {loading && <Spin size='large' />}
-                        <Button type="primary" onClick={handleSubmit}>Submit</Button>
-                    </>
-                }
-            >   <AddJobStyled className = 'add-icon'>
-                <div className='form-container'>
-                    <input
-                        name='job_title'
-                        type='text'
-                        placeholder='Enter job title'
-                        onChange={onChange}
-                        value={formValue.job_title}
-                        className='add-input f-title'
-                    />
+            <label htmlFor="job_characteristics.body_placement" className="f-label">
+              Select body placement
+            </label>
+            <select
+              name="job_characteristics.body_placement"
+              id="job_characteristics.body_placement"
+              onChange={onChange}
+              value={formValue.job_characteristics.body_placement}
+              className="add-input"
+            >
+              <option value="">Select body placement</option>
+              <option value="arm">Arm</option>
+              <option value="leg">Leg</option>
+              <option value="chest">Chest</option>
+              <option value="back">Back</option>
+              <option value="head">Head</option>
+              <option value="neck">Neck</option>
+              <option value="other">Other</option>
+            </select>
 
-                    <input 
-                        name='job_location'
-                        type='text'
-                        placeholder='City Name'
-                        value={formValue.job_location}
-                        onChange={onChange}
-                        className='add-input'
-                    />
+            <label htmlFor="job_characteristics.pain_tolerance" className="f-label">
+              Select pain tolerance
+            </label>
+            <select
+              name="job_characteristics.pain_tolerance"
+              id="job_characteristics.pain_tolerance"
+              onChange={onChange}
+              value={formValue.job_characteristics.pain_tolerance}
+              className="add-input"
+            >
+              <option value="">Select pain tolerance</option>
+              <option value="low">Low</option>
+              <option value="moderate">Moderate</option>
+              <option value="high">High</option>
+            </select>
 
-                    <input 
-                        name='job_zipcode'
-                        type='text'
-                        placeholder='Zip Code'
-                        value={formValue.job_zipcode}
-                        onChange={onChange}
-                        className='add-input'
-                    />
+            <label htmlFor="job_characteristics.color" className="f-label">
+              Select a color
+            </label>
+            <select
+              name="job_characteristics.color"
+              id="job_characteristics.color"
+              onChange={onChange}
+              value={formValue.job_characteristics.color}
+              className="add-input"
+            >
+              <option value="">Select a color</option>
+              <option value="blue">Color</option>
+              <option value="black">Black</option>
+              <option value="custom">Custom</option>
+            </select>
 
-                    <select
-                        name='job_characteristics.size'
-                        onChange={onChange}
-                        value={formValue.job_characteristics.size}
-                        className='add-input'
-                    >
-                        <option value=''>Select a size</option>
-                        <option value='small'>Small</option>
-                        <option value='medium'>Medium</option>
-                        <option value='large'>Large</option>
-                        <option value='custom'>Custom</option>
-                    </select>
+            <label htmlFor="job_characteristics.style" className="f-label">
+              Select a style
+            </label>
+            <select
+              name="job_characteristics.style"
+              id="job_characteristics.style"
+              onChange={onChange}
+              value={formValue.job_characteristics.style}
+              className="add-input"
+            >
+              <option value="">Select a style</option>
+              <option value="abstract">Abstract</option>
+              <option value="realistic">Realistic</option>
+              <option value="minimalist">Minimalist</option>
+              <option value="tribal">Tribal</option>
+              <option value="geometric">Geometric</option>
+              <option value="portrait">Portrait</option>
+              <option value="other">Other</option>
+            </select>
 
-                    <select
-                        name='job_characteristics.body_placement'
-                        onChange={onChange}
-                        value={formValue.job_characteristics.body_placement}
-                        className='add-input'
-                    >
-                        <option value=''>Select body placement</option>
-                        <option value='arm'>Arm</option>
-                        <option value='leg'>Leg</option>
-                        <option value='chest'>Chest</option>
-                        <option value='back'>Back</option>
-                        <option value='head'>Head</option>
-                        <option value='neck'>Neck</option>
-                        <option value='other'>Other</option>
-                    </select>
+            <label htmlFor="job_characteristics.has_allergy" className="f-label">
+              Has Allergy?
+            </label>
+            <label className="checkbox-label">
+              <input
+                name="job_characteristics.has_allergy"
+                type="checkbox"
+                checked={formValue.job_characteristics.has_allergy === 'true'}
+                onChange={onChange}
+                className="add-input"
+              />
+              Yes
+            </label>
 
-                    <select
-                        name='job_characteristics.pain_tolerance'
-                        onChange={onChange}
-                        value={formValue.job_characteristics.pain_tolerance}
-                        className='add-input'
-                    >
-                        <option value=''>Select pain tolerance</option>
-                        <option value='low'>Low</option>
-                        <option value='moderate'>Moderate</option>
-                        <option value='high'>High</option>
-                    </select>
-                    <select
-                        name='job_characteristics.color'
-                        onChange={onChange}
-                        value={formValue.job_characteristics.color}
-                        className='add-input'
-                    >
-                        <option value=''>Select a color</option>
-                        <option value='blue'>Color</option>
-                        <option value='black'>Black</option>
-                        <option value='custom'>Custom</option>
-                    </select>
+            <label htmlFor="job_characteristics.skin_condition" className="f-label">
+              Select Skin Condition Status
+            </label>
+            <select
+              name="job_characteristics.skin_condition"
+              id="job_characteristics.skin_condition"
+              onChange={onChange}
+              value={formValue.job_characteristics.skin_condition}
+              className="add-input"
+            >
+              <option value="">Select Skin Condition Status</option>
+              <option value="true">True</option>
+              <option value="false">False</option>
+            </select>
 
-                    <select
-                        name='job_characteristics.style'
-                        onChange={onChange}
-                        value={formValue.job_characteristics.style}
-                        className='add-input'
-                    >
-                        <option value=''>Select a style</option>
-                        <option value='abstract'>Abstract</option>
-                        <option value='realistic'>Realistic</option>
-                        <option value='minimalist'>Minimalist</option>
-                        <option value='tribal'>Tribal</option>
-                        <option value='geometric'>Geometric</option>
-                        <option value = 'portrait'>Portrait</option>
-                        <option value = 'other'>Other</option>
-                    </select>
+            <label htmlFor="job_budget" className="f-label">
+              Budget
+            </label>
+            <input
+              name="job_budget"
+              type="number"
+              id="job_budget"
+              placeholder="Budget"
+              value={formValue.job_budget}
+              onChange={onChange}
+              className="add-input"
+            />
 
-                    <label>
-                        <input 
-                            name='job_characteristics.has_allergy'
-                            type='checkbox'
-                            checked={formValue.job_characteristics.has_allergy === 'true'}
-                            onChange={onChange}
-                            className='add-input'
-                        />
-                        Has Allergy?
-                    </label>
+            <label htmlFor="job_expiry_date" className="f-label">
+              Expiry Date
+            </label>
+            <input
+              name="job_expiry_date"
+              type="date"
+              id="job_expiry_date"
+              value={formValue.job_expiry_date}
+              onChange={onChange}
+              className="add-input"
+            />
 
-                    <select
-                        name='job_characteristics.skin_condition'
-                        onChange={onChange}
-                        value={formValue.job_characteristics.skin_condition}
-                        className='add-input'
-                    >
-                        <option value=''>Select Skin Condition Status</option>
-                        <option value='true'>True</option>
-                        <option value='false'>False</option>
-                    </select>
-
-                    <input 
-                        name='job_budget'
-                        type='number'
-                        placeholder='Budget'
-                        value={formValue.job_budget}
-                        onChange={onChange}
-                        className='add-input'
-                    />
-
-                    <input
-                        name='job_expiry_date'
-                        type='date'
-                        value={formValue.job_expiry_date}
-                        onChange={onChange}
-                        className='add-input'
-                    />
-
-                    <textarea
-                        name='job_desc'
-                        placeholder='Job Description'
-                        onChange={onChange}
-                        value={formValue.job_desc}
-                        className='add-input'
-                    ></textarea>
-                </div>
-                </AddJobStyled>
-            </Drawer>
-        </ContainerStyled>
-    )
-}
+            <label htmlFor="job_desc" className="f-label">
+              Job Description
+            </label>
+            <span className="desc-char-count">{descCharCount} / {MAX_DESC_CHAR_COUNT}</span>
+            <textarea
+              name="job_desc"
+              id="job_desc"
+              placeholder="Job Description"
+              onChange={onChange}
+              value={formValue.job_desc}
+              className="add-input"
+            ></textarea>
+        </FormContainer>
+      </StyledDrawer>
+    </ContainerStyled>
+  );
+};
 
 const mapStateToProps = (st) => ({
-    userData: st.userData
-})
+  userData: st.userData,
+});
 
 const ConnectedCreateJobForm = connect(mapStateToProps, {
-    createJob: jobActions.createJob
-})(CreateJobForm)
+  createJob: jobActions.createJob,
+})(CreateJobForm);
 
 export default ConnectedCreateJobForm;
 
-const ContainerStyled = styled.div`
+const StyledDrawer = styled(Drawer)`
 
-    .add-icon {
-        font-size: 2rem;
-        color: ${(pr) => pr.theme.color.red};
-        cursor: pointer;
-        transition: all 0.3s ease;
-
-        &:hover {
-            transform: scale(1.1);
-            opacity: 0.8;
-        }
+    .ant-drawer-content-wrapper {
+        background: ${pr => pr.theme.color.white};
     }
+
+    .ant-drawer-header {
+        background: ${pr => pr.theme.color.red};
+        color: ${pr => pr.theme.color.white};
+        font-family: ${pr => pr.theme.font.family.secondary};
+    }
+
+    .ant-drawer-title {
+        font-family: ${pr => pr.theme.font.family.secondary};
+    }
+
+    .ant-drawer-body {
+        font-family: ${pr => pr.theme.font.family.secondary};
+        background: rgba(0,0,0,0.8);
+    }
+
 
 `
 
-const AddJobStyled = styled.div`
+const ContainerStyled = styled.div`
+  .create-job-btn {
+    width: 100%;
+    padding: 0.3rem 1rem;
+    border: none;
+    background-color: ${pr => pr.theme.color.red};
+    font-family: ${pr => pr.theme.font.family.secondary};
+    font-size: ${pr => pr.theme.font.size.s};
+    color: white;
+    cursor: pointer;
+  }
 
-    .form-container {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-
-        .add-input, textarea, select {
-            padding: 0.65rem 0.75rem;
-            border-radius: 4px;
-            border: 1px solid #d9d9d9;
-            transition: border 0.3s ease;
-            font-size: 1rem;
-
-            &:hover {
-                border-color: ${(pr) => pr.theme.color.red};
-            }
-
-            &:focus {
-                border-color: ${(pr) => pr.theme.color.blue};
-                outline: none;
-            }
-        }
-
-        .f-title {
-            font-size: 1.25rem;
-            font-weight: bold;
-            padding-left: 0.75rem;
-            padding-right: 0.75rem;
-        }
-
-        label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-
-            .add-input {
-                margin-right: 0.5rem;
-            }
+    @media (min-width: 601px) and (max-width: 1024px) {
+        .create-job-btn {
+        width: 100%;
         }
     }
+`;
 
-    .drawer-footer {
-        display: flex;
-        justify-content: flex-end;
-        padding: 10px 20px;
+const FormContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    .f-label {
+        font-size: 1.2rem;
+        margin-top: 20px;
+        font-family: ${pr => pr.theme.font.family.secondary};
     }
+
+    input, select {
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-family: ${pr => pr.theme.font.family.secondary};
+        background: ${pr => pr.theme.color.red};
+        color: white;
+    }
+
+    input:focus, select:focus, textarea:focus {
+        outline: none;
+    }
+
+    input::placeholder, select::placeholder, textarea::placeholder {
+        font-family: ${pr => pr.theme.font.family.secondary};
+        color: white;
+    }
+
+    label {
+        color: white;
+        font-family: ${pr => pr.theme.font.family.secondary};
+    }
+
+    select {
+        color: white;
+    }
+
+    textarea {
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-family: ${pr => pr.theme.font.family.secondary};
+        background: ${pr => pr.theme.color.red};
+        resize: none;
+        height: 10rem;
+        color: white;
+    }
+
+    .desc-char-count {
+        font-size: 0.8rem;
+        color: white;
+        font-family: ${pr => pr.theme.font.family.secondary};
+    }
+
+    
 `;
