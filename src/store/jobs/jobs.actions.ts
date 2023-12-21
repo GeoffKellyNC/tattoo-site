@@ -272,6 +272,31 @@ export const clientAcceptBid = (job_id: string, artist_id: string) => async (dis
 }
 
 
+export const getArtistAcceptedJobs = () => async (dispatch: Dispatch): Promise<void> => {
+    try {
+        
+        const res = await axiosWithAuth().get(`${BASE_URL}/jobs/get-accepted-jobs-artist`)
+
+        dispatch({
+            type: jobTypes.SET_ACCEPTED_JOBS,
+            payload: res.data.data
+        })
+
+        return
+
+    } catch (error) {
+        console.log('Error Getting Artists Accepted Jobs!', error) //!TODO: Handle This Error
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error Getting Artists Accepted Jobs!'
+            }
+        })
+    }
+}
+
+
 
 
 

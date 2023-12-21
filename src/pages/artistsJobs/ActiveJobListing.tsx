@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { UserJobType, JobBidType } from '../../store/jobs/ts-types/jobTypes'
+import { UserJobType, JobBidType, ArtistAcceptedJobType } from '../../store/jobs/ts-types/jobTypes'
 import styled from 'styled-components'
 
 import defaultImg from '../../assets/defaultJobImg.png'
@@ -14,10 +14,11 @@ import { FaMoneyBillAlt } from "react-icons/fa";
 
 
 interface Props {
-    job: UserJobType,
+    job: UserJobType | ArtistAcceptedJobType,
     artistCurrentBids?: JobBidType[],
     clientCurrentBids?: JobBidType[],
-    accountType: string
+    accountType: string,
+    isJobAccepted?: boolean
 
 }
 
@@ -38,7 +39,8 @@ const ActiveJobListing: React.FC<Props> = ({
   job,
   artistCurrentBids,
   accountType,
-  clientCurrentBids
+  clientCurrentBids,
+  isJobAccepted
 }) => {
   const [jobOpen, setJobOpen] = useState<boolean>(false)
   const [bidSubmitted, setBidSubmitted] = useState<boolean>(false)
@@ -47,11 +49,16 @@ const ActiveJobListing: React.FC<Props> = ({
   const [numOfBids, setNumOfBids] = useState<number>(0)
 
   useEffect(() => {
-    if(accountType === 'artist' && artistCurrentBids.length > 0){
-      const found = artistCurrentBids.find(bid => bid.job_id === job.job_id)
-      if(found){
-        setBidSubmitted(true)
+    if(accountType === 'artist'){
+      if(!isJobAccepted  && artistCurrentBids.length > 0){
+        const found = artistCurrentBids.find(bid => bid.job_id === job.job_id)
+        if(found){
+          setBidSubmitted(true)
+        }
+        return
       }
+
+      return
     }
 
     if(accountType === 'client' && clientCurrentBids.length > 0){
@@ -60,7 +67,7 @@ const ActiveJobListing: React.FC<Props> = ({
         setNumOfBids(newJobBids.length); 
         setJobHasBid(newJobBids.length > 0);
     }
-  }, [accountType, artistCurrentBids, clientCurrentBids, job.job_id])
+  }, [accountType, artistCurrentBids, clientCurrentBids, isJobAccepted, job.job_id])
 
 
   const handleJobClick = (event) => {
@@ -78,7 +85,8 @@ const ActiveJobListing: React.FC<Props> = ({
             bidSubmitted = {bidSubmitted} 
             accountType= {accountType}
             jobBids={jobBids}
-            jobHasBid = {jobHasBid} /> 
+            jobHasBid = {jobHasBid} 
+            isJobAccepted = {isJobAccepted}/> 
             )
       }
       <JobContainer onClick = {handleJobClick} jobHasBid = {jobHasBid} bidSubmitted = {bidSubmitted}>

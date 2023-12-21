@@ -11,6 +11,8 @@ import { FaRegMoneyBillAlt } from 'react-icons/fa'
 import { RiUserSettingsLine } from 'react-icons/ri'
 import { MdOutlineAdminPanelSettings } from 'react-icons/md'
 import { SiNginxproxymanager } from 'react-icons/si'
+import { ImHammer2 } from "react-icons/im";
+
 
 interface Props {
     userData: UserData,
@@ -44,15 +46,23 @@ const SideMenu: React.FC<Props> = ({
 
                 {
                     accountType === 'client' ? (
-                        <Link to={`${url}/posted-jobs`} className = 'menu-item'>
-                            <TbGitPullRequest className = 'menu-icon' />
-                            <span>My Requests </span>
-                        </Link>
+                        <>
+                            <Link to={`${url}/posted-jobs`} className = 'menu-item'>
+                                <TbGitPullRequest className = 'menu-icon' />
+                                <span>My Requests </span>
+                            </Link>
+                        </>
                     ) : (
-                        <Link to = {`${url}/artists-jobs`} className = 'menu-item'>
-                            <FaRegMoneyBillAlt className = 'menu-icon' />
-                            <span> Bids </span>
-                        </Link>
+                        <>
+                            <Link to = {`${url}/artists-jobs`} className = 'menu-item'>
+                                <ImHammer2 className = 'menu-icon' />
+                                <span> Bids </span>
+                            </Link>
+                            <Link to = {`${url}/artist-accepted-jobs`} className = 'menu-item'>
+                                <FaRegMoneyBillAlt className = 'menu-icon' />
+                                <span> My Jobs </span>
+                            </Link>
+                        </>
                     )
                 }
                 <Link to = {accountType === 'artist' ? `${url}/artist-settings` : `${url}/client-settings`} className='menu-item'>

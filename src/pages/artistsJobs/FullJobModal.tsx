@@ -34,6 +34,7 @@ interface Props {
     accountType?: string,
     jobBids?: JobBidType[],
     jobHasBid?: boolean,
+    isJobAccepted?: boolean
 }
 
 const FullJobModal: React.FC<Props> = ({
@@ -43,7 +44,8 @@ const FullJobModal: React.FC<Props> = ({
     bidSubmitted = false,
     accountType,
     jobBids,
-    jobHasBid = false
+    jobHasBid = false,
+    isJobAccepted = false
 }) => {
     const [drawerOpen, setDrawerOpen] = useState<boolean>(false)
     const [addingPhoto, setAddingPhoto] = useState<boolean>(false)
@@ -159,7 +161,7 @@ const FullJobModal: React.FC<Props> = ({
                     }
                 </div>
                 {
-                    showButton && !bidSubmitted && accountType === 'artist' && (
+                    showButton && !bidSubmitted && accountType === 'artist' && !isJobAccepted && (
                     <div className = 'make-bid info-section'>
                         <TbPigMoney color = 'pink' size =  {'1.5rem'} className = 'icon' />
                         <button onClick = {() => setDrawerOpen(true)} className = 'make-bid-btn quick-text'> Make an Offer </button>

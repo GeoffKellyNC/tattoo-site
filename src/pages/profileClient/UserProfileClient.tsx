@@ -9,10 +9,11 @@ import ClientPostedJobs from './views/clientPostedJobs/ClientPostedJobs'
 import ArtistBidsMain from './views/artistsBids/ArtistBidsMain'
 import ArtistSettings from './views/settings/ArtistSettings'
 import UserSettings from './views/settings/UserSettings'
+import ArtistsAcceptedJobs from './views/artistsAcceptedJobs/ArtistsAcceptedJobs'
 
 
 
-const UserProfileClient: React.FC= () => {
+const UserProfileClient: React.FC= () => { 
 
   return (
     <UserProfileStyled className = 'MAIN-CONTAINER'>
@@ -37,6 +38,11 @@ const UserProfileClient: React.FC= () => {
           <Route path = {'/client-settings'} element = {
             <ProtectedRoute requiredRoles={['client']}>
               <UserSettings />
+            </ProtectedRoute>
+          } />
+          <Route path = {'/artist-accepted-jobs'} element = {
+            <ProtectedRoute requiredRoles={['artist']}>
+              <ArtistsAcceptedJobs />
             </ProtectedRoute>
           } />
         </Routes> 
