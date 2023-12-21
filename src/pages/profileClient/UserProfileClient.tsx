@@ -8,8 +8,9 @@ import HomeProfile from './views/homeProfile/HomeProfile'
 import ClientPostedJobs from './views/clientPostedJobs/ClientPostedJobs'
 import ArtistBidsMain from './views/artistsBids/ArtistBidsMain'
 import ArtistSettings from './views/settings/ArtistSettings'
-import UserSettings from './views/settings/UserSettings'
+import UserSettings from './views/settings/UserSettings'  
 import ArtistsAcceptedJobs from './views/artistsAcceptedJobs/ArtistsAcceptedJobs'
+import ClientAcceptedJobs from './views/clientAcceptedJobs/ClientAcceptedJobs'
 
 
 
@@ -43,6 +44,11 @@ const UserProfileClient: React.FC= () => {
           <Route path = {'/artist-accepted-jobs'} element = {
             <ProtectedRoute requiredRoles={['artist']}>
               <ArtistsAcceptedJobs />
+            </ProtectedRoute>
+          } />
+          <Route path = {'/client-accepted-jobs'} element = {
+            <ProtectedRoute requiredRoles={['client']}>
+              <ClientAcceptedJobs />
             </ProtectedRoute>
           } />
         </Routes> 

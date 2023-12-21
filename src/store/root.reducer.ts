@@ -22,6 +22,7 @@ import { userDataNotifications } from "./notifications/notify.reducer";
 import { artistFullData } from "./user/user.reducer";
 import { userCurrentCords } from "./user/user.reducer";
 import { artistAcceptedJobs } from "./jobs/jobs.reducer";
+import { clientAcceptedJobs } from "./jobs/jobs.reducer";
 
 
 const rootReducer = combineReducers({
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
     artistFullData,
     appLoading,
     appNotifications,
+    clientAcceptedJobs,
     clientUserImages,
     clientCurrentBids,
     isAuthenticated,

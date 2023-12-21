@@ -12,6 +12,8 @@ import { RiUserSettingsLine } from 'react-icons/ri'
 import { MdOutlineAdminPanelSettings } from 'react-icons/md'
 import { SiNginxproxymanager } from 'react-icons/si'
 import { ImHammer2 } from "react-icons/im";
+import { MdOutlineWorkOutline } from "react-icons/md";
+
 
 
 interface Props {
@@ -50,6 +52,10 @@ const SideMenu: React.FC<Props> = ({
                             <Link to={`${url}/posted-jobs`} className = 'menu-item'>
                                 <TbGitPullRequest className = 'menu-icon' />
                                 <span>My Requests </span>
+                            </Link>
+                            <Link to={`${url}/client-accepted-jobs`} className = 'menu-item'>
+                                <MdOutlineWorkOutline className = 'menu-icon' />
+                                <span> Accepted Jobs </span>
                             </Link>
                         </>
                     ) : (

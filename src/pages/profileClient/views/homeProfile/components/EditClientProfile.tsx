@@ -49,9 +49,6 @@ const EditClientProfile: React.FC<EditClientProfileProps> = ({
 
   return (
     <EditClientProfileStyled>
-        <div>
-            <span> Edit Client Profile </span>
-        </div>
         <div className = 'form-container'>
             <span className = 'label'> City: </span>
             <input 
@@ -134,36 +131,83 @@ export default connect((st: RootState) => ({
 
 
 const EditClientProfileStyled = styled.div`
-    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0;
+
+
     .form-container {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        align-items: flex-start;
+        width: 100%;
     }
+
     .label {
-        font-weight: bold;
+        margin: 1rem 0;
+        font-size: 1.2rem;
+        font-family: ${pr => pr.theme.font.family.secondary};
     }
+
+    .label-tag {
+        margin-bottom: 0;
+    }
+
     .form-input {
-        padding: 8px;
+        width: 100%;
+        padding: 0.5rem;
         border-radius: 5px;
-        border: 1px solid gray;
-        background-color: #2c2c2c;
+        border: 1px solid #555;
+        font-size: 1.2rem;
+        font-family: ${pr => pr.theme.font.family.secondary};
+        background-color: ${pr => pr.theme.color.red};
         color: white;
     }
+
+    input::placeholder {
+        color: white;
+    }
+
+    input:focus {
+        outline: none;
+    }
+
+    textarea {
+        resize: none;
+        height: 10rem;
+        color: white;
+    }
+
+    textarea::placeholder {
+        color: white;
+    }
+
+    textarea:focus {
+        outline: none;
+    }
+
     .long-form {
-        height: 100px;
-        resize: vertical;
+        width: 100%;
     }
+
     button {
-        padding: 10px 15px;
-        border: none;
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
         border-radius: 5px;
-        background-color: #1890ff;
+        border: none;
+        background-color: ${pr => pr.theme.color.red};
         color: white;
+        font-size: 1.2rem;
+        font-family: ${pr => pr.theme.font.family.secondary};
         cursor: pointer;
-        margin-top: 10px;
-        &:hover {
-            background-color: #40a9ff;
-        }
+        transition: background-color 0.3s ease-in-out;
     }
+
+    button:hover {
+        background-color: #ff0000;
+    }
+
+
 `;

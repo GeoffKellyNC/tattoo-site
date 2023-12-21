@@ -61,11 +61,15 @@ const ActiveJobListing: React.FC<Props> = ({
       return
     }
 
-    if(accountType === 'client' && clientCurrentBids.length > 0){
-        const newJobBids = clientCurrentBids.filter(bid => bid.job_id === job.job_id);
-        setJobBids(newJobBids); 
-        setNumOfBids(newJobBids.length); 
-        setJobHasBid(newJobBids.length > 0);
+    if(accountType === 'client'){
+      if(!isJobAccepted && clientCurrentBids.length > 0){
+          const newJobBids = clientCurrentBids.filter(bid => bid.job_id === job.job_id);
+          setJobBids(newJobBids); 
+          setNumOfBids(newJobBids.length); 
+          setJobHasBid(newJobBids.length > 0);
+      }
+
+      return
     }
   }, [accountType, artistCurrentBids, clientCurrentBids, isJobAccepted, job.job_id])
 

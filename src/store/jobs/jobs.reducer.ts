@@ -5,6 +5,18 @@ import {
     JobBidType, 
     ArtistAcceptedJobType} from './ts-types/jobTypes'
 
+
+export function clientAcceptedJobs(state: ArtistAcceptedJobType[] = [], action: UserJobActionType) {
+    switch(action.type) {
+        case jobTypes.SET_CLIENT_ACCEPTED_JOB:
+            return action.payload
+        case jobTypes.ADD_CLIENT_ACCEPTED_JOB:
+            return [...state, action.payload]
+        default:
+            return state
+    }
+}
+
 export function artistAcceptedJobs(state: ArtistAcceptedJobType[] = [], action: UserJobActionType) {
     switch(action.type) {
         case jobTypes.SET_ACCEPTED_JOBS:
