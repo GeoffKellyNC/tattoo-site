@@ -90,6 +90,7 @@ const FullJobModal: React.FC<Props> = ({
             if(res){
                 setArtistData(res)
                 setArtistContact(res.contactInfo[0])
+                console.log(artistContact)
             }
         } else {
             return
