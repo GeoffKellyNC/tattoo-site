@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { UserJobType, JobBidType, ArtistAcceptedJobType } from '../../store/jobs/ts-types/jobTypes'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { RootState } from '../../store/root.reducer'
+import { ContactInfo } from '../../store/user/types/userStateTypes'
 
 import defaultImg from '../../assets/defaultJobImg.png'
 
 // Components
-import FullJobModal from './FullJobModal'
+import FullJobModal from '../../components/fullJobModal/FullJobModal'
 
 //Imported Icons
 import { FaBriefcaseMedical } from "react-icons/fa6";
@@ -14,11 +17,13 @@ import { FaMoneyBillAlt } from "react-icons/fa";
 
 
 interface Props {
-    job: UserJobType | ArtistAcceptedJobType,
+    job: UserJobType,
     artistCurrentBids?: JobBidType[],
     clientCurrentBids?: JobBidType[],
     accountType: string,
-    isJobAccepted?: boolean
+    isJobAccepted?: boolean,
+    accetpedJobData?: ArtistAcceptedJobType,
+    userContactProfile: ContactInfo
 
 }
 
@@ -40,7 +45,9 @@ const ActiveJobListing: React.FC<Props> = ({
   artistCurrentBids,
   accountType,
   clientCurrentBids,
-  isJobAccepted
+  isJobAccepted,
+  accetpedJobData,
+  userContactProfile
 }) => {
   const [jobOpen, setJobOpen] = useState<boolean>(false)
   const [bidSubmitted, setBidSubmitted] = useState<boolean>(false)
@@ -66,7 +73,7 @@ const ActiveJobListing: React.FC<Props> = ({
           const newJobBids = clientCurrentBids.filter(bid => bid.job_id === job.job_id);
           setJobBids(newJobBids); 
           setNumOfBids(newJobBids.length); 
-          setJobHasBid(newJobBids.length > 0);
+          setJobHasBid(newJobBids.length > 0); 
       }
 
       return
@@ -90,7 +97,10 @@ const ActiveJobListing: React.FC<Props> = ({
             accountType= {accountType}
             jobBids={jobBids}
             jobHasBid = {jobHasBid} 
-            isJobAccepted = {isJobAccepted}/> 
+            isJobAccepted = {isJobAccepted}
+            accceptedJobData={accetpedJobData}
+            artistContactData = {userContactProfile}
+            /> 
             )
       }
       <JobContainer onClick = {handleJobClick} jobHasBid = {jobHasBid} bidSubmitted = {bidSubmitted}>
@@ -115,10 +125,11 @@ const ActiveJobListing: React.FC<Props> = ({
               </div>
             </div>
             <span className = 'job-title'> {job.job_title} </span>
-            <span className = 'job-budget'> ${job.job_budget} </span>
+            { !isJobAccepted && <span className = 'job-budget'> ${job.job_budget} </span>}
+            { isJobAccepted && accountType === 'client' && <span className = 'job-budget'> ${accetpedJobData.attr1.proposed_price} </span>} 
             <span className = 'job-location'> {job.job_location} </span>
             {
-              jobHasBid && (
+              jobHasBid && accountType === 'client'  &&(
                 <div className = 'bid-count-container'>
                   <FaMoneyBillAlt color = 'green' />
                   <span className = 'bid-count'> Job has {numOfBids} bids! </span>
@@ -135,7 +146,14 @@ const ActiveJobListing: React.FC<Props> = ({
   )
 }
 
-export default ActiveJobListing
+const mapStateToProps = (state: RootState) => ({
+  userContactProfile: state.userContactProfile
+})
+  
+
+const ConnectedActiveJobListing = connect(mapStateToProps, null)(ActiveJobListing)
+
+export default ConnectedActiveJobListing
 
 
 const JobContainer = styled.div<{jobHasBid: boolean, bidSubmitted: boolean}>`

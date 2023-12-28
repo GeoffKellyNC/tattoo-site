@@ -51,6 +51,7 @@ const ClientAcceptedJobs: React.FC<Props> = ({
                                     job = {job}
                                     accountType = 'client'
                                     isJobAccepted = {true}
+                                    accetpedJobData = {job}
                                 />
                             ))
                         )

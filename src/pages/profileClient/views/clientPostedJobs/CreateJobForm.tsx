@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Drawer, Button, Spin } from 'antd';
 import { connect, useDispatch } from 'react-redux';
 import * as jobActions from '../../../../store/jobs/jobs.actions';
-import { UserFullProfile } from '../../../../store/user/types/userStateTypes';
+import { UserFullProfile, ContactDetailFull } from '../../../../store/user/types/userStateTypes';
 import * as notifyTypes from '../../../../store/notifications/notify.types';
 
 const MAX_DESC_CHAR_COUNT = 1000;
@@ -30,9 +30,10 @@ const initialFormValues = {
 interface Props {
   createJob: (job) => Promise<void>;
   userData: UserFullProfile;
+  userContactProfile: ContactDetailFull;
 }
 
-const CreateJobForm: React.FC<Props> = ({ createJob, userData }) => {
+const CreateJobForm: React.FC<Props> = ({ createJob, userData, userContactProfile }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [formValue, setFormValue] = useState(initialFormValues);
   const [loading, setLoading] = useState<boolean>(false);
@@ -213,13 +214,37 @@ const CreateJobForm: React.FC<Props> = ({ createJob, userData }) => {
     toggleClose();
   };
 
+  const checkIfClientHasContactInfo = (): boolean => {
+    for(const [key, value] of Object.entries(userContactProfile)) {
+      if(key.startsWith('contact_')){
+        if(value.public && value.value !== '') {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   const toggleOpen = () => {
+    const hasContact: boolean = checkIfClientHasContactInfo();
+    if(!hasContact){
+      dispatch({
+        type: notifyTypes.SET_NOTIFY,
+        payload: {
+            message: 'Please add contact information before creating a job',
+            type: 'error',
+        },
+      });
+      return;
+    }
     setOpen(true);
   };
 
   const toggleClose = () => {
     setOpen(false);
   };
+
+
 
   return (
     <ContainerStyled>
@@ -439,6 +464,7 @@ const CreateJobForm: React.FC<Props> = ({ createJob, userData }) => {
 
 const mapStateToProps = (st) => ({
   userData: st.userData,
+  userContactProfile: st.userContactProfile,
 });
 
 const ConnectedCreateJobForm = connect(mapStateToProps, {

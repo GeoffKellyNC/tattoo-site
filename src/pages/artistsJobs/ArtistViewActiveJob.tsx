@@ -19,7 +19,7 @@ interface Props {
 const ArtistViewActiveJob: React.FC<Props> = ({
   artistCurrentBids,
   accountType,
-  userCurrentCords
+  userCurrentCords,
 }) => {
   const [jobs, setJobs] = useState<UserJobType[]>([]);
   const [page, setPage] = useState(1);
@@ -98,9 +98,6 @@ const ArtistViewActiveJob: React.FC<Props> = ({
       <ArtistJobListTitle />
 
       <SearchContainer>
-        <div>
-          <span> Search Type: </span>
-        </div>
         <select 
           value={searchType}
           onChange={e => setSearchType(e.target.value)}
@@ -120,7 +117,6 @@ const ArtistViewActiveJob: React.FC<Props> = ({
             <option value= '5000'> All Jobs </option>
           </select>
         )}
-        <span> Loaded Jobs: {jobs.length} </span>
       </SearchContainer>
 
       <JobsContainer>
@@ -146,7 +142,7 @@ const mapStateToProps = (st: RootState) => ({
   // allActiveJobs: st.allActiveJobs,
   artistCurrentBids: st.artistCurrentBids,
   accountType: st.accountType,
-  userCurrentCords: st.userCurrentCords
+  userCurrentCords: st.userCurrentCords,
 });
 
 const ConnectedArtistViewActiveJob = connect(mapStateToProps, {
@@ -165,6 +161,8 @@ const StyledActiveJobs = styled.div`
     font-size: 1.5rem;
     font-family: ${pr => pr.theme.font.family.secondary};
     margin: 2rem auto; // Adjusted for better centering
+    position: relative;
+    left: 36%;
   }
 `;
 
@@ -185,15 +183,11 @@ const JobsContainer = styled.div`
 `;
 
 const SearchContainer = styled.div`
-  width: 80%;
-  margin: 1rem auto; // Adjusted margin
   display: flex;
-  flex-direction: column; // Stack elements vertically
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  gap: 1rem; // Adjusted gap
-  font-size: 1.2rem;
-  font-family: ${pr => pr.theme.font.family.secondary};
+  gap: 3rem; // Adjusted gap
+  margin-left: 12rem; // Adjusted margin
 
   select {
     font-size: 1rem; // Adjusted font size
@@ -201,11 +195,14 @@ const SearchContainer = styled.div`
     border-radius: 5px;
     padding: 0.5rem;
     background-color: #f55963;
+    width: 10rem; // Adjusted width
+    color: white;
   }
 
-  @media (min-width: 1025px) { 
+  @media (max-width: 1025px) { 
     flex-direction: row; // Row direction for larger screens
     justify-content: space-around; // Space out elements on larger screens
+    margin-left: 0; // Adjusted margin
   }
 `;
 

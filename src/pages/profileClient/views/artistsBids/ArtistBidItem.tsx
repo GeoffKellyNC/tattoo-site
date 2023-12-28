@@ -7,7 +7,7 @@ import { RootState } from '../../../../store/root.reducer'
 import { UserData } from '../../../../store/user/user.reducer'
 import defaultImage from '../../../../assets/defaultJobImg.png'
 
-import FullJobModal from '../../../artistsJobs/FullJobModal'
+import FullJobModal from '../../../../components/fullJobModal/FullJobModal'
 
 interface Props {
     bidData: JobBidType,

@@ -13,8 +13,6 @@ export interface UserFullProfile {
     user_name: string;
     display_name: string;
     user_email: string;
-    password: string;
-    googleId: string | null;
     created_date: string;
     account_type: string;
     isAdmin: boolean;

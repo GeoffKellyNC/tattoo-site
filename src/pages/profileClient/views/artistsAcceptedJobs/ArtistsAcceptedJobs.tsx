@@ -17,6 +17,7 @@ const ArtistsAcceptedJobs: React.FC<Props> = ({
     getArtistAcceptedJobs
 }) => {
     const [loading, setLoading] = useState<boolean>(false)
+    const [isFourJobs, setIsFourJobs] = useState<boolean>(false)
 
     const loadArtistAcceptedJobs = useCallback(async () => {
         setLoading(true)
@@ -29,6 +30,17 @@ const ArtistsAcceptedJobs: React.FC<Props> = ({
     useEffect(() => {
         loadArtistAcceptedJobs()
     }, [loadArtistAcceptedJobs])
+
+    // check if there are 4 jobs
+
+    useEffect(() => {
+        if (artistAcceptedJobs.length === 4) {
+            setIsFourJobs(true)
+        } else {
+            setIsFourJobs(false)
+        }
+    } , [artistAcceptedJobs])
+
 
 
   return (
@@ -45,7 +57,7 @@ const ArtistsAcceptedJobs: React.FC<Props> = ({
                             <span> No Active Jobs... </span>
                         </NoJobsContainer>
                     ) : (
-                        <JobsContainer>
+                        <JobsContainer isFourJobs = {isFourJobs}>
                             { artistAcceptedJobs.map(job => (
                                 <ActiveJobListing 
                                     job = {job}
@@ -106,10 +118,14 @@ const NoJobsContainer = styled.div`
 
 `
 
-const JobsContainer = styled.div`
+const JobsContainer = styled.div<{isFourJobs: boolean}>`
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: ${props => !props.isFourJobs ? 'flex-start' : 'space-between'};
     margin-top: 20px;
+    gap: ${props => !props.isFourJobs ? '2rem' : '0px'};
     width: 100%;
 `
+
+
+
