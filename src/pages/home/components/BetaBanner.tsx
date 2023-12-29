@@ -5,7 +5,7 @@ const BetaBanner: React.FC = () => {
   return (
     <StyledBetaBanner>
         <span className = 'beta-banner-text'>
-            This application is currently in ALPHA. Many features are still in development and will have bugs. v0.0.6
+            This application is currently in BETA. Many features are still in development and will have bugs. v0.1.4. For any questions or bugs please email: <a href = 'mailto:support@getlinkd.ink'> support@getlinkd.ink </a>
         </span>
     </StyledBetaBanner>
   )
@@ -25,6 +25,13 @@ const StyledBetaBanner = styled.div`
     font-size: 1.2rem;
     color: white;
     font-family: ${pr => pr.theme.font.family.secondary};
+
+    a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        border-bottom: 1px solid white;
+    }
 
     @media (max-width: 600px) {
         font-size: 0.6rem;
