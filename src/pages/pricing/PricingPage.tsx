@@ -13,7 +13,6 @@ const Container = styled.div`
 `;
 
 const TitleSection = styled.div`
-    background-color: #f57c3f;
     text-align: center;
     height: 40%;
     display: flex;
@@ -34,8 +33,9 @@ const TitleSection = styled.div`
 const Title = styled.span`
     font-size: 48px;
     color: ${pr => pr.theme.color.white};
-    font-family: ${pr => pr.theme.font.family.primary};
+    font-family: ${pr => pr.theme.font.family.secondary};
     font-size: 12rem;    
+    border-bottom: 1px solid ${pr => pr.theme.color.white};
 
     @media (max-width: 600px) { /* Mobile devices */
         font-size: 3rem;
@@ -64,7 +64,6 @@ const PricingGrid = styled.div`
 `;
 
 const PricingCard = styled.div`
-    background: rgba( 255, 255, 255, 0.25 );
     box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
     backdrop-filter: blur( 4px );
     -webkit-backdrop-filter: blur( 4px );
@@ -89,7 +88,7 @@ const CardTitle = styled(Section)<CardTitleProps>`
     color: #332c2b;
     text-align: center;
     width: 100%;
-    background-color: ${props => props.type === 'artist' ? '#FF69B4' : '#ADD8E6'}; 
+    background-color: ${props => props.type === 'artist' ? '#FD1111' : '#ADD8E6'}; 
     color: white;
 
 `;
