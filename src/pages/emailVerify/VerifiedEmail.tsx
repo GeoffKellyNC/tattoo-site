@@ -20,21 +20,25 @@ const makeApiCall = async (token: string, unxid: string): Promise<boolean> => {
 
 const VerifiedEmail: React.FC = () => {
     const [verified, setVerified] = useState(false)
-    const { token, unxid } = useParams()
+   
+    const params = useParams()
 
-    const verify = useCallback(async () => {
-        const verified = await makeApiCall(token, unxid)
-        setVerified(verified)
-    }, [token, unxid])
+    console.log('params: ', params) //! REMOVE
 
-    useEffect(() => {
-        verify()
-    }, [verify])
+    // const verify = useCallback(async () => {
+    //     const verified = await makeApiCall(token, unxid)
+    //     setVerified(verified)
+    // }, [token, unxid])
+
+    // useEffect(() => {
+    //     verify()
+    // }, [verify])
 
 
 
   return (
     <div>
+        <span> Verify Email.. </span>
         {
             verified ? <h1> Email Verified! Please Login to continue </h1> : <h1> Verifing... </h1>
         }
