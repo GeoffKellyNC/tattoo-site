@@ -31,6 +31,7 @@ import ArtistViewActiveJob from './pages/artistsJobs/ArtistViewActiveJob'
 import UserAlertItems from './components/UserAlertItems'
 import BetaBanner from './pages/home/components/BetaBanner'
 import ArtistFullProfileView from './pages/fullProfileViewArtist/ArtistFullProfile'
+import VerifiedEmail from './pages/emailVerify/VerifiedEmail'
 
 interface Props {
   accountType: string,
