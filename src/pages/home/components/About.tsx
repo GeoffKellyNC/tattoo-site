@@ -100,10 +100,21 @@ const RightContainer = styled.div`
     width: 40%;
     height: auto;
     transition: transform 0.3s ease;
+    &:nth-child(1) {
+        transform: translateY(-20px) rotate(-10deg);
+    }
+    &:nth-child(2) {
+        transform: translateY(10px) rotate(5deg);
+    }
+    &:nth-child(3) {
+        transform: translateY(30px) rotate(-5deg);
+    }
+    
 
     @media (max-width: 768px) {
       width: 60%;
       transform: none;
+      margin-top: 2rem;
     }
 
     @media (max-width: 480px) {
@@ -157,6 +168,8 @@ const Subtitle = styled.h3`
 
   @media (max-width: 768px) {
     font-size: 1.5rem;
+    width: 100%;
+    text-align: center;
   }
 
   @media (max-width: 480px) {
