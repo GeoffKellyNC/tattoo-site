@@ -18,7 +18,7 @@ const makeApiCall = async (token: string, unxid: string): Promise<boolean> => {
     }
 }
 
-const VerifiedEmail = () => {
+const VerifiedEmail: React.FC = () => {
     const [verified, setVerified] = useState(false)
     const { token, unxid } = useParams()
 

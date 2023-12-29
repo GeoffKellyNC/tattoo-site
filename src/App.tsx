@@ -203,6 +203,7 @@ const App: React.FC<Props>  = ({
         <Route path = '/pricing' element = { <PricingPage />} />
         <Route path = '/reset-password-user' element = { <EmailVerify />} />
         <Route path = '/reset-password/:token/:unxid' element = { <ResetPassForm />} />
+        <Route path = '/verify-email/:token/:unxid' element = { <VerifiedEmail />} />
         <Route path = '/user/client/:unxid/*' element = {
           <ProtectedRoute requiredRoles = {["client", 'artist']}>
             <UserProfileClient />
