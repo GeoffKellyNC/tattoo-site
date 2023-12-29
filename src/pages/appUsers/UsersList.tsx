@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { fetchUsers } from '../../api/fetchUsersPage'; 
 import { UserFullProfile } from '../../store/user/types/userStateTypes';
+import { connect } from 'react-redux';
+import { RootState } from '../../store/root.reducer';
 
 import UserComponent from './UserComponent'
 import styled from 'styled-components';
 
+interface Props {
+    userCurrentCords: {
+        lat: number,
+        lng: number
+    }
+}
 
-
-const UsersList: React.FC = () => {
+const UsersList: React.FC<Props> = ({
+    userCurrentCords
+}) => {
     const [users, setUsers] = useState<UserFullProfile[]>([]);
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
@@ -18,7 +27,7 @@ const UsersList: React.FC = () => {
             setIsLoading(true);
 
             try {
-                const fetchedUsers = await fetchUsers(page);
+                const fetchedUsers = await fetchUsers(page, 10, userCurrentCords);
                 console.log('fetchedUsers: ', fetchedUsers) //!REMOVE
                 setUsers(prevUsers => [...prevUsers, ...fetchedUsers]);
 
@@ -34,7 +43,7 @@ const UsersList: React.FC = () => {
         };
 
         loadUsers();
-    }, [page]);
+    }, [page, userCurrentCords]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -63,7 +72,13 @@ const UsersList: React.FC = () => {
     );
 }
 
-export default UsersList;
+const mapStateToProps = (state: RootState) => ({
+    userCurrentCords: state.userCurrentCords
+})
+
+const ConnectedUserList = connect(mapStateToProps, null)(UsersList)
+
+export default ConnectedUserList;
 
 
 const UserContainer = styled.div`

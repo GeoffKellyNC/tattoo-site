@@ -16,7 +16,7 @@ interface Props {
 
 const ArtistFullProfileView: React.FC<Props> = ({
     artistFullData,
-    getArtistDataForBid
+    getArtistDataForBid,
 }) => {
     const [loadingData, setLoadingData] = useState<boolean>(false)
 
@@ -60,7 +60,7 @@ const ArtistFullProfileView: React.FC<Props> = ({
 
 
 const mapStateToProps = (st: RootState) => ({
-    artistFullData: st.artistFullData
+    artistFullData: st.artistFullData,
 })
 
 const ConnectedArtistFullProfile = connect(mapStateToProps, {
