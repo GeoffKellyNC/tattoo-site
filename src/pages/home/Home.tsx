@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 // Components
 import Header from './components/Header'
+import About from './components/About'
 
 const Home: React.FC = () => {
 
@@ -11,8 +12,8 @@ const Home: React.FC = () => {
 
   return (
     <StyledHome>
-      {/* <BetaBanner /> */}
       <Header />
+      <About />
     </StyledHome>
   )
 }

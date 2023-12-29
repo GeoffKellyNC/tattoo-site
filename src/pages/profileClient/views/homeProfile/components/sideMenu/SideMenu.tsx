@@ -189,6 +189,12 @@ const SideMenuStyled = styled.div`
 
         @media (max-width: 1000px) {
             font-size: 2rem; /* Adjust font size for mobile */
+            border: 1px solid white;
+            padding: 5px;
+            width: 10rem;
+            justify-content: center;
+            border-radius: 5px;
+            background-color: #24273b;
 
             .menu-icon {
                 font-size: 2rem; /* Adjust icon size for mobile */
@@ -199,7 +205,7 @@ const SideMenuStyled = styled.div`
             }
 
             span {
-                display: none; /* Hide the text labels on mobile */
+                font-size: 1rem;
             }
         }
     }

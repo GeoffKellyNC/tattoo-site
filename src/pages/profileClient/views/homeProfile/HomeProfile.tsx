@@ -3,12 +3,22 @@ import ProfileTitles from './components/profileTitle/ProfileTitles'
 import ClientUserImages from '../../sections/ClientUserImages'
 import AboutMe from './components/aboutMe/AboutMe'
 import InfoBox from './components/InfoBox/InfoBox'
-import NotificationsBox from './components/notificationBox/NotificationsBox'
+import ArtistQuickLinks from './components/artistQuickLinks/ArtistQuickLinks'
+import { connect } from 'react-redux'
+import { RootState } from '../../../../store/root.reducer'
+
+
 import { useMobileCheck } from '../../../../hooks/isMobile'
 
 import SideMenu from './components/sideMenu/SideMenu'
 
-const HomeProfile: React.FC = () => {
+interface Props {
+  accountType: string
+}
+
+const HomeProfile: React.FC<Props> = ({
+  accountType
+}) => {
   const isMobile = useMobileCheck()
   return (
     <div className = 'main-container'>
@@ -20,12 +30,19 @@ const HomeProfile: React.FC = () => {
         <AboutMe />
       </div>
       <div className = 'data-right'>
+        {accountType === 'artist' && <ArtistQuickLinks />}
         <ClientUserImages />
       </div>
-      <NotificationsBox />
     </div>
   </div>
   )
 }
 
-export default HomeProfile 
+
+const mapStateToProps = (st: RootState) => ({
+  accountType: st.accountType
+})
+
+const ConnectedHomeProfile = connect(mapStateToProps)(HomeProfile)
+
+export default ConnectedHomeProfile 

@@ -75,7 +75,6 @@ const FullJobModal: React.FC<Props> = ({
     const [addingPhoto, setAddingPhoto] = useState<boolean>(false)
     const [bidDrawerOpen, setBidDrawerOpen] = useState<boolean>(false)
     const [artistData, setArtistData] = useState(null)
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [artistContact, setArtistContact] = useState<ContactInfo>({} as ContactInfo)
     const [acceptedBidData, setAcceptedBidData] = useState<ArtistAcceptedJobType>(null)
 
