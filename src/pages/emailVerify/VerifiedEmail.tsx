@@ -23,16 +23,16 @@ const VerifiedEmail: React.FC = () => {
    
     const params = useParams()
 
-    console.log('params: ', params) //! REMOVE
+    const { token, unxid } = params as { token: string, unxid: string }
 
-    // const verify = useCallback(async () => {
-    //     const verified = await makeApiCall(token, unxid)
-    //     setVerified(verified)
-    // }, [token, unxid])
+    const verify = useCallback(async () => {
+        const verified = await makeApiCall(token, unxid)
+        setVerified(verified)
+    }, [token, unxid])
 
-    // useEffect(() => {
-    //     verify()
-    // }, [verify])
+    useEffect(() => {
+        verify()
+    }, [verify])
 
 
 
