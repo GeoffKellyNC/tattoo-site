@@ -99,7 +99,6 @@ const LoggedInNavContainer = styled.div`
 
         .user-name {
             font-size: 1rem;
-            margin-right: 1rem;
             font-family: 'Roboto', sans-serif;
             cursor: pointer;
             transition: scale 0.2s;
@@ -123,6 +122,7 @@ const LoggedInNavContainer = styled.div`
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
+                margin-right: 1rem;
             }
         }
     }
