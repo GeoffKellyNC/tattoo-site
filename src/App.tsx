@@ -1,5 +1,5 @@
 import './App.css'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import React, { useEffect, useState, useCallback } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import * as userAction from './store/user/user.actions'
@@ -8,6 +8,7 @@ import * as appTypes from './store/app/app.types'
 import * as notifyTypes from './store/notifications/notify.types'
 import { RootState } from './store/root.reducer'
 import { UserFullProfile } from './store/user/types/userStateTypes'
+import ReactGA from 'react-ga'
 
 
 
@@ -64,6 +65,22 @@ const App: React.FC<Props>  = ({
   getContactDetails
 })  => {
   const [isMobile, setIsMobile] = useState(false)
+
+  const location = useLocation()
+
+  useEffect(() => {
+    ReactGA.initialize(import.meta.env.VITE_REACT_APP_GOOGLE_TRACKING_ID);
+  }
+  , [])
+ 
+
+  useEffect(() => {
+    if(import.meta.env.VITE_REACT_APP_NODE_ENV === 'production'){
+      ReactGA.pageview(location.pathname + location.search);
+    }
+
+  }, [location])
+
 
 
   const dispatch = useDispatch()

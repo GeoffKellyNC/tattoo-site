@@ -10,6 +10,7 @@ import rootReducer from './store/root.reducer';
 import { ThemeProvider } from 'styled-components';
 import theme from './theme/theme';
 
+
 declare global {
     interface Window {
       __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
@@ -24,6 +25,7 @@ const store = createStore(
     rootReducer, 
     composeEnhancers(applyMiddleware(thunk, socketMiddleware()))
 );
+
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <ThemeProvider theme={theme}>
