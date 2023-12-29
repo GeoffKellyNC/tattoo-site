@@ -27,9 +27,7 @@ const ArtistQuickLinks: React.FC<Props> = ({
             <span className='data-title'> Active Jobs:  </span>
             <span className = 'data-text'>
                 {
-                    artistAcceptedJobs.length > 1 ? (
-                        artistAcceptedJobs.length
-                    ) : " Loading "
+                    artistAcceptedJobs.length
                 }
             </span>
         </div>
