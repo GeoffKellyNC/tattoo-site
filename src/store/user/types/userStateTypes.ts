@@ -144,23 +144,32 @@ interface ObjectId {
     attr8: string | null;
   }
 
-  interface UserImage {
+
+
+  interface PhotoComment {
+    commenter_name: string,
+    comment_text: string,
+    comment_date: string,
+    is_deleted: boolean
+  }
+
+  export interface TattooImage {
     user_unxid: string;
     user_name: string;
     image_id: string;
     image_url: string;
-    image_upload_date: Date; // or Date for a Date object
+    image_upload_date: string;
     num_likes: number;
     num_comments: number;
-    comments: Array<string>; // Replace 'any' with a more specific type if comments have a defined structure
+    comments: PhotoComment[]; 
     num_reports: number;
     title: string | null;
     description: string | null;
     is_active: boolean;
     is_deleted: boolean;
-    deleted_date: string | null; // or Date for a Date object
+    deleted_date: Date | null;
     deleted_by: string | null;
-  }
+}
   
   export interface ArtistFullProfile {
     _id: string;
@@ -194,7 +203,9 @@ interface ObjectId {
     user: User;
     contactInfo: ContactInfo;
     profileImage: ProfileImageType;
-    userImages: UserImage[];
+    userImages: TattooImage[];
   }
+
+
   
   

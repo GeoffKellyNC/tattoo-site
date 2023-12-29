@@ -170,15 +170,17 @@ const JobsContainer = styled.div`
   width: 80%;
   margin: 2rem auto; // Adjusted margin
   display: flex;
-  flex-direction: column; // Changed to column for all sizes
+  flex-direction: column; 
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1rem; // Adjusted gap
+  gap: 1rem; 
 
   @media (min-width: 1025px) { 
     flex-direction: row; // Row direction for larger screens
-    justify-content: space-between; // Space out items on larger screens
+    justify-content: flex-start; // Space out items on larger screens
+    gap: 3rem; // Adjusted gap
+    flex-wrap: wrap; // Wrap items on larger screens
   }
 `;
 

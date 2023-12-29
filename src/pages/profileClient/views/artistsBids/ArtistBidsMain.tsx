@@ -93,7 +93,9 @@ const BidsContainer = styled.div`
   width: 85%;
   margin: 0 auto;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2rem;
 
 
   @media (max-width: 1024px) {
@@ -101,6 +103,7 @@ const BidsContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 2rem;
   }
 

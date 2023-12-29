@@ -10,6 +10,7 @@ import { ImProfile } from "react-icons/im";
 import { FaStar } from "react-icons/fa6";
 
 import ContactDataProfile from './ContactDataProfile';
+import ArtistsPhotos from './ArtistsPhotos'
 
 interface Props {
     data: ArtistFullProfile
@@ -95,6 +96,7 @@ const ArtistsProfileData: React.FC<Props> = ({
             </div>
         </GeneralData>
         <ContactDataProfile data = {data.contactInfo} />
+        <ArtistsPhotos photos = {data.userImages} />
     </DataContainer>
   )
 }

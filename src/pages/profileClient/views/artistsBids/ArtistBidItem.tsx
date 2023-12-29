@@ -118,10 +118,12 @@ export default ConnectedArtisBidItem
 
 const BidContainer = styled.div`
   background-color: #151728;
-  border: 1px solid red;
-  width: 30%;
+  width: 20%;
   height: 100%;
   margin: 1rem;
+  background-color: #151312;
+  transition: all 0.2s ease-in-out;
+  border-radius: 8px;
 
   &:hover {
     scale: 1.1;
@@ -144,7 +146,8 @@ const BidItem = styled.div`
   .title-text {
     font-weight: bold;
     font-size: 1.2rem;
-    font-family: ${props => props.theme.font.family.primary};
+    font-family: ${props => props.theme.font.family.secondary};
+    color: ${props => props.theme.color.pink};
   }
 
   .user-text {
@@ -161,12 +164,12 @@ const BidItem = styled.div`
   }
 
   .header-bottom {
-    height: 50%;
-    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 1rem;
+    gap: 1rem;
   }
 
 
