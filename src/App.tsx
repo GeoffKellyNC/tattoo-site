@@ -33,6 +33,7 @@ import UserAlertItems from './components/UserAlertItems'
 import BetaBanner from './pages/home/components/BetaBanner'
 import ArtistFullProfileView from './pages/fullProfileViewArtist/ArtistFullProfile'
 import VerifiedEmail from './pages/emailVerify/VerifiedEmail'
+import PrivacyPolicy from './pages/privacyPolicy/PrivacyPolicy'
 
 interface Props {
   accountType: string,
@@ -218,6 +219,7 @@ const App: React.FC<Props>  = ({
         <Route path = '/register' element = { <Register />} />
         <Route path = '/login' element = { <Login />} />
         <Route path = '/pricing' element = { <PricingPage />} />
+        <Route path = '/privacy-policy' element = { <PrivacyPolicy />} />
         <Route path = '/reset-password-user' element = { <EmailVerify />} />
         <Route path = '/reset-password/:token/:unxid' element = { <ResetPassForm />} />
         <Route path = '/verify-email/:token/:unxid' element = { <VerifiedEmail />} />

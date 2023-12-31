@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { NavLink } from 'react-router-dom';
+
 
 import linkdLogo from '../../../assets/linkd-logo.png'
 
@@ -15,6 +17,10 @@ const Contact: React.FC = () => {
                 <a href='mailto:support@getlinkd.ink'>support@getlinkd.ink</a>
             </SupportEmail>
         </RightContainer>
+        <div className = 'quick-links'>
+            <NavLink to = '/privacy-policy'>Privacy Policy</NavLink>
+            <NavLink to = '/terms-of-service'>Terms of Service</NavLink>
+        </div>
     </StyledContact>
   )
 }
@@ -34,6 +40,21 @@ const StyledContact = styled.div`
         flex-direction: column;
         text-align: center;
     }
+
+    .quick-links {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-family: ${({ theme }) => theme.font.family.secondary};
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
 `;
 
 const LeftContainer = styled.div`
@@ -49,10 +70,7 @@ const RightContainer = styled.div`
     flex-direction: column;
     align-items: flex-start;
     margin-left: 5rem;
-    @media (max-width: 768px) {
-        align-items: center;
-        margin-top: 20px;
-    }
+
 `;
 
 const ContactTitle = styled.h1`
