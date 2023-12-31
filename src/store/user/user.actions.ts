@@ -88,7 +88,7 @@ export const registerUser = (data: RegisterTypes) => async (dispatch: Dispatch<N
             type: notifyTypes.SET_NOTIFY,
             payload: {
                 type: 'info',
-                message: 'User Created Successfully'
+                message: 'User Created Successfully. Please check your email to verify your account.'
             }
         });
 
