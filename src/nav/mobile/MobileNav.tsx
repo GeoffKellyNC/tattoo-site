@@ -154,7 +154,8 @@ const MobileNavStyled = styled.div<{ menuOpen: boolean }>`
 
   .close-icon {
     color: white;
-    font-size: 2.5rem;
+    font-size: 3rem;
+    margin-top: 30px;
   }
 
   .nav-body {

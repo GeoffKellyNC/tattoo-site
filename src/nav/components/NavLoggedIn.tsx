@@ -103,6 +103,11 @@ const LoggedInNavContainer = styled.div`
             cursor: pointer;
             transition: scale 0.2s;
             transition: color 0.2s;
+
+            @media (max-width: 768px) {
+                margin-right: 3rem;
+                text-transform: uppercase;
+            }
             
 
             &:hover {

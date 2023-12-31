@@ -161,7 +161,7 @@ const FormStyled = styled(Form)`
 `
 
 const Instructions = styled.div`
-    background-color:  #e1055c; // A subtle blue
+    background-color:  #232323; // A subtle blue
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 20px;
@@ -183,7 +183,7 @@ const SubmitButton = styled(Button)`
 
 const BidProcessInfo = styled.div`
     margin-top: 20px;
-    background-color: #e1055c; // A very subtle purple
+    background-color: #232323; // A very subtle purple
     padding: 15px;
     border-radius: 8px;
     font-size: 14px;
