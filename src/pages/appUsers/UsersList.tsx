@@ -67,7 +67,7 @@ const UsersList: React.FC<Props> = ({
               <UserComponent key={user.unxid} user={user} />
             ))}
             {isLoading && <div>Loading...</div>}
-            {!hasMore && <div>No more users to fetch.</div>}
+            {!hasMore && <div>No more users in your current location </div>}
         </UserContainer>
     );
 }

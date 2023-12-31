@@ -44,6 +44,7 @@ const FullProfileView: React.FC<Props> = ({
                 <div>
                     <span> Viewing: </span>
                     <span>{ viewUserDetails.user_name }</span>
+                    <span> CLIENT PROFILES COMING SOON! </span>
                 </div>
             )
         } 
@@ -60,4 +61,8 @@ export default connect((st: RootState) => ({
 
 const ViewFull = styled.div`
     color: ${pr => pr.theme.color.white};
+    font-family: ${pr => pr.theme.font.family.secondary};
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
 `
