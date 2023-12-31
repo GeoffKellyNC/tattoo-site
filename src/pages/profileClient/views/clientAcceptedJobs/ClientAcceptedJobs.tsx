@@ -82,6 +82,11 @@ const ClientAcceptedJobsStyled = styled.div`
     color: white;
     font-family: ${pr => pr.theme.font.family.secondary};
 
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+
+
 
 `
 
@@ -90,6 +95,11 @@ const Header = styled.div`
     font-family: ${pr => pr.theme.font.family.secondary};
     font-size: 3rem;
     margin: 1rem;
+
+    @media (max-width: 768px) {
+        font-size: 2rem;
+        text-align: center;
+    }
 
 `
 
@@ -102,8 +112,15 @@ const LoadingContainer = styled.div`
 const JobContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 3rem;
     margin: 1rem;
     width: 100%;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+    }
+
 
 `

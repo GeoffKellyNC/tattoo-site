@@ -159,8 +159,6 @@ const performChecks = async (data: FormValues, notifyFunc: (type: string, messag
 }
 
 
-
-
 // COMPONENT
 
 const RegisterForm: React.FC<RegisterProps> = ({
@@ -194,6 +192,7 @@ const RegisterForm: React.FC<RegisterProps> = ({
         const checks = await performChecks(formValues, setNotification, setFormValues)
 
         if (checks.case && checks.item === 'success') {
+            setNotification('success', 'Registration Successful! Please check your email to verify your account')
             await registerUser(formValues)
             setFormValues(initFormValues)
             if(formValues.account_type === 'client'){

@@ -39,6 +39,7 @@ interface Props {
   accountType: string,
   userData: UserFullProfile
   appLoading: boolean,
+  isAuthenticated: boolean,
   verifyUserAccess: () => Promise<boolean>,
   getClientUploadedImages: () => Promise<void>
   getUserJobs: () => Promise<unknown>,
@@ -63,7 +64,8 @@ const App: React.FC<Props>  = ({
   accountType,
   userData,
   getArtistDetails,
-  getContactDetails
+  getContactDetails,
+  isAuthenticated
 })  => {
   const [isMobile, setIsMobile] = useState(false)
 
@@ -132,6 +134,7 @@ const App: React.FC<Props>  = ({
 
   const loadAppUser = useCallback(async () => {
 
+    if(!isAuthenticated) return
       await verifyUserAccess()
       await getClientUploadedImages()
 
@@ -270,7 +273,8 @@ const App: React.FC<Props>  = ({
 const mapStateToProps = (st: RootState) => ({
   appLoading: st.appLoading,
   accountType: st.accountType,
-  userData: st.userData
+  userData: st.userData,
+  isAuthenticated: st.isAuthenticated
 })
 
 const ConnectedApp = connect(mapStateToProps, {

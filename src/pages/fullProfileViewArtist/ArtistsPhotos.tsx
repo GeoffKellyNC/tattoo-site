@@ -49,6 +49,7 @@ const PhotosContainer = styled.div`
 
     @media (max-width: 768px) {
         flex-direction: column;
+        align-items: center;
         gap: 2rem;
     }
 
@@ -57,5 +58,10 @@ const PhotosContainer = styled.div`
 const Photo = styled.div`
     width: 25%;
     height: 25%;
+
+    @media (max-width: 768px) {
+        width: 100%;
+        height: 100%;
+    }
 
 `
