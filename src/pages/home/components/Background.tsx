@@ -10,20 +10,7 @@ const StyledCanvas = styled.canvas`
     top: 0;
 `;
 
-// Global styles
-// const GlobalStyle = createGlobalStyle`
-//   html, body {
-//     margin: 0;
-//     min-height: 100vh;
-//     overflow: hidden;
-//     background: repeating-radial-gradient(
-//       circle at center,
-//       #444 0 10%,
-//       #111 10% 20%
-//     );
-//     touch-action: none;
-//   }
-// `;
+
 
 const Background = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -240,7 +227,6 @@ const Background = () => {
 
   return (
     <>
-      {/* <GlobalStyle /> */}
       <StyledCanvas ref={canvasRef} />
     </>
   );

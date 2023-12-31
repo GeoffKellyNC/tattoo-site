@@ -58,12 +58,13 @@ const CityImage = styled.img`
 const Logo = styled.img`
     position: absolute;
     left: 50%;
-    transform: translate(-50%, -80%);
+    transform: translate(-50%, -95%);
     z-index: 10; // Ensure logo is on top
     width: 60%; // Adjust logo size as needed
     height: auto;
 
     @media (max-width: 740px) {
+        transform: translate(-50%, -80%);
         width: 100%;
     }
 `;
