@@ -8,7 +8,7 @@ export default {
         pink: '#F5593F',
         black: 'rgba(0,0,0,1)',
         white: 'rgba(255, 255, 255, 1)',
-        yellow: 'rgba(255, 255, 0, 1)',
+        yellow: '#fff200',
         red: '#F5593F',
         text_black: '#808080',
         
