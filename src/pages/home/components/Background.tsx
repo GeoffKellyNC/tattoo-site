@@ -12,7 +12,7 @@ const StyledCanvas = styled.canvas`
 
 
 
-const Background = () => {
+const Background: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
