@@ -1,10 +1,11 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { RootState } from '../../store/root.reducer'
 import { UserData } from '../../store/user/user.reducer'
 import * as userActions from '../../store/user/user.actions'
 import styled from 'styled-components'
+import * as notifyTypes from '../../store/notifications/notify.types'
 
 interface Props {
     userData: UserData;
@@ -22,9 +23,53 @@ const EmailNotVerified: React.FC<Props> = ({
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewEmail(e.target.value)
     }
+    const dispatch = useDispatch()
+
+    const checkNewEmail = (email: string): boolean => {
+        if (email === currentEmail) {
+            dispatch({
+                type: notifyTypes.SET_NOTIFY,
+                payload: {
+                    message: 'This is already your current email',
+                    type: 'error'
+                }
+                
+            })
+            return false
+        }
+
+        if(email === '') {
+            dispatch({
+                type: notifyTypes.SET_NOTIFY,
+                payload: {
+                    message: 'Please enter a valid email',
+                    type: 'error'
+                }
+                
+            })
+            return false
+        }
+
+        // make sure its a valid email
+        const regex = /\S+@\S+\.\S+/;
+        if (!regex.test(email)) {
+            dispatch({
+                type: notifyTypes.SET_NOTIFY,
+                payload: {
+                    message: 'Please enter a valid email',
+                    type: 'error'
+                }
+                
+            })
+            return false
+        }
+
+        return true
+    }
 
     const handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
         e.preventDefault()
+        if(!checkNewEmail(newEmail)) return
         setCurrentEmail(newEmail)
         updateVerificationEmail(newEmail)
         setNeedsUpate(false)

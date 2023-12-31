@@ -79,6 +79,13 @@ const performChecks = async (data: FormValues, notifyFunc: (type: string, messag
         return {item: 'username', case: false};
     }
 
+    // make sure username contains only letters and numbers and no spaces
+    const usernamePattern = /^[a-zA-Z0-9]+$/;
+    if(!usernamePattern.test(user_name)){
+        notifyFunc('error', 'Username can only contain letters and numbers');
+        return {item: 'username', case: false};
+    }
+
     const doesUserNameExist = await checkUserName(user_name);
     if(doesUserNameExist){
         notifyFunc('error', 'Username is already taken');
@@ -109,6 +116,12 @@ const performChecks = async (data: FormValues, notifyFunc: (type: string, messag
     }
 
     const displayValid = await isValidUsername(display_name);
+
+    const displayPattern = /^[a-zA-Z0-9]+$/;
+    if(!displayPattern.test(display_name)){
+        notifyFunc('error', 'Display name can only contain letters and numbers');
+        return {item: 'display_name', case: false};
+    }
 
     if(!displayValid) {
         notifyFunc('error', 'Cannot use this display name');
