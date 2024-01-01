@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { RootState } from '../../store/root.reducer'
 import { ContactInfo } from '../../store/user/types/userStateTypes'
+import { UserData } from '../../store/user/user.reducer'
+import * as jobActions from '../../store/jobs/jobs.actions'
 
 import defaultImg from '../../assets/defaultJobImg.png'
 
@@ -14,6 +16,8 @@ import FullJobModal from '../../components/fullJobModal/FullJobModal'
 import { FaBriefcaseMedical } from "react-icons/fa6";
 import { BsFillEmojiSunglassesFill } from "react-icons/bs";
 import { FaMoneyBillAlt } from "react-icons/fa";
+import { MdDeleteForever } from "react-icons/md";
+
 
 
 interface Props {
@@ -23,7 +27,9 @@ interface Props {
     accountType: string,
     isJobAccepted?: boolean,
     accetpedJobData?: ArtistAcceptedJobType,
-    userContactProfile: ContactInfo
+    userContactProfile: ContactInfo,
+    userData: UserData,
+    deleteJob: (jobId: string, ownerId: string) => Promise<void>
 
 }
 
@@ -47,13 +53,16 @@ const ActiveJobListing: React.FC<Props> = ({
   clientCurrentBids,
   isJobAccepted,
   accetpedJobData,
-  userContactProfile
+  userContactProfile,
+  userData,
+  deleteJob
 }) => {
   const [jobOpen, setJobOpen] = useState<boolean>(false)
   const [bidSubmitted, setBidSubmitted] = useState<boolean>(false)
   const [jobHasBid, setJobHasBid] = useState<boolean>(false)
   const [jobBids, setJobBids] = useState<JobBidType[]>([])
   const [numOfBids, setNumOfBids] = useState<number>(0)
+  const [confirmDelete, setConfirmDelete] = useState<boolean>(false)
 
   useEffect(() => {
     if(accountType === 'artist'){
@@ -83,8 +92,16 @@ const ActiveJobListing: React.FC<Props> = ({
 
   const handleJobClick = (event) => {
     event.stopPropagation();
+    if(event.target.className.baseVal === 'delete-icon') return
+    if(event.target.className === 'confirm' || event.target.className === 'cancel') return
     setJobOpen(true);
   };
+
+  const handleDeleteJob = async () => {
+    if(userData.unxid !== job.owner_id) return
+    await deleteJob(job.job_id, userData.unxid)
+    setConfirmDelete(false)
+  }
 
   return (
     <>
@@ -140,6 +157,25 @@ const ActiveJobListing: React.FC<Props> = ({
               bidSubmitted && <span className = 'bid-submitted'> Bid Submitted </span>
             }
           </JobBody>
+          {
+              accountType === 'client' && job.owner_id === userData.unxid && !confirmDelete && (
+                <MdDeleteForever 
+                  color = {'red'}
+                  size = {'2rem'}
+                  className = 'delete-icon' 
+                  onClick = {() => setConfirmDelete(true)} />
+              )
+            }
+            {
+               accountType === 'client' && job.owner_id === userData.unxid && confirmDelete && (
+                <div className = 'confrim-delete-container'>
+                  <button className = 'confirm' onClick = {handleDeleteJob}>
+                    Confirm
+                  </button>
+                  <button className = 'cancel' onClick = {() => setConfirmDelete(false)}> Cancel </button>
+                </div>
+               )
+            }
           <button className = 'view-job-btn'> View Job </button>
       </JobContainer>
     </>
@@ -147,11 +183,14 @@ const ActiveJobListing: React.FC<Props> = ({
 }
 
 const mapStateToProps = (state: RootState) => ({
-  userContactProfile: state.userContactProfile
+  userContactProfile: state.userContactProfile,
+  userData: state.userData,
 })
   
 
-const ConnectedActiveJobListing = connect(mapStateToProps, null)(ActiveJobListing)
+const ConnectedActiveJobListing = connect(mapStateToProps, {
+  deleteJob: jobActions.deleteJob
+})(ActiveJobListing)
 
 export default ConnectedActiveJobListing
 

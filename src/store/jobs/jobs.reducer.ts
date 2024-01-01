@@ -39,7 +39,7 @@ export function userJobs(state: UserJobType[] = [], action: UserJobActionType) {
         case jobTypes.DELETE_JOB:
             return state.filter(job => job.job_id !== action.payload.job_id);
         default:
-            return localStorage.getItem('userJobs') ? JSON.parse(localStorage.getItem('userJobs')!) : state;
+            return state;
     }
 }
 

@@ -14,7 +14,7 @@ export const getUserJobs = () => async (dispatch: Dispatch): Promise<UserJobType
     try {
 
         const res = await axiosWithAuth().get(`${BASE_URL}/jobs/get-user-jobs`);
-        localStorage.setItem('userJobs', JSON.stringify(res.data.data));
+        // localStorage.setItem('userJobs', JSON.stringify(res.data.data));
 
 
         dispatch(
@@ -315,6 +315,43 @@ export const getClientAcceptedJobs = () => async (dispatch: Dispatch): Promise<v
             payload: {
                 type: 'error',
                 message: 'Error Getting Clients Accepted Jobs!'
+            }
+        })
+    }
+}
+
+export const deleteJob = (jobId: string, ownerId: string) => async (dispatch: Dispatch): Promise<void> => {
+    try {
+        
+        const res = await axiosWithAuth().post(`${BASE_URL}/jobs/delete-job`, {jobId, ownerId})
+
+        if(res.status !== 200){
+            dispatch({
+                type: notifyTypes.SET_NOTIFY,
+                payload: {
+                    type: 'error',
+                    message: 'Error Deleting Job!'
+                }
+            })
+            return
+        }
+
+        dispatch({
+            type: jobTypes.DELETE_JOB,
+            payload: {
+                job_id: jobId
+            }
+        })
+
+        return
+
+    } catch (error) {
+        console.log('Error Deleting Job: ', error) //!TODO: Handle This Error
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: 'Error Deleting Job!'
             }
         })
     }
