@@ -65,7 +65,7 @@ const App: React.FC<Props>  = ({
   userData,
   getArtistDetails,
   getContactDetails,
-  isAuthenticated
+  // isAuthenticated
 })  => {
   const [isMobile, setIsMobile] = useState(false)
 
@@ -134,13 +134,13 @@ const App: React.FC<Props>  = ({
 
   const loadAppUser = useCallback(async () => {
 
-    if(!isAuthenticated) {
-      dispatch({
-        type: appTypes.SET_APP_LOADING,
-        payload: false
-      })
-      return
-    }
+    // if(!isAuthenticated) {
+    //   dispatch({
+    //     type: appTypes.SET_APP_LOADING,
+    //     payload: false
+    //   })
+    //   return
+    // }
       await verifyUserAccess()
       await getClientUploadedImages()
 

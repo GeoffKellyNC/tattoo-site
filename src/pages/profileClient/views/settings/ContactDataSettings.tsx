@@ -31,6 +31,8 @@ const ContactDataSettings: React.FC<Props> = ({
             <CiEdit size = {'2rem'} className = 'edit-icon' onClick = {() => setIsOpen(true)} />
         </Header>
         <ContactDataContainer>
+        { Object.keys(contactData).length > 1 ?   (
+            <>
             <div className = 'info-container phone-container'>
                 <MdOutlinePhoneAndroid className = 'icon phone-icon' />
                 <span className = 'user-text'>
@@ -76,6 +78,7 @@ const ContactDataSettings: React.FC<Props> = ({
                     ({contactData.contact_instagram.public ? 'Public' : 'Not Public'})
                 </span>
             </div>
+            </>) : <span className = 'loading-text'> Loding Data </span>}
         </ContactDataContainer>
         <EditContactDataDrawer
             contactData = {contactData}
