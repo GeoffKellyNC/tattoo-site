@@ -7,6 +7,7 @@ import { UserFullProfile, ContactDetailFull } from '../../../../store/user/types
 import * as notifyTypes from '../../../../store/notifications/notify.types';
 
 const MAX_DESC_CHAR_COUNT = 1000;
+const MAX_TITLE_CHAR_COUNT = 50;
 
 const initialFormValues = {
   job_title: '',
@@ -38,6 +39,7 @@ const CreateJobForm: React.FC<Props> = ({ createJob, userData, userContactProfil
   const [formValue, setFormValue] = useState(initialFormValues);
   const [loading, setLoading] = useState<boolean>(false);
   const [descCharCount, setDescCharCount] = useState<number>(MAX_DESC_CHAR_COUNT);
+  const [titleCharCount, setTitleCharCount] = useState<number>(MAX_TITLE_CHAR_COUNT);
 
   const dispatch = useDispatch();
 
@@ -47,6 +49,17 @@ const CreateJobForm: React.FC<Props> = ({ createJob, userData, userContactProfil
         type: notifyTypes.SET_NOTIFY,
         payload: {
             message: 'Please enter a job title',
+            type: 'error',
+        },
+      });
+      return false;
+    }
+
+    if(formValue.job_title.length > MAX_TITLE_CHAR_COUNT) {
+      dispatch({
+        type: notifyTypes.SET_NOTIFY,
+        payload: {
+            message: `Job title cannot exceed ${MAX_TITLE_CHAR_COUNT} characters`,
             type: 'error',
         },
       });
@@ -156,7 +169,7 @@ const CreateJobForm: React.FC<Props> = ({ createJob, userData, userContactProfil
       dispatch({
         type: notifyTypes.SET_NOTIFY,
         payload: {
-            message: 'Job description cannot exceed 1000 characters',
+            message: `Job description cannot exceed ${MAX_DESC_CHAR_COUNT} characters`,
             type: 'error',
         },
       });
@@ -173,6 +186,30 @@ const CreateJobForm: React.FC<Props> = ({ createJob, userData, userContactProfil
 
     if(name === 'job_desc') {
         setDescCharCount(MAX_DESC_CHAR_COUNT - value.length);
+        if(value.length > MAX_DESC_CHAR_COUNT) {
+          dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                message: `Job description cannot exceed ${MAX_DESC_CHAR_COUNT} characters`,
+                type: 'error',
+            },
+          });
+          return;
+        }
+    }
+
+    if(name === 'job_title') {
+        setTitleCharCount(MAX_TITLE_CHAR_COUNT - value.length);
+        if(value.length > MAX_TITLE_CHAR_COUNT) {
+          dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                message: `Job title cannot exceed ${MAX_TITLE_CHAR_COUNT} characters`,
+                type: 'error',
+            },
+          });
+          return;
+        }
     }
 
     let inputValue = value;
@@ -269,6 +306,7 @@ const CreateJobForm: React.FC<Props> = ({ createJob, userData, userContactProfil
             <label htmlFor="job_title" className="f-label">
               Job Title
             </label>
+            <span className="desc-char-count">{titleCharCount} / {MAX_TITLE_CHAR_COUNT}</span>
             <input
               name="job_title"
               type="text"

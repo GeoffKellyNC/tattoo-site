@@ -142,9 +142,9 @@ const ActiveJobListing: React.FC<Props> = ({
               </div>
             </div>
             <span className = 'job-title'> {job.job_title} </span>
-            { !isJobAccepted && <span className = 'job-budget'> ${job.job_budget} </span>}
+            { !isJobAccepted && <span className = 'job-budget'> <span className = 'item-title'>Budget: </span> ${job.job_budget} </span>}
             { isJobAccepted && accountType === 'client' && <span className = 'job-budget'> ${accetpedJobData.attr1.proposed_price} </span>} 
-            <span className = 'job-location'> {job.job_location} </span>
+            <span className = 'job-location'> <span className='item-title'>Location: </span>{job.job_location} </span>
             {
               jobHasBid && accountType === 'client'  &&(
                 <div className = 'bid-count-container'>
@@ -202,7 +202,7 @@ const JobContainer = styled.div<{jobHasBid: boolean, bidSubmitted: boolean}>`
     background-color: #151718;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
     border: ${({jobHasBid}) => jobHasBid ? '1px solid gold' : 'none'};
-    border: ${({bidSubmitted}) => bidSubmitted ? '1px solid green' : 'none'};
+    border: ${({bidSubmitted}) => bidSubmitted ? '1px solid #0aff0a' : 'none'};
 
     &:hover {
       scale: 1.1;
@@ -211,6 +211,28 @@ const JobContainer = styled.div<{jobHasBid: boolean, bidSubmitted: boolean}>`
 
     .view-job-btn {
       display: none;
+    }
+
+    .confrim-delete-container {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+
+      .cancel, .confirm {
+        font-family: ${pr => pr.theme.font.family.secondary};
+        font-weight: bold;
+        margin: 5px;
+        border: none;
+        outline: 1px solid ${pr => pr.theme.color.red};
+        background: none;
+        color: white;
+        transition: all 0.3s;
+
+        &:hover {
+          background: #f55963;
+          scale: 1.1;
+        }
+      }
     }
 
     @media (min-width: 601px) and (max-width: 1024px) { 
@@ -266,17 +288,77 @@ const JobBody = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 1rem;
   font-family: sans-serif;
 
   .icons-container {
     display: flex;
     gap: 1rem;
+    border-bottom: 1px solid ${pr => pr.theme.color.red};
+    width: 100%;
+    padding: 0.5rem 1rem;
   }
 
   .job-title {
-    font-size: ${pr => pr.theme.font.size.m};
+    font-size: 1.6rem;
+    font-family: ${pr => pr.theme.font.family.secondary};
     font-weight: bold;
+    padding: 0.5rem;
+    border-bottom: 1px solid ${pr => pr.theme.color.red};
+
+    @media (max-width: 600px) {
+      font-size: 1.2rem; /* Adjust header font size for mobile */
+    }
   }
+
+  .job-budget {
+    font-size: 1.4rem;
+    font-family: ${pr => pr.theme.font.family.secondary};
+    padding: 0.5rem;
+
+    @media (max-width: 600px) {
+      font-size: 1.2rem; /* Adjust label font size for mobile */
+    }
+  }
+
+  .job-location {
+    font-size: 1.4rem;
+    font-family: ${pr => pr.theme.font.family.secondary};
+    padding-left: 0.5rem;
+
+    @media (max-width: 600px) {
+      font-size: 1.2rem; /* Adjust label font size for mobile */
+    }
+  } 
+
+  .bid-count-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: ${pr => pr.theme.font.family.secondary};
+    font-size: 1.5rem;
+    padding-left: 0.5rem;
+
+    @media (max-width: 600px) {
+      font-size: 1.2rem; /* Adjust label font size for mobile */
+    }
+  }
+
+  .bid-count {
+    font-size: 1.4rem;
+    font-family: ${pr => pr.theme.font.family.secondary};
+  }
+
+  .bid-submitted {
+    font-size: 1.4rem;
+    font-family: ${pr => pr.theme.font.family.secondary};
+    padding: 0.5rem;
+    color: #0aff0a;
+  }
+
+  .item-title {
+    font-weight: bold;
+    color: #FAB800;
+  }
+
 
 `
