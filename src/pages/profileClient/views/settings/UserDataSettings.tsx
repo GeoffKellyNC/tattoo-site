@@ -93,10 +93,15 @@ const Header = styled.div`
   font-size: 2.4rem;
   font-family: ${pr => pr.theme.font.family.secondary};
   font-weight: 200;
-  margin: 0 1.2rem;
   display: flex;
   gap: 1rem;
   align-items: center;
+  height: 6rem;
+  margin-top: 5rem;
+
+  .header-text {
+    margin-left: 1.2rem;
+  }
 
   .edit-icon {
     margin-top: 2.2rem;
@@ -121,10 +126,10 @@ const Header = styled.div`
 
 const UserDataContainer = styled.div`
   display: flex;
-  margin: 3rem 1.2rem;
   flex-wrap: wrap;
   gap: 2rem;
   align-items: center;
+  margin: 3rem 1.2rem;
 
   .info-container {
     display: flex;

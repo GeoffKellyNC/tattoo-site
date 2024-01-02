@@ -23,7 +23,7 @@ const UserSettings: React.FC<Props> = ({
   return (
     <StyledUserSettings>
         <Header>
-            <h2 className = 'header-text'> SETTING </h2>
+            <h2 className = 'header-text'> SETTINGS </h2>
         </Header>
         <UserDataSettings userData={ userData } />
         <ContactDataSettings contactData={userContactProfile} />
