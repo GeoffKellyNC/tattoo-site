@@ -12,6 +12,7 @@ import ArtistSettings from './views/settings/ArtistSettings'
 import UserSettings from './views/settings/UserSettings'  
 import ArtistsAcceptedJobs from './views/artistsAcceptedJobs/ArtistsAcceptedJobs'
 import ClientAcceptedJobs from './views/clientAcceptedJobs/ClientAcceptedJobs'
+// import AdminPage from './views/admin/AdminPage'
 
 
 

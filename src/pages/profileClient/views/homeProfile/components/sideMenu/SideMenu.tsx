@@ -80,10 +80,10 @@ const SideMenu: React.FC<Props> = ({
                 </Link>
                 {
                     userRole === 'admin' && (
-                        <span className = 'menu-item'>
+                        <Link to={`${url}/admin-panel`} className = 'menu-item'>
                             <MdOutlineAdminPanelSettings className = 'menu-icon'  />
                             <span>Admin</span>
-                        </span>
+                        </Link>
                     )
                 }
                 {
