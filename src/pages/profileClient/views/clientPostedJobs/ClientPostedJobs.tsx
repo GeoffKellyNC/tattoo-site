@@ -117,9 +117,9 @@ const StyledClientPostedJobs = styled.div`
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-items: center;
-      gap: 1rem;
+      gap: 3rem;
       width: 90%;
       margin: 0 auto;
       height: auto;
