@@ -53,7 +53,7 @@ const ClientPostedJobs: React.FC<Props> = ({
               <span className = 'no-jobs-text'> NO JOBS POSTED </span>
             </div>
           ) : (
-            userJobs.map((job: UserJobType, idx: number) => <ActiveJobListing key = {idx} job = {job} accountType= {accountType} clientCurrentBids = {clientCurrentBids} />)
+            userJobs.reverse().map((job: UserJobType, idx: number) => <ActiveJobListing key = {idx} job = {job} accountType= {accountType} clientCurrentBids = {clientCurrentBids} />)
           )
         }
         </div>
@@ -121,7 +121,7 @@ const StyledClientPostedJobs = styled.div`
       align-items: center;
       gap: 3rem;
       width: 90%;
-      margin: 0 auto;
+      margin: 1rem auto;
       height: auto;
       min-height: 80vh;  // Added min-height
     }

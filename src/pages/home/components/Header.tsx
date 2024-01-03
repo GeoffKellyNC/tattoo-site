@@ -73,21 +73,15 @@ const Tagline = styled.span`
     font-family: ${({ theme }) => theme.font.family.primary};
     font-size: ${({ theme }) => theme.font.size.l};
     position: relative;
-    top: 35%;
+    top: 32%;
     // left: %;
 
-    @media (max-width: 740px) {
-        font-size: 1.2rem;
-        top: 2%;
-        padding-left: 1.5rem;
-        text-align: center;
-        background-color: rgba(0, 0, 0, 0.7);
-    }
 
-    @media (min-width: 601px) and (max-width: 1024px) {
+
+    @media(max-width: 1024px) {
         font-size: 1.5rem;
-        top: -7%;
-        padding-left: 2.7rem;
+        top: 13%;
         text-align: center;
+        font-family: ${({ theme }) => theme.font.family.secondary};
     }
 `;

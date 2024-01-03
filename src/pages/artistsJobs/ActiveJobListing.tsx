@@ -143,7 +143,7 @@ const ActiveJobListing: React.FC<Props> = ({
             </div>
             <span className = 'job-title'> {job.job_title} </span>
             { !isJobAccepted && <span className = 'job-budget'> <span className = 'item-title'>Budget: </span> ${job.job_budget} </span>}
-            { isJobAccepted && accountType === 'client' && <span className = 'job-budget'> ${accetpedJobData.attr1.proposed_price} </span>} 
+            { isJobAccepted && accountType === 'client' && <span className = 'job-budget'> <span className = 'item-title'>Final Price: </span> ${accetpedJobData.attr1.proposed_price} </span>} 
             <span className = 'job-location'> <span className='item-title'>Location: </span>{job.job_location} </span>
             {
               jobHasBid && accountType === 'client'  &&(

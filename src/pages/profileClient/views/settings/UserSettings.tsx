@@ -44,11 +44,16 @@ export default ConnectedUserSettings
 
 
 const Header = styled.div`
+    background-image: linear-gradient(to bottom, #ff7602, #fc8a00, #f79c00, #f1ae00, #ebbe12);
     .header-text {
         font-family: ${pr => pr.theme.font.family.secondary};
         font-size: 6rem;
         margin: 0 1.2rem;
         letter-spacing: 8px;
+        color: ${pr => pr.theme.color.black};
+        height: 10rem;
+    }
+
 `
 
 const StyledUserSettings = styled.div`

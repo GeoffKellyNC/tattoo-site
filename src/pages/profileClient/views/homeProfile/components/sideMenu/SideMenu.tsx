@@ -123,6 +123,10 @@ const SideMenuStyled = styled.div`
     overflow: auto;
     flex-shrink: 0;
 
+    span {
+        font-family: ${pr => pr.theme.font.family.primary};
+    }
+
     .logo {
         font-family: "DM Sans", sans-serif;
         font-size: 15px;

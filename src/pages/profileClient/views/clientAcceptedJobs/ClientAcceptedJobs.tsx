@@ -34,6 +34,7 @@ const ClientAcceptedJobs: React.FC<Props> = ({
     <ClientAcceptedJobsStyled>
         <Header>
             <h1>Accepted Jobs</h1>
+            <p className = 'header-p'> Welcome to your accepted jobs dashboard! Here, you'll find all the projects where you've selected and confirmed an artist's bid. Please note that once a job is accepted, it cannot be modified. To view your artist's profile and contact details, simply click on the relevant job. This is your gateway to connect directly with the artist and start discussing your exciting new tattoo project! </p>
         </Header>
         {
             isLoading ? (
@@ -93,12 +94,32 @@ const ClientAcceptedJobsStyled = styled.div`
 const Header = styled.div`
     color: white;
     font-family: ${pr => pr.theme.font.family.secondary};
-    font-size: 3rem;
-    margin: 1rem;
+    font-size: 2rem;
+    margin-left: 1rem;
+    background-color: ${pr => pr.theme.color.red};
+
+    .header-p {
+        font-size: 1.3rem;
+        margin: 1rem;
+        width: 75%;
+    }
+
+    h1 {
+        margin: 1rem;
+    }
 
     @media (max-width: 768px) {
-        font-size: 2rem;
+        font-size: 1.5rem;
         text-align: center;
+        margin: 0;
+        margin-left: 0;
+
+        .header-p {
+            width: 100%;
+            font-size: 1rem;
+            text-align: center;
+            width: 90%;
+        }
     }
 
 `
@@ -116,6 +137,8 @@ const JobContainer = styled.div`
     gap: 3rem;
     margin: 1rem;
     width: 100%;
+
+
 
     @media (max-width: 768px) {
         flex-direction: column;

@@ -249,6 +249,13 @@ const CreateJobForm: React.FC<Props> = ({ createJob, userData, userContactProfil
     setLoading(false);
     setFormValue(initialFormValues);
     toggleClose();
+    dispatch({
+      type: notifyTypes.SET_NOTIFY,
+      payload: {
+          message: 'Click on the job to add photos',
+          type: 'success',
+      },
+    });
   };
 
   const checkIfClientHasContactInfo = (): boolean => {
