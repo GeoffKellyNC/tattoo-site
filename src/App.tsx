@@ -34,6 +34,7 @@ import BetaBanner from './pages/home/components/BetaBanner'
 import ArtistFullProfileView from './pages/fullProfileViewArtist/ArtistFullProfile'
 import VerifiedEmail from './pages/emailVerify/VerifiedEmail'
 import PrivacyPolicy from './pages/privacyPolicy/PrivacyPolicy'
+import HowItWorks from './pages/howItWorks/HowItWorks'
 
 interface Props {
   accountType: string,
@@ -186,7 +187,7 @@ const App: React.FC<Props>  = ({
       }
     })
 
-      const publicRoutes = ['/', '/register', '/login', '/pricing', '/reset-password-user', '/reset-password/:token/:unxid'];
+      const publicRoutes = ['/', '/register', '/login', '/pricing', '/reset-password-user', '/reset-password/:token/:unxid', '/verify-email/:token/:unxid', '/privacy-policy', '/how-it-works'];
 
       const isPublicRoute = publicRoutes.includes(window.location.pathname);
     
@@ -229,6 +230,7 @@ const App: React.FC<Props>  = ({
         <Route path = '/login' element = { <Login />} />
         <Route path = '/pricing' element = { <PricingPage />} />
         <Route path = '/privacy-policy' element = { <PrivacyPolicy />} />
+        <Route path = '/how-it-works' element = {<HowItWorks />} />
         <Route path = '/reset-password-user' element = { <EmailVerify />} />
         <Route path = '/reset-password/:token/:unxid' element = { <ResetPassForm />} />
         <Route path = '/verify-email/:token/:unxid' element = { <VerifiedEmail />} />

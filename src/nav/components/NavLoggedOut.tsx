@@ -17,15 +17,25 @@ const NavLoggedOut: React.FC<Props> = ({
 
     const nav = useNavigate()
 
-    const handlePricingClick = () => { 
-        nav('/pricing')
-        return
+
+    const handleNavClick = (pathName: string): void => {
+        switch(pathName) {
+            case 'pricing':
+                nav('/pricing')
+                return
+            case 'howItWorks':
+                nav('/how-it-works')
+                return
+            default: 
+                return
+        }
     }
 
   return (
     <LoggedOutNavContainer>
         <div className = 'link-container'>
-            <span className = 'link' onClick = {handlePricingClick}>Pricing</span>
+            <span className = 'link' onClick = {() => handleNavClick('pricing')}>Pricing</span>
+            <span className = 'link' onClick = {() => handleNavClick('howItWorks')}> How It Works</span>
             <span className = 'link' onClick = {handleLogin}>Login</span>
             <span className = 'link' onClick = {handleRegister}>Register</span>
         </div> 
