@@ -35,6 +35,7 @@ import ArtistFullProfileView from './pages/fullProfileViewArtist/ArtistFullProfi
 import VerifiedEmail from './pages/emailVerify/VerifiedEmail'
 import PrivacyPolicy from './pages/privacyPolicy/PrivacyPolicy'
 import HowItWorks from './pages/howItWorks/HowItWorks'
+import MobileNav from './nav/mobile/MobileNav'
 
 interface Props {
   accountType: string,
@@ -221,7 +222,7 @@ const App: React.FC<Props>  = ({
     <>
       <UserAlertItems />
       <Notifications />
-      <AppNav isMobile = { isMobile } />
+      {!isMobile ? <AppNav isMobile = { isMobile } /> : <MobileNav /> }
       <BetaBanner />
       { !appLoading ?(
       <Routes>

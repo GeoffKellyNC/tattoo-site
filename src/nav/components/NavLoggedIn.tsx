@@ -42,6 +42,11 @@ const NavLoggedIn: React.FC<Props> = ({
         await createPortalSession()
         return 
     }
+
+    const howItWorksClick = () => {
+        nav('/how-it-works')
+        return
+    }
     
 
   return (
@@ -54,6 +59,7 @@ const NavLoggedIn: React.FC<Props> = ({
                     
                 }
                 <span className = 'link' onClick = {logoutUser}>Logout</span>
+                <span className = 'link' onClick = {howItWorksClick}>How It Works</span>
                 {
                     accountType === 'artist' && <span className = 'link' onClick = {handleUserPortal}>User Portal</span>
                 }

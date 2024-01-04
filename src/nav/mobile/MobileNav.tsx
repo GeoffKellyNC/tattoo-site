@@ -64,6 +64,11 @@ const MobileNav: React.FC<Props> = ({
         setMenuOpen(false)
     }
 
+    const handleHowItWorks = () => {
+        nav('/how-it-works')
+        setMenuOpen(false)
+    }
+
 
   return (
     <MobileNavStyled menuOpen = {menuOpen}>
@@ -85,6 +90,10 @@ const MobileNav: React.FC<Props> = ({
                     <div className = 'nav-item-container'>
                         <BiHomeHeart size = {'2rem'} className = 'icon'  />
                         <span onClick={handleHomeClick}  className = 'nav-item'> Home </span>
+                    </div>
+                    <div className = 'nav-item-container'>
+                        <PiUsersFourFill size = {'2rem'} className = 'icon' />
+                        <span onClick={handleHowItWorks} className = 'nav-item'>How It Works</span>
                     </div>
                     {
                         !isAuthenticated ? (
@@ -139,7 +148,7 @@ const MobileNavStyled = styled.div<{ menuOpen: boolean }>`
   color: white;
   z-index: 1000;
   position: fixed;
-  top: 0;
+  top: 1.7rem;
   left: 0;
   width: 100%;
 
@@ -174,7 +183,7 @@ const MobileNavStyled = styled.div<{ menuOpen: boolean }>`
     flex-direction: column;
     align-items: flex-start;
     margin-top: 5rem;
-    gap: 3rem;
+    gap: 1rem;
   }
 
     .nav-item-container {
