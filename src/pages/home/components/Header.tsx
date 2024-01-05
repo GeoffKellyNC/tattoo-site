@@ -29,6 +29,7 @@ const HeaderContainer = styled.header`
     justify-content: center;
     align-items: center;
     padding: 20px 0;
+    width: 100%;
 `;
 
 const LogoContainer = styled.div`
@@ -65,7 +66,7 @@ const Logo = styled.img`
 
     @media (max-width: 740px) {
         transform: translate(-50%, -50%);
-        width: 100%;
+        width: 100rem;
     }
 `;
 
@@ -74,7 +75,6 @@ const Tagline = styled.span`
     font-size: ${({ theme }) => theme.font.size.l};
     position: relative;
     top: 32%;
-    // left: %;
 
 
 

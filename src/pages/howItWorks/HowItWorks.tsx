@@ -54,6 +54,10 @@ const PageContainer = styled.div`
     width: 80%;
     margin: 0 auto;
 
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+
 
 `
 
@@ -80,7 +84,7 @@ const Header = styled.div`
         }
 
         @media (max-width: 768px) {
-            font-size: 2rem;
+            font-size: 2.2rem;
             width: 100%;
             margin-top: 0;
         }
@@ -114,7 +118,7 @@ const SliderContainer = styled.div<{viewToggle: string}>`
         font-size: 1.5rem;
 
         @media (max-width: 768px) {
-            width: 50%;
+            width: 30%;
             margin-top: 1rem;
         }
     }

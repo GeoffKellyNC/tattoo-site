@@ -90,6 +90,7 @@ const Row = styled.div<{ reverse: boolean }>`
         align-items: center;
         margin-bottom: 2rem;
         gap: 2rem;
+        width: 100%;
     }
 `;
 
@@ -99,7 +100,7 @@ const RowContents = styled.div`
     width: 50%; // Adjust width for better spacing
 
     @media (max-width: 1000px) {
-        width: 80%; // Increase width on mobile
+        width: 90%; // Increase width on mobile
     }
 `;
 
@@ -122,6 +123,7 @@ const RowTitle = styled.span`
 
     @media (max-width: 1000px) {
         font-size: 1.5rem; // Adjust font size for mobile
+        margin: 1rem 0 1rem -1rem;
     }
 `;
 
@@ -141,7 +143,8 @@ const RowImage = styled.img`
     height: auto; // Adjust for maintaining aspect ratio
 
     @media (max-width: 1000px) {
-        width: 70%; // Increase size on mobile
+        width: 100%; // Increase size on mobile
+        height: 300px;
         margin-top: 1rem;
     }
 `;

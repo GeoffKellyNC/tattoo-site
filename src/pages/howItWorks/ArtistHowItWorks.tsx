@@ -70,81 +70,81 @@ export default ArtistHowItWorks
 
 
 const StyledArtistHowItWorks = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-top: 5rem;
+display: flex;
+flex-direction: column;
+margin-top: 5rem;
 
-    @media (max-width: 1000px) {
-        margin-top: 2rem;
-    }
+@media (max-width: 1000px) {
+    margin-top: 2rem;
+}
 `;
 
 const Row = styled.div<{ reverse: boolean }>`
-    display: flex;
-    flex-direction: ${pr => pr.reverse ? 'row-reverse' : 'row'};
-    margin-bottom: 3rem; // Adjust spacing between rows
-    gap: 15rem; // Adjust spacing between image and text
+display: flex;
+flex-direction: ${pr => pr.reverse ? 'row-reverse' : 'row'};
+margin-bottom: 3rem; // Adjust spacing between rows
+gap: 15rem; // Adjust spacing between image and text
 
-    @media (max-width: 1000px) {
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 2rem;
-        gap: 2rem;
-    }
+@media (max-width: 1000px) {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 2rem;
+    width: 100%;
+}
 `;
 
 const RowContents = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 50%; // Adjust width for better spacing
+display: flex;
+flex-direction: column;
+width: 50%; // Adjust width for better spacing
 
-    @media (max-width: 1000px) {
-        width: 80%; // Increase width on mobile
-    }
+@media (max-width: 1000px) {
+    width: 90%; // Increase width on mobile
+}
 `;
 
 
 const RowTitle = styled.span`
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    font-size: 2rem;
-    font-weight: bold;
-    margin: 1rem 0 1rem -4rem;
-    font-family: ${pr => pr.theme.font.family.secondary};
-    color: ${pr => pr.theme.color.red};
+display: flex;
+align-items: center;
+gap: 1rem;
+font-size: 2rem;
+font-weight: bold;
+margin: 1rem 0 1rem -4rem;
+font-family: ${pr => pr.theme.font.family.secondary};
+color: ${pr => pr.theme.color.red};
 
-    .icon-img {
-        width: 3rem;
-        height: auto;
-        color: white;
-    }
+.icon-img {
+    width: 3rem;
+    height: auto;
+    color: white;
+}
 
-    @media (max-width: 1000px) {
-        font-size: 1.5rem; // Adjust font size for mobile
-    }
+@media (max-width: 1000px) {
+    font-size: 1.5rem; // Adjust font size for mobile
+    margin: 1rem 0 1rem -1rem;
+}
 `;
 
 const RowParagraph = styled.p`
-    color: white;
-    font-size: 1.2rem;
-    font-family: ${pr => pr.theme.font.family.secondary};
-    width: 100%; // Adjust for full width within the container
+color: white;
+font-size: 1.2rem;
+font-family: ${pr => pr.theme.font.family.secondary};
+width: 100%; // Adjust for full width within the container
 
-    @media (max-width: 1000px) {
-        font-size: 1rem; // Adjust font size for mobile
-    }
+@media (max-width: 1000px) {
+    font-size: 1rem; // Adjust font size for mobile
+}
 `;
 
 const RowImage = styled.img`
-    width: 30%;
-    height: auto; // Adjust for maintaining aspect ratio
+width: 30%;
+height: auto; // Adjust for maintaining aspect ratio
 
-    @media (max-width: 1000px) {
-        width: 70%; // Increase size on mobile
-        margin-top: 1rem;
-    }
+@media (max-width: 1000px) {
+    width: 100%; // Increase size on mobile
+    height: 300px;
+    margin-top: 1rem;
+}
 `;
-
-
-

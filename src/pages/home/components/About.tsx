@@ -151,30 +151,30 @@ const Subtitle = styled.h3`
   width: 70%;
 
   @media (max-width: 768px) {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     width: 100%;
     text-align: center;
   }
 
   @media (max-width: 480px) {
-    font-size: 1.2rem;
+    font-size: 1.8rem;
   }
 `;
 
 const Paragraph = styled.p`
   font-family: ${pr => pr.theme.font.family.secondary};
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   margin-bottom: 1rem;
   width: 80%;
   color: white;
 
   @media (max-width: 768px) {
-    font-size: 0.8rem;
-    width: 90%;
+    font-size: 1rem;
+    width: 100%;
   }
 
   @media (max-width: 480px) {
-    font-size: 0.7rem;
-    width: 95%;
+    font-size: 1rem;
+    width: 100%;
   }
 `;
