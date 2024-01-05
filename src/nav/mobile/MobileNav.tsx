@@ -49,7 +49,7 @@ const MobileNav: React.FC<Props> = ({
     }
 
     const handleHomeClick = () => {
-        nav(`/user/client/${userData.unxid}`)
+        isAuthenticated ? nav(`/user/client/${userData.unxid}`) : nav('/')
         setMenuOpen(false)
     }
 
