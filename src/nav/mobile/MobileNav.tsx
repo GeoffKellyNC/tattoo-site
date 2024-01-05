@@ -7,12 +7,15 @@ import { RootState } from '../../store/root.reducer'
 
 import { BiMenu } from 'react-icons/bi'
 import { AiOutlineClose } from 'react-icons/ai'
+import { IoMdLogIn } from "react-icons/io";
+
 
 import { BiHomeHeart } from "react-icons/bi";
 import { TbLogout2 } from "react-icons/tb";
 import { PiUsersFourFill } from "react-icons/pi";
 import { FaMoneyBill1 } from "react-icons/fa6";
 import { UserData } from '../../store/user/user.reducer'
+import { FaKey } from "react-icons/fa";
 
 
 
@@ -98,8 +101,14 @@ const MobileNav: React.FC<Props> = ({
                     {
                         !isAuthenticated ? (
                             <>
-                                <span onClick={handleLoginClick} className = 'nav-item'>Login</span>
-                                <span onClick={handleRegisterClick} className = 'nav-item'>Register</span>
+                                <div className = 'nav-item-container'>
+                                    <IoMdLogIn size = {'2rem'} className = 'icon' />
+                                    <span onClick={handleLoginClick} className = 'nav-item'>Login</span>
+                                </div>
+                                <div className = 'nav-item-container'>
+                                    <FaKey size = {'2rem'} className = 'icon' />
+                                    <span onClick={handleRegisterClick} className = 'nav-item'>Register</span>
+                                </div>
                             </>
                         ) : (
                             <>
