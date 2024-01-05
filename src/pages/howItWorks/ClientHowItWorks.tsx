@@ -9,7 +9,7 @@ import step3Img from '../../assets/client-works-3.png'
 import step4Img from '../../assets/client-works-4.png'
 
 
-const iconLink = 'https://img.icons8.com/external-smashingstocks-detailed-outline-smashing-stocks/66/FFFFFF/external-Tattoo-russian-smashingstocks-detailed-outline-smashing-stocks.png'
+const iconLink = 'https://img.icons8.com/external-smashingstocks-detailed-outline-smashing-stocks/66/fab800/external-Tattoo-russian-smashingstocks-detailed-outline-smashing-stocks.png'
 
 const ClientHowItWorks: React.FC = () => {
   return (
@@ -118,7 +118,7 @@ const RowTitle = styled.span`
     .icon-img {
         width: 3rem;
         height: auto;
-        color: white;
+        color: #fab800;
     }
 
     @media (max-width: 1000px) {

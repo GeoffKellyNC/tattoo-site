@@ -9,12 +9,12 @@ import step3Img from '../../assets/artist-works3.png'
 import step4Img from '../../assets/artist-work-4.png'
 
 
-const iconLink = 'https://img.icons8.com/external-smashingstocks-detailed-outline-smashing-stocks/66/FFFFFF/external-Tattoo-russian-smashingstocks-detailed-outline-smashing-stocks.png'
+const iconLink = 'https://img.icons8.com/external-smashingstocks-detailed-outline-smashing-stocks/66/fab800/external-Tattoo-russian-smashingstocks-detailed-outline-smashing-stocks.png'
 
 const ArtistHowItWorks: React.FC = () => {
   return (
     <StyledArtistHowItWorks>
-        <Row reverse = {true}>
+        <Row reverse = {false}>
             <RowContents>
                 <RowTitle>
                     <img className = 'icon-img' src={iconLink} alt="icon" />
@@ -26,7 +26,7 @@ const ArtistHowItWorks: React.FC = () => {
             </RowContents>
             <RowImage src = {step1Img} />
         </Row>
-        <Row reverse = {false}>
+        <Row reverse = {true}>
             <RowContents>
                 <RowTitle>
                     <img className = 'icon-img' src={iconLink} alt="icon" />
@@ -38,7 +38,7 @@ const ArtistHowItWorks: React.FC = () => {
             </RowContents>
             <RowImage src = {step2Img} />
         </Row>
-        <Row reverse = {true}>
+        <Row reverse = {false}>
             <RowContents>
                 <RowTitle> 
                     <img className = 'icon-img' src={iconLink} alt="icon" />
@@ -50,7 +50,7 @@ const ArtistHowItWorks: React.FC = () => {
             </RowContents>
             <RowImage src = {step3Img} />
         </Row>
-        <Row reverse = {false}>
+        <Row reverse = {true}>
             <RowContents>
                 <RowTitle> 
                     <img className = 'icon-img' src={iconLink} alt="icon" />
