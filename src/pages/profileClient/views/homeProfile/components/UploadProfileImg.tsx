@@ -48,8 +48,8 @@ const ClientUserImagesSection = styled.section`
 
 const IconButton = styled.button`
     position: absolute;
-    bottom: 10px; /* Adjust as needed */
-    right: 10px; /* Adjust as needed */
+    top: 24%;
+    right: 37%;
     border-radius: 50%;
     padding: 5px;
     background-color: white; /* Or any color that fits your design */

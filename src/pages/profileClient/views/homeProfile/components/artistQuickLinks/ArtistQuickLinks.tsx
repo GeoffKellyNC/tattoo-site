@@ -3,7 +3,7 @@ import { connect, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { RootState } from '../../../../../../store/root.reducer'
 import * as jobActions from '../../../../../../store/jobs/jobs.actions'
-import * as nofityTypes from '../../../../../../store/notifications/notify.types'
+import * as notifyTypes from '../../../../../../store/notifications/notify.types'
 
 // Imported Types
 import { ArtistAcceptedJobType  } from '../../../../../../store/jobs/ts-types/jobTypes'
@@ -24,7 +24,7 @@ const ArtistQuickLinks: React.FC<Props> = ({
     const getDataAndNotify = useCallback(async () => {
         await getArtistAcceptedJobs()
         artistAcceptedJobs.length > 1 ? dispatch({
-            type: nofityTypes.SET_USER_DATA_NOTIFY,
+            type: notifyTypes.SET_USER_DATA_NOTIFY,
             payload: {
                 active: true,
                 message: `You have ${artistAcceptedJobs.length} accepted bids!`

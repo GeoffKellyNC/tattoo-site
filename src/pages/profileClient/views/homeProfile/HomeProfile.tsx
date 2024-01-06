@@ -25,7 +25,6 @@ interface Props {
 }
 
 const HomeProfile: React.FC<Props> = ({
-  accountType,
   userProfileDetails,
   userCurrentCords
 }) => {
@@ -51,21 +50,20 @@ const HomeProfile: React.FC<Props> = ({
         }
       })
     }
-  }, [])
+  }, [dispatch, userCurrentCords, userProfileDetails.location_city])
 
 
   const isMobile = useMobileCheck()
 
 
   return (
-    <HomeProfileStyled>
+    <HomeProfileStyled> 
       <ProfileTitles />
       { isMobile && <InfoBox /> }
       {isMobile && <SideMenu />}
       <div className = 'data-container timeline'> 
       { !isMobile && <InfoBox />}
           <AboutMe />
-          {accountType === 'artist' && <ArtistQuickLinks />}
           <ClientUserImages />
       </div>
   </HomeProfileStyled>

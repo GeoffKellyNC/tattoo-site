@@ -1,71 +1,85 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { RootState } from '../../../../../../store/root.reducer'
 import { UserData, ClientProfileDetailsType } from '../../../../../../store/user/user.reducer'
-import { UserJobType, JobBidType } from '../../../../../../store/jobs/ts-types/jobTypes'
+import { UserJobType, JobBidType, ArtistAcceptedJobType } from '../../../../../../store/jobs/ts-types/jobTypes'
 import EditProfileDrawer from '../EditProfileDrawer'
 import { useMobileCheck } from '../../../../../../hooks/isMobile'
+import * as jobActions from '../../../../../../store/jobs/jobs.actions'
+import * as notifyTypes from '../../../../../../store/notifications/notify.types'
+
 
 // Icons
-import { TbCurrentLocation } from 'react-icons/tb'
 import { GiTribalShield } from 'react-icons/gi'
-import { BiInfoCircle } from 'react-icons/bi'
 import { MdOutlineWork } from "react-icons/md";
 import { ImHammer2 } from "react-icons/im";
+import { artistAcceptedJobs } from '../../../../../../store/jobs/jobs.reducer'
 
 
 
 interface Props {
     userData: UserData;
     userProfileDetails: ClientProfileDetailsType;
-    userCurrentLocation: {city: string, state: string};
     userJobs: UserJobType[];
     accountType: string;
     clientCurrentBids: JobBidType[];
+    artistAcceptedJobs: ArtistAcceptedJobType[];
+    getArtistAcceptedJobs: () => Promise<void>;
     
 }
 
 const InfoBox: React.FC<Props> = ({
     userProfileDetails,
     userData,
-    userCurrentLocation,
     userJobs,
     accountType,
-    clientCurrentBids
+    clientCurrentBids,
+    getArtistAcceptedJobs,
+    artistAcceptedJobs
 }) => {
 
     const isMobile = useMobileCheck()
+
+
+    //Getting Artist Accepted Jobs if userType is artists
+
+    const dispatch = useDispatch()
+
+    const getDataAndNotify = useCallback(async () => {
+        await getArtistAcceptedJobs()
+        artistAcceptedJobs.length > 1 ? dispatch({
+            type: notifyTypes.SET_USER_DATA_NOTIFY,
+            payload: {
+                active: true,
+                message: `You have ${artistAcceptedJobs.length} accepted bids!`
+            }
+        }) : null
+    }
+    , [getArtistAcceptedJobs, artistAcceptedJobs.length, dispatch])
+
+    useEffect(() => {
+        accountType === 'artist' && getDataAndNotify()
+    }, [accountType, getDataAndNotify])
+
   return (
     <InfoBoxStyled>
         <div className = 'intro-title'>
             <span className='title'>Intro</span>
-            {/* <EditProfileDrawer /> */}
+            <EditProfileDrawer />
         </div>
-        {
-            isMobile &&
-            <div className = 'info-item locaiton-data'>
-                <TbCurrentLocation className = 'icon' />
-                { userCurrentLocation ? `${userCurrentLocation.city}, ${userCurrentLocation.state}`: 'No location set' }
-            </div>
-
-        }
         <div className = 'info'>
-            { !isMobile &&
-                <div className = 'info-item'>
-                    <TbCurrentLocation className = 'icon' />
-                    { userCurrentLocation ? `${userCurrentLocation.city}, ${userCurrentLocation.state}`: 'No location set' }
-                </div>
-            }
             <div className = 'info-item'>
                 <GiTribalShield className = 'icon'  />
-                Tattoo Count: {userProfileDetails.number_of_tattoos}
+                <span className = 'info-text'>{userProfileDetails.number_of_tattoos}</span>
+                <span className = 'info-text-title'> Tattoos </span>
             </div>
             {
                 accountType === 'client' && (
                     <div className = 'info-item'>
                         <MdOutlineWork className = 'icon' />
-                        { userJobs.length > 0 ? `${userJobs.length} Jobs Posted` : 'No jobs posted'}
+                        <span className = 'info-text'>{userJobs.length}</span>
+                        <span className = 'info-text-title'> Jobs Posted </span>
                     </div>
                 )
             }
@@ -73,9 +87,26 @@ const InfoBox: React.FC<Props> = ({
                 accountType === 'client' && (
                     <div className = 'info-item'>
                         <ImHammer2 className = 'icon' />
-                        { clientCurrentBids.length > 0 ? `${clientCurrentBids.length} Active Bids` : 'No bids'}
+                        <span className = 'info-text'>{clientCurrentBids.length} </span>
+                        <span className = 'info-text-title'> Bids Posted </span>
                     </div>
                 )
+            }
+            {
+                accountType === 'artist' && (
+                    <div className = 'info-item'>
+                        <ImHammer2 className = 'icon' />
+                        <span className = 'info-text'>{artistAcceptedJobs.length} </span>
+                        <span className = 'info-text-title'> Accepted Bids </span>
+                    </div>
+                )
+            }
+            {
+                accountType === 'artist' &&
+                <div className = 'info-item'>
+                    <span className = 'info-text rating'>. </span>
+                    <span className = 'info-text rating'> No Rating </span>
+                </div>
             }
         </div>
     </InfoBoxStyled>
@@ -84,13 +115,15 @@ const InfoBox: React.FC<Props> = ({
 const mapStateToProps = (st: RootState) => ({
     userData: st.userData,
     userProfileDetails: st.userProfileDetails,
-    userCurrentLocation: st.userCurrentLocation,
     userJobs: st.userJobs,
     accountType: st.accountType,
-    clientCurrentBids: st.clientCurrentBids
+    clientCurrentBids: st.clientCurrentBids,
+    artistAcceptedJobs: st.artistAcceptedJobs
 });
 
-const ConnectedInfoBox = connect(mapStateToProps, null)(InfoBox);
+const ConnectedInfoBox = connect(mapStateToProps, {
+    getArtistAcceptedJobs: jobActions.getArtistAcceptedJobs,
+})(InfoBox);
 
 export default ConnectedInfoBox;
 
@@ -105,10 +138,9 @@ const InfoBoxStyled = styled.div`
         margin-top: 0;
         margin-bottom: 2rem;
         background-color: transparent;
-    }
-
-    .location-data {
-
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3rem;
     }
 
     .intro-title {
@@ -150,16 +182,31 @@ const InfoBoxStyled = styled.div`
         display: flex;
         color: #c3c5d5;
         align-items: center;
-        margin-bottom: 10px;
         justify-content: flex-start;
-        font-family: "DM Sans", sans-serif;
+        font-family: ${pr => pr.theme.font.family.secondary};
 
         @media (max-width: ${(pr) => pr.theme.media.tablet}) {
-            flex-direction: row;
-            align-items: flex-start;
-            margin-bottom: 0px;
+            flex-direction: column;
+            align-items: center;
             font-size: 1.2rem;
         }
+    }
+
+    .info-text {
+        font-size: 1.4rem;
+        margin: 0 1rem;
+        color: #fff;
+        font-weight: 600;
+        font-family: ${pr => pr.theme.font.family.secondary};
+        color: ${pr => pr.theme.color.red};
+    }
+
+    .rating {
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 600;
+        font-family: ${pr => pr.theme.font.family.secondary};
+        color: ${pr => pr.theme.color.red};
     }
 
     .icon {

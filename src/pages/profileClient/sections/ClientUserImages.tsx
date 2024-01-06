@@ -1,13 +1,9 @@
-/* eslint-disable react-refresh/only-export-components */
-import React, { useState } from 'react'
-import { connect } from 'react-redux'
-import { RootState } from '../../../store/root.reducer'
-import styled from 'styled-components'
-import UploadClientImage from '../views/homeProfile/components/UploadClientImage'
-
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
+import { RootState } from '../../../store/root.reducer';
+import UploadClientImage from '../views/homeProfile/components/UploadClientImage';
 import { BiSolidImageAdd } from "react-icons/bi";
-
-
 
 interface ClientUserImagesProps {
     userData: RootState['userData'],
@@ -33,50 +29,72 @@ interface Image {
     deleted_by: string | null;
 }
 
-
 const ClientUserImages: React.FC<ClientUserImagesProps> = ({
     clientUserImages,
 }) => {
-    const [addImage, setAddImage] = useState<boolean>(false)
-
-    const previewImages = clientUserImages.slice(0, 6)
+    const [addImage, setAddImage] = useState<boolean>(false);
+    const [selectedImage, setSelectedImage] = useState<Image | null>(null);
 
     const handleAddImage = () => {
-        setAddImage(!addImage)
-    }
-    
-  return (
-    <ClientUserImagesSection>
-        <ClientUserImagesHeader>
-            <h2> My Images </h2>
-            <BiSolidImageAdd 
-                title = 'Add Image' 
-                color = 'white' 
-                size = '2rem'
-                onClick = {handleAddImage} />
-            {addImage && <UploadClientImage />}
-        </ClientUserImagesHeader>
-        <div className = 'photo-section'>
-            {
-                previewImages.length < 1 ? <span className='no-images'> No Images Uploaded </span> :
-                previewImages.map((image: Image, index: string) => {
+        setAddImage(!addImage);
+    };
+
+    const handleImageClick = (image: Image) => {
+        setSelectedImage(image);
+    };
+
+    const handleModalClose = (e: React.MouseEvent) => {
+        if (e.target === e.currentTarget) {
+            setSelectedImage(null);
+        }
+    };
+
+    // const handleDeleteImage = (imageId: string) => {
+    //     console.log("Delete Image:", imageId);
+    //     // Implement delete functionality here
+    // };
+
+    const previewImages = clientUserImages.slice(0, 6);
+
+    return (
+        <ClientUserImagesSection>
+            <ClientUserImagesHeader>
+                <h2> My Images </h2>
+                <BiSolidImageAdd 
+                    title = 'Add Image' 
+                    color = 'white' 
+                    size = '2rem'
+                    onClick = {handleAddImage} />
+                {addImage && <UploadClientImage />}
+            </ClientUserImagesHeader>
+            <div className='photo-section'>
+                {previewImages.length < 1 ? <span className='no-images'> No Images Uploaded </span> :
+                previewImages.map((image, index) => {
                     return (
-                        <div className = 'photo-container' key = {index}>
-                            <img src = {image.image_url} alt = 'uploaded' className = 'uploaded-image' />
+                        <div className='photo-container' key={index} onClick={() => handleImageClick(image)}>
+                            <img src={image.image_url} alt='uploaded' className='uploaded-image' />
                         </div>
-                    )
-                })
-            }
-        </div>
-    </ClientUserImagesSection>
-  )
-}
+                    );
+                })}
+            </div>
+            {selectedImage && (
+                <ModalBackdrop onClick={handleModalClose}>
+                    <ModalContent>
+                        <img src={selectedImage.image_url} alt={selectedImage.title || 'Selected'} />
+                        {/* <DeleteButton onClick={() => handleDeleteImage(selectedImage._id)}>Delete</DeleteButton> */}
+                    </ModalContent>
+                </ModalBackdrop>
+            )}
+        </ClientUserImagesSection>
+    );
+};
 
-export default connect((st: RootState) => ({
-    userData: st.userData,
-    clientUserImages: st.clientUserImages
-}), null) (ClientUserImages)
+const ConnectedClientUserImages = connect((state: RootState) => ({
+    userData: state.userData,
+    clientUserImages: state.clientUserImages
+}), null) (ClientUserImages);
 
+export default  ConnectedClientUserImages
 
 const ClientUserImagesSection = styled.div`
     background-color: #151728;
@@ -84,14 +102,22 @@ const ClientUserImagesSection = styled.div`
     padding: 20px;
     margin-bottom: 20px;
 
+    @media (max-width: ${(props) => props.theme.media.tablet}) {
+        margin-top: 0;
+        background-color: transparent;
+    }
 
     .photo-section {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-evenly;
         align-items: center;
-    }
 
+        @media (max-width: ${(props) => props.theme.media.phone}) {
+            justify-content: flex-start;
+            gap: 1rem;
+        }
+    }
 
     .photo-container {
         width: 20%;
@@ -105,48 +131,73 @@ const ClientUserImagesSection = styled.div`
             height: 100%;
             object-fit: cover;
         }
+
+        @media (max-width: ${(props) => props.theme.media.tablet}) {
+            width: 30%;
+            height: 30%;
+
+            .uploaded-image {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
     }
-
-
-    @media (max-width: ${(pr) => pr.theme.media.phone}) {
-        .photo-section {
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .photo-container {
-            width: 100%;
-            height: 100%;
-        }
-
-        .no-images {
-            width: 100%;
-            text-align: center;
-        }
-
-        .photo-section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-`
+`;
 
 const ClientUserImagesHeader = styled.div`
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 20px;
 
     h2 {
         color: white;
-        font-family: ${(pr) => pr.theme.font.family.secondary};
+        font-family: ${(props) => props.theme.font.family.secondary};
+
+        @media (max-width: ${(props) => props.theme.media.phone}) {
+            font-size: 2rem;
+
+        }
     }
 
-    @media (max-width: ${(pr) => pr.theme.media.phone}) {
+    @media (max-width: ${(props) => props.theme.media.phone}) {
         flex-direction: column;
         gap: 1rem;
     }
+`;
 
+const ModalBackdrop = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+`;
 
-`
+const ModalContent = styled.div`
+    position: relative;
+    margin-left: 70px;
+    img {
+        max-width: 80%;
+        max-height: 80%;
+    }
+`;
+
+// const DeleteButton = styled.button`
+//     position: absolute;
+//     top: 10px;
+//     right: 10px;
+//     padding: 5px 10px;
+//     background-color: red;
+//     color: white;
+//     border: none;
+//     border-radius: 5px;
+//     cursor: pointer;
+//     font-size: 1rem;
+// `;

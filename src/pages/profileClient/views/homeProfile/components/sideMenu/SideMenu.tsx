@@ -14,6 +14,8 @@ import { MdOutlineAdminPanelSettings } from 'react-icons/md'
 import { SiNginxproxymanager } from 'react-icons/si'
 import { ImHammer2 } from "react-icons/im";
 import { MdOutlineWorkOutline } from "react-icons/md";
+import { GiArtificialIntelligence } from "react-icons/gi";
+
 
 
 
@@ -44,37 +46,51 @@ const SideMenu: React.FC<Props> = ({
         <div className = 'menu-container'>
             <span className = 'menu-title'>{userData.user_name}</span>
             <div className = 'link-container'>
-                <Link to = {`${url}`} className = 'menu-item'>
-                    <HiOutlineHomeModern className = 'menu-icon' />
-                    <span>Home</span>
-                </Link>
-
+                {  !isMobile &&
+                    <Link to = {`${url}`} className = 'menu-item'>
+                        <HiOutlineHomeModern className = 'menu-icon' />
+                        <span>Home</span>
+                    </Link>
+                }
                 {
                     accountType === 'client' ? (
                         <>
-                            <Link to={`${url}/posted-jobs`} className = 'menu-item'>
+                            <Link to={`${url}/posted-jobs`} className = 'menu-item client-request-btn'>
                                 <TbGitPullRequest className = 'menu-icon' />
                                 <span>My Requests </span>
                             </Link>
-                            <Link to={`${url}/client-accepted-jobs`} className = 'menu-item'>
+                            <Link to={`${url}/client-accepted-jobs`} className = 'menu-item client-jobs-btn'>
                                 <MdOutlineWorkOutline className = 'menu-icon' />
                                 <span> Accepted Jobs </span>
                             </Link>
+                            <Link to={``} className = 'menu-item client-tools-btn'>
+                                <GiArtificialIntelligence className = 'menu-icon' />
+                                <span> Coming Soon </span>
+                            </Link>
                         </>
                     ) : (
+
+
                         <>
-                            <Link to = {`${url}/artists-jobs`} className = 'menu-item'>
+                            <Link to = {`${url}/artists-jobs`} className = 'menu-item artist-bid-btn'>
                                 <ImHammer2 className = 'menu-icon' />
-                                <span> Bids </span>
+                                {isMobile && <img width="20" height="20" src="https://img.icons8.com/stencil/32/000000/auction.png" alt="auction"/>}
+                                <span> My Bids </span>
                             </Link>
-                            <Link to = {`${url}/artist-accepted-jobs`} className = 'menu-item'>
+                            <Link to = {`${url}/artist-accepted-jobs`} className = 'menu-item artist-job-btn'>
                                 <FaRegMoneyBillAlt className = 'menu-icon' />
+                                {isMobile && <img width="20" height="20" src="https://img.icons8.com/3d-fluency/94/work.png" alt="work"/>}
                                 <span> My Jobs </span>
+                            </Link>
+                            <Link to={``} className = 'menu-item artist-tool-btn'>
+                                <GiArtificialIntelligence className = 'menu-icon' />
+                                <span> Coming Soon </span>
                             </Link>
                         </>
                     )
+
                 }
-                <Link to = {accountType === 'artist' ? `${url}/artist-settings` : `${url}/client-settings`} className='menu-item'>
+                <Link to = {accountType === 'artist' ? `${url}/artist-settings` : `${url}/client-settings`} className='menu-item settings-btn'>
                     <RiUserSettingsLine className = 'menu-icon'  />
                     <span> Settings </span>
                 </Link>
@@ -123,8 +139,12 @@ const SideMenuStyled = styled.div`
     overflow: auto;
     flex-shrink: 0;
 
+    @media (max-width: ${pr => pr.theme.media.tablet}) {
+        background-color: transparent;
+    }
+
     span {
-        font-family: ${pr => pr.theme.font.family.primary};
+        font-family: ${pr => pr.theme.font.family.secondary};
     }
 
     .logo {
@@ -165,11 +185,11 @@ const SideMenuStyled = styled.div`
         padding-top: 10px;
         border-bottom: 1px solid #272a3a;
 
-        @media (max-width: 1000px) {
+        @media (max-width: ${pr => pr.theme.media.tablet}) {
             flex-direction: row; /* Align icons in a row */
             flex-wrap: wrap; /* Allow wrapping if there are many icons */
             justify-content: center; /* Center the icons */
-            gap: 30px; /* Adjust gap between icons */
+            gap: 10px; /* Adjust gap between icons */
             padding-top: 0; /* Adjust padding as needed */
             border: none; /* Remove border */
         }
@@ -183,7 +203,7 @@ const SideMenuStyled = styled.div`
         gap: 10px;
         text-transform: capitalize;
         font-size: 1rem;
-        font-family: 'Source Sans Pro', sans-serif;
+        font-family: ${pr => pr.theme.font.family.secondary};
         font-weight: 600;
         cursor: pointer;
 
@@ -193,18 +213,18 @@ const SideMenuStyled = styled.div`
 
         @media (max-width: 1000px) {
             font-size: 2rem; /* Adjust font size for mobile */
-            border: 1px solid white;
+            border: none;
             padding: 5px;
-            width: 10rem;
+            width: 47%;
             justify-content: center;
             border-radius: 5px;
-            background-color: #24273b;
 
             .menu-icon {
                 font-size: 2rem; /* Adjust icon size for mobile */
 
                 @media (max-width: 1000px) {
-                    color: #efcb03; /* Adjust icon color for mobile */
+                    display: none; /* Hide icons on mobile */
+                    
                 }
             }
 
@@ -213,6 +233,59 @@ const SideMenuStyled = styled.div`
             }
         }
     }
+
+    .client-request-btn {
+        @media (max-width: ${pr => pr.theme.media.tablet}) {
+            background: linear-gradient(305deg, #0066CC 80%, #bdc6ff 100%);
+            color: white;
+        }
+    }
+
+    .client-jobs-btn {
+        @media (max-width: ${pr => pr.theme.media.tablet}) {
+            background: linear-gradient(305deg, #fc007e 80%, #ffffff 100%);
+            color: white;
+        }
+    }
+
+    .client-tools-btn {
+        @media (max-width: ${pr => pr.theme.media.tablet}) {
+            background: linear-gradient(305deg, #1cba07 80%, #ffffff 100%);
+            color: white;
+        }
+    }
+
+    .settings-btn {
+        @media (max-width: ${pr => pr.theme.media.tablet}) {
+            background: linear-gradient(305deg, #a907ef 80%, #ffffff 100%);
+            color: white;
+        }
+    }
+
+    .artist-bid-btn {
+        @media (max-width: ${pr => pr.theme.media.tablet}) {
+            background: linear-gradient(305deg, #0066CC 80%, #bdc6ff 100%);
+            color: white;
+        }
+    }
+
+    .artist-job-btn {
+        @media (max-width: ${pr => pr.theme.media.tablet}) {
+            background: linear-gradient(305deg, #fc007e 80%, #ffffff 100%);
+            color: white;
+        }
+    }
+
+    .artist-tool-btn {
+        @media (max-width: ${pr => pr.theme.media.tablet}) {
+            background: linear-gradient(305deg, #1cba07 80%, #ffffff 100%);
+            color: white;
+        }
+    }
+
+
+
+
 
     @media (max-width: 1000px) {
         width: 100%; /* Adjust the width for mobile view */
@@ -223,3 +296,45 @@ const SideMenuStyled = styled.div`
         }
     }
 `;
+
+
+
+// <!--1️⃣ code CSS below -->
+
+// <style>
+// @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Koulen&family=Lato&family=Nunito&family=Playfair+Display:ital@1&family=Prata&family=Raleway:ital,wght@1,100&family=Roboto&family=Roboto+Condensed&family=Teko&display=swap');
+
+// .btn{
+
+// font-family: Roboto, sans-serif;
+// font-weight: 0;
+// font-size: 14px;
+// color: #fff;
+// background: linear-gradient(305deg, #0066CC 73%, #bdc6ff 100%);
+// padding: 10px 30px;
+// border: none;
+// box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
+// border-radius: 5px;
+// transition : 1000ms;
+// transform: translateY(0);
+// display: flex;
+// flex-direction: row;
+// align-items: center;
+// cursor: pointer;
+// }
+
+// .btn:hover{
+
+// transition : 1000ms;
+// padding: 10px 50px;
+// transform : translateY(-0px);
+// background: linear-gradient(305deg, #0066CC 73%, #bdc6ff 100%);
+// color: #0066cc;
+// border: solid 2px #0066cc;
+// }
+
+// </style>
+
+// <!-- 2️⃣code HTML below -->
+
+// <button class="btn"></button>

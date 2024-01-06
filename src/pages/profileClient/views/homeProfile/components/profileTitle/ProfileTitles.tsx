@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { RootState } from '../../../../../../store/root.reducer'
 import { ProfileImageType } from '../../../../../../store/user/types/userStateTypes'
+import { ClientProfileDetailsType } from '../../../../../../store/user/user.reducer'
 import { UserData } from '../../../../../../store/user/user.reducer'
 import { FaEdit } from "react-icons/fa";
 
@@ -12,11 +13,15 @@ import UploadProfileImg from '../UploadProfileImg'
 interface Props {
     profileImages: ProfileImageType | null;
     userData: UserData;
+    userCurrentLocation: {city: string, state: string};
+    userProfileDetails: ClientProfileDetailsType;
 }
 
 const ProfileTitles: React.FC<Props> = ({
     profileImages,
-    userData 
+    userData,
+    userCurrentLocation,
+    userProfileDetails
 }) => {
   return (
     <ProfileTitleStyled>
@@ -30,6 +35,8 @@ const ProfileTitles: React.FC<Props> = ({
             </div>
             <span className = 'owner-name'>{`${userData.first_name} ${userData.last_name}`}</span>
             <span className = 'profile-name'>@{ userData.display_name }</span>
+            <span className = 'location-data'> {`${userCurrentLocation.city}, ${userCurrentLocation.state}`} </span>
+            <span className = 'tag-line'> {userProfileDetails.profile_tagline} </span>
         </div>
     </ProfileTitleStyled>
   )
@@ -37,7 +44,9 @@ const ProfileTitles: React.FC<Props> = ({
 
 const mapStateToProps = (state: RootState) => ({
     profileImages: state.profileImages,
-    userData: state.userData
+    userData: state.userData,
+    userCurrentLocation: state.userCurrentLocation,
+    userProfileDetails: state.userProfileDetails
 })
 
 const ConnectedProfileTitle = connect(mapStateToProps, null)(ProfileTitles)
@@ -45,7 +54,7 @@ const ConnectedProfileTitle = connect(mapStateToProps, null)(ProfileTitles)
 export default ConnectedProfileTitle
 
 const ProfileTitleStyled = styled.div`
-    margin: 5rem 0 2rem 0;
+    margin: 5rem 0 0 0;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -61,7 +70,7 @@ const ProfileTitleStyled = styled.div`
         align-items: center;
         gap: 0.5rem;
     }
-
+ 
     .owner-name {
         font-size: 2rem;
         color: #fff;
@@ -89,6 +98,20 @@ const ProfileTitleStyled = styled.div`
         font-family: ${pr => pr.theme.font.family.secondary};
         display: flex;
         align-items: center;
+    }
+
+    .tag-line {
+        font-size: 1.8rem;
+        color: #fff;
+        font-weight: 200;
+        font-family: ${pr => pr.theme.font.family.secondary};
+        display: flex;
+        align-items: center;
+        color: #FEB800;
+
+        @media (max-width: ${pr => pr.theme.media.tablet}){
+            font-size: 1.2rem;
+        }
     }
 
 `
