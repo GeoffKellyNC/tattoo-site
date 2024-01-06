@@ -36,6 +36,7 @@ import VerifiedEmail from './pages/emailVerify/VerifiedEmail'
 import PrivacyPolicy from './pages/privacyPolicy/PrivacyPolicy'
 import HowItWorks from './pages/howItWorks/HowItWorks'
 import MobileNav from './nav/mobile/MobileNav'
+import TermsOfService from './pages/terms/TermsOfService'
 
 interface Props {
   accountType: string,
@@ -189,7 +190,7 @@ const App: React.FC<Props>  = ({
       }
     })
 
-      const publicRoutes = ['/', '/register', '/login', '/pricing', '/reset-password-user', '/reset-password/:token/:unxid', '/verify-email/:token/:unxid', '/privacy-policy', '/how-it-works'];
+      const publicRoutes = ['/', '/register', '/login', '/pricing', '/reset-password-user', '/reset-password/:token/:unxid', '/verify-email/:token/:unxid', '/privacy-policy', '/how-it-works', '/terms-of-service'];
 
       const isPublicRoute = publicRoutes.includes(window.location.pathname);
     
@@ -232,6 +233,7 @@ const App: React.FC<Props>  = ({
         <Route path = '/login' element = { <Login />} />
         <Route path = '/pricing' element = { <PricingPage />} />
         <Route path = '/privacy-policy' element = { <PrivacyPolicy />} />
+        <Route path = '/terms-of-service' element = { <TermsOfService />} />
         <Route path = '/how-it-works' element = {<HowItWorks />} />
         <Route path = '/reset-password-user' element = { <EmailVerify />} />
         <Route path = '/reset-password/:token/:unxid' element = { <ResetPassForm />} />

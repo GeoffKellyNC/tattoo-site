@@ -166,8 +166,14 @@ const RegisterForm: React.FC<RegisterProps> = ({
     registerUser
 }) => {
     const [formValues, setFormValues] = useState<FormValues>(initFormValues)
+    const [acceptsTOS, setAcceptsTOS] = useState<boolean>(false)
 
     const nav = useNavigate()
+
+
+    const handleTOSChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setAcceptsTOS(e.target.checked)
+    }
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {{
         const { name, value } = e.target
@@ -189,6 +195,10 @@ const RegisterForm: React.FC<RegisterProps> = ({
 
     const onSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault()
+        if(!acceptsTOS){
+            setNotification('error', 'You must accept and agree to the Terms of Service to register')
+            return
+        }
         const checks = await performChecks(formValues, setNotification, setFormValues)
 
         if (checks.case && checks.item === 'success') {
@@ -275,6 +285,16 @@ const RegisterForm: React.FC<RegisterProps> = ({
                 <option value = 'artist'> Artist ($5.99/month) </option>
                 <option value = 'client'> Client </option>
             </StyledSelect>
+            <TOSContainer>
+                <input 
+                    type = 'checkbox'
+                    name = 'tos'
+                    onChange = {handleTOSChange}
+                    checked = {acceptsTOS}
+                    className = 'reg-input input-tos'
+                />
+                <span className = 'tos-text'> I accept the <a href = '/terms-of-service' target = '_blank' rel = 'noreferrer'> Terms of Service </a> </span>
+            </TOSContainer>
             <StyledButton 
                 className = 'reg-input input-submit'
                 onClick = {onSubmit}
@@ -389,3 +409,20 @@ const StyledButton = styled.button`
     background-color: #eeff00;
   }
 `;
+
+const TOSContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem;
+    width: 100%;
+    font-family: ${({ theme }) => theme.font.family.secondary};
+    font-size: 1.6rem;
+    color: white;
+    gap: 1rem;
+
+    a {
+        color: #eeff00;
+    }
+
+`
