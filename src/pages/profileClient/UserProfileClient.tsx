@@ -76,12 +76,7 @@ const UserProfileStyled = styled.div`
     background-color: #24273b;
   }
 
-  .data-container {
-    display: flex;
-    padding-top: 20px;
-    position: relative;
-    z-index: 2;
-  }
+
 
   .data-left {
     width: 310px;

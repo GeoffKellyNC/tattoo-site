@@ -56,7 +56,7 @@ const EditProfileDrawer: React.FC = () => {
         className = 'edit-profile' 
         onClick={() => setOpen(true)} 
         style={{
-          fontSize: '1.5rem', 
+          fontSize: '1.2rem', 
           color: 'orange', 
           cursor: 'pointer'
         }}

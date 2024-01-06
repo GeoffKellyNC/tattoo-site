@@ -7,7 +7,6 @@ import { UserData } from '../../../../../../store/user/user.reducer'
 import { FaEdit } from "react-icons/fa";
 
 
-import bannerImg from '../../../../../../assets/profile-banner3.png'
 import UploadProfileImg from '../UploadProfileImg'
 
 interface Props {
@@ -22,19 +21,15 @@ const ProfileTitles: React.FC<Props> = ({
   return (
     <ProfileTitleStyled>
         <div className = 'profile-avatar'>
-            <div className='image-user-name'>
-        <div className = 'profile-image-container'>
-            <img 
-                src = {profileImages?.image_url ? profileImages.image_url : 'https://storage.googleapis.com/tattoo-user-uploaded-images/profile-images/DALL%C2%B7E%202023-10-28%2019.20.25.png'} 
-                alt = 'profile avatar' 
-                className='profile-image' />
-                <UploadProfileImg Icon={FaEdit} />
-        </div>
-            <span className = 'profile-name'>{ userData.display_name }</span>
-        </div>
-        </div>
-        <img src = {bannerImg} alt = 'profile banner' className='profile-cover' />
-        <div className="profile-menu">
+            <div className = 'profile-image-container'>
+                <img 
+                    src = {profileImages?.image_url ? profileImages.image_url : 'https://storage.googleapis.com/tattoo-user-uploaded-images/profile-images/DALL%C2%B7E%202023-10-28%2019.20.25.png'} 
+                    alt = 'profile avatar' 
+                    className='profile-image' />
+                    <UploadProfileImg Icon={FaEdit} />
+            </div>
+            <span className = 'owner-name'>{`${userData.first_name} ${userData.last_name}`}</span>
+            <span className = 'profile-name'>@{ userData.display_name }</span>
         </div>
     </ProfileTitleStyled>
   )
@@ -50,95 +45,49 @@ const ConnectedProfileTitle = connect(mapStateToProps, null)(ProfileTitles)
 export default ConnectedProfileTitle
 
 const ProfileTitleStyled = styled.div`
-    position: relative;
-    height: 40vh;
-    min-height: 250px;
-    max-height: 350px;
-    z-index: 1;
-
-    .profile-image-container {
-        position: relative;
-        display: inline-block;
-    }
- 
-
-    &::after {
-        content: "";
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        z-index: -1;
-        left: 0;
-        top: 0;
-        background-image: url(${bannerImg});
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center;
-        filter: blur(50px);
-        opacity: 0.7;
-    }
+    margin: 5rem 0 2rem 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
 
     .profile-avatar {
-        position: absolute;
-        align-items: center;
+        align-items: flex-start;
         display: flex;
         flex-direction: column;
-        z-index: 1;
-        bottom: 16px;
-        left: 24px;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .owner-name {
+        font-size: 2rem;
+        color: #fff;
+        font-weight: 600;
+        font-family: ${pr => pr.theme.font.family.secondary};
     }
 
     .profile-image {
-        width: 150px;
-        height: 150px;
+        width: 250px;
+        height: 250px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid #151728;
+        border: 3px solid ${pr => pr.theme.color.red};
+
+        @media (max-width: ${pr => pr.theme.media.tablet}){
+            width: 150px;
+            height: 150px;
+        }
     }
 
     .profile-name {
-        margin-left: 24px;
-        margin-bottom: 24px;
-        font-size: 22px;
+        font-size: 1.2rem;
         color: #fff;
-        font-weight: 600;
-        font-family: "DM Sans", sans-serif;
-    }
-
-    .profile-cover {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        // object-fit: cover;
-        object-position: center;
-        border-radius: 4px;
-
-    }
-
-    .profile-menu {
-        position: absolute;
-        bottom: 0;
-        padding-left: 200px;
-        background: #151728;
-        width: 100%;
+        font-weight: 200;
+        font-family: ${pr => pr.theme.font.family.secondary};
         display: flex;
-        border-radius: 0 0 4px 4px;
-    }
-
-    .profile-menu-link {
-        padding: 20px 16px;
-        color: #5c5e6e;
-        transition: 0.3s;
-        cursor: pointer;
-
-   
-    }
-
-    .image-user-name {
-        display: flex;
-        flex-direction: row;
         align-items: center;
     }
 

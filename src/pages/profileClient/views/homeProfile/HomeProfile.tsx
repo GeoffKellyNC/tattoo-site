@@ -8,6 +8,7 @@ import { connect, useDispatch } from 'react-redux'
 import { RootState } from '../../../../store/root.reducer'
 import { UserFullProfile } from '../../../../store/user/types/userStateTypes'
 import * as notifyTypes from '../../../../store/notifications/notify.types'
+import styled from 'styled-components'
 
 
 import { useMobileCheck } from '../../../../hooks/isMobile'
@@ -57,20 +58,17 @@ const HomeProfile: React.FC<Props> = ({
 
 
   return (
-    <div className = 'main-container'>
-    <ProfileTitles />
-    {isMobile && <SideMenu />}
-    <div className = 'data-container timeline'> 
-      <div className = 'data-left'>
-        <InfoBox />
-        <AboutMe />
+    <HomeProfileStyled>
+      <ProfileTitles />
+      { isMobile && <InfoBox /> }
+      {isMobile && <SideMenu />}
+      <div className = 'data-container timeline'> 
+      { !isMobile && <InfoBox />}
+          <AboutMe />
+          {accountType === 'artist' && <ArtistQuickLinks />}
+          <ClientUserImages />
       </div>
-      <div className = 'data-right'>
-        {accountType === 'artist' && <ArtistQuickLinks />}
-        <ClientUserImages />
-      </div>
-    </div>
-  </div>
+  </HomeProfileStyled>
   )
 }
 
@@ -84,3 +82,21 @@ const mapStateToProps = (st: RootState) => ({
 const ConnectedHomeProfile = connect(mapStateToProps)(HomeProfile)
 
 export default ConnectedHomeProfile 
+
+
+const HomeProfileStyled = styled.div`
+  color: ${(pr) => pr.theme.color.white};
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  flex-grow: 1;
+  overflow: auto;
+  background-color: #24273b;
+
+  @media (max-width: ${(pr) => pr.theme.media.tablet}) {
+    padding: 0;
+    align-items: center;
+    background-color: #252525;
+  }
+
+`
