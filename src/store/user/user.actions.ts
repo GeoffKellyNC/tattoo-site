@@ -575,6 +575,26 @@ export const getLocationData = (lat: string, lng: string) => async (dispatch: Di
 
         const data = { latitude: lat, longitude: lng}
 
+        if(lat === '0' && lng === '0') {
+            dispatch({
+                type: notifyTypes.SET_NOTIFY,
+                payload: {
+                    type: 'error',
+                    message: 'You must allow location access to use most features!'
+                }
+            })
+
+            dispatch({
+                type: userTypes.SET_USER_CURRENT_LOCATION,
+                payload: {
+                    city: 'Enable Location Access',
+                    state: '',
+                }
+            })
+            
+            return false
+        }
+
         dispatch({
             type: userTypes.SET_USER_CURRENT_CORDS,
             payload: { lat: Number(lat), lng: Number(lng) }

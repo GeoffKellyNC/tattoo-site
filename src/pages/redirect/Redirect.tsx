@@ -40,8 +40,9 @@ const Redirect: React.FC<RedirectProps> = ({
             await getLocationData(latitude, longitude);
         };
     
-        const handleError = (error) => {
-            console.error('Geolocation Error: ', error);
+        const handleError = async (error) => {
+            await getLocationData('0', '0')
+            console.error('Geolocation Error Redirect: ', error);
             return;
         };
 

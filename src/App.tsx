@@ -96,7 +96,8 @@ const App: React.FC<Props>  = ({
         await getLocationData(latitude, longitude);
     };
 
-    const handleError = (error) => {
+    const handleError = async (error) => {
+        await getLocationData('0', '0')
         console.log('Geolocation Error: ', error);
         dispatch({
           type: notifyTypes.SET_NOTIFY,
