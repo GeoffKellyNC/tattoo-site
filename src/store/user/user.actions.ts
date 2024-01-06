@@ -95,6 +95,13 @@ export const registerUser = (data: RegisterTypes) => async (dispatch: Dispatch<N
 
     } catch (error) {
         console.log('Error Registering User: ', error); // TODO: Handle This error
+        dispatch({
+            type: notifyTypes.SET_NOTIFY,
+            payload: {
+                type: 'error',
+                message: error.response.data.message
+            }
+        });
     }
 };
 
