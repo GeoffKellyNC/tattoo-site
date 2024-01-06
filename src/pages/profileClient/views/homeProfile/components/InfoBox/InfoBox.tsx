@@ -5,7 +5,6 @@ import { RootState } from '../../../../../../store/root.reducer'
 import { UserData, ClientProfileDetailsType } from '../../../../../../store/user/user.reducer'
 import { UserJobType, JobBidType, ArtistAcceptedJobType } from '../../../../../../store/jobs/ts-types/jobTypes'
 import EditProfileDrawer from '../EditProfileDrawer'
-import { useMobileCheck } from '../../../../../../hooks/isMobile'
 import * as jobActions from '../../../../../../store/jobs/jobs.actions'
 import * as notifyTypes from '../../../../../../store/notifications/notify.types'
 
@@ -14,7 +13,6 @@ import * as notifyTypes from '../../../../../../store/notifications/notify.types
 import { GiTribalShield } from 'react-icons/gi'
 import { MdOutlineWork } from "react-icons/md";
 import { ImHammer2 } from "react-icons/im";
-import { artistAcceptedJobs } from '../../../../../../store/jobs/jobs.reducer'
 
 
 
@@ -31,7 +29,6 @@ interface Props {
 
 const InfoBox: React.FC<Props> = ({
     userProfileDetails,
-    userData,
     userJobs,
     accountType,
     clientCurrentBids,
@@ -39,7 +36,6 @@ const InfoBox: React.FC<Props> = ({
     artistAcceptedJobs
 }) => {
 
-    const isMobile = useMobileCheck()
 
 
     //Getting Artist Accepted Jobs if userType is artists
