@@ -11,6 +11,7 @@ import { FaStar } from "react-icons/fa6";
 
 import ContactDataProfile from './ContactDataProfile';
 import ArtistsPhotos from './ArtistsPhotos'
+import AboutSection from './AboutSection'
 
 interface Props {
     data: ArtistFullProfile
@@ -33,11 +34,12 @@ const ArtistsProfileData: React.FC<Props> = ({
                 className = 'profile-image'
             />
             <span className = 'user-name'> {data.user.display_name} ({data.user.account_type}) </span>
+            <span className = 'app-user-name'>@{data.user.user_name}</span>
+            <span className = 'user-location'> {data.userDetails.location_city ? data.userDetails.location_city : 'Somewhere'}, {data.userDetails.location_state ? data.userDetails.location_state : 'USA'} </span>
+            <span className = 'user-tagline'> {data.userDetails.profile_tagline ? data.userDetails.profile_tagline : null} </span>
         </Header>
+        <ContactDataProfile data = {data.contactInfo} />
         <GeneralData>
-            <div className = 'general-title'>
-                <span className = 'title-text'>General</span>
-            </div>
             <div className = 'general-data-container'>
                 <div className = 'info-item-container experince'>
                     <FaBriefcase className = 'info-icon experince-icon' />
@@ -95,7 +97,16 @@ const ArtistsProfileData: React.FC<Props> = ({
                 </div>
             </div>
         </GeneralData>
-        <ContactDataProfile data = {data.contactInfo} />
+        <div className = 'line-container'>
+            <div className = 'line'></div>
+            <div className = 'line'></div>
+            <div className = 'line'></div>
+        </div>
+        <AboutSection 
+            aboutText = {data.userDetails.profile_description}
+            storyText = {data.userDetails.personal_tattoo_story}
+            displayName = {data.user.display_name}
+        />
         <ArtistsPhotos photos = {data.userImages} />
     </DataContainer>
   )
@@ -105,18 +116,83 @@ export default ArtistsProfileData
 
 
 const DataContainer = styled.div`
+    display: flex;
+    flex-direction: column;
 
 
+    .line-container {
+        display: none;
+
+        @media (max-width: ${(pr) => pr.theme.media.tablet}) {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+    }
+
+    .line {
+    display: none;
+
+        @media (max-width: ${(pr) => pr.theme.media.tablet}) {
+            display: block;
+            width: 100%;
+            height: 1px;
+            background-color: ${pr => pr.theme.color.red};
+
+            &:nth-child(1) {
+                width: 80%;
+            }
+
+            &:nth-child(2) {
+                width: 60%;
+                background: linear-gradient(305deg, #0066CC 80%, #bdc6ff 100%);
+            }
+
+            &:nth-child(3) {
+                width: 40%;
+                background: linear-gradient(305deg, #a907ef 80%, #ffffff 100%);
+
+            }
+        }
+    }
 
 `
 
 const Header = styled.div`
     display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 2rem;
-    gap: 2rem;
-    align-items: flex-end;
     flex-wrap: wrap;
-    border-bottom: 1px solid #fff;
+
+    .app-user-name {
+        font-family: ${pr => pr.theme.font.family.secondary};
+        font-size: 1.2rem;
+        text-transform: capitalize;
+
+        @media (max-width: ${pr => pr.theme.media.tablet}) {
+            font-size: 1rem;
+        }
+    }
+
+
+
+    .user-location {
+        font-family: ${pr => pr.theme.font.family.secondary};
+        font-size: 1.2rem;
+        text-transform: capitalize;
+    }
+
+    .user-tagline {
+        font-family: ${pr => pr.theme.font.family.secondary};
+        font-size: 1.2rem;
+        text-transform: capitalize;
+        color: ${pr => pr.theme.color.yellow};
+    }
 
 
     .profile-image {
@@ -124,12 +200,24 @@ const Header = styled.div`
         height: 15rem;
         border-radius: 50%;
         object-fit: cover;
+
+        @media (max-width: ${pr => pr.theme.media.tablet}) {
+            width: 10rem;
+            height: 10rem;
+            border: 3px solid ${pr => pr.theme.color.red};
+        }
     }
 
     .user-name {
         font-family: ${pr => pr.theme.font.family.secondary};
         font-size: 3rem;
         text-transform: capitalize;
+
+
+        @media (max-width: ${pr => pr.theme.media.tablet}) {
+            font-size: 2rem;
+            margin-top: 1rem;
+        }
     }
 
 `
@@ -151,6 +239,13 @@ const GeneralData = styled.div`
         flex-wrap: wrap;
         justify-content: space-between;
         padding: 3rem 3rem 0 3rem;
+
+        @media (max-width: ${pr => pr.theme.media.tablet}) {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
     }
 
 
@@ -162,6 +257,7 @@ const GeneralData = styled.div`
 
     .info-icon {
         font-size: 1.5rem;
+
     }
 
     .data-text {

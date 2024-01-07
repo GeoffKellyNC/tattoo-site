@@ -1,6 +1,8 @@
 import React from 'react'
 import { ContactInfo } from '../../store/user/types/userStateTypes'
 import styled from 'styled-components'
+import { useMobileCheck } from '../../hooks/isMobile';
+
 
 import { MdOutlinePhoneAndroid } from "react-icons/md";
 import { FaSnapchatSquare } from "react-icons/fa";
@@ -15,17 +17,17 @@ interface Props {
 const ContactDataProfile: React.FC<Props> = ({
     data
 }) => {
+
+    const isMobile = useMobileCheck()
+
   return (
     <ContactData>
-        <div className='title-container'>
-            <span className = 'title-text'>Contact</span>
-        </div>
         <div className = 'data-container'>
             {
                 data.contact_discord.public && (
                     <div className = 'contact-info'>
                         <IoLogoDiscord className = 'icon discord-icon'/>
-                        <span className = 'contact-text'>{data.contact_discord.value}</span>
+                        {!isMobile && <span className = 'contact-text'>{data.contact_discord.value}</span>}
                     </div>
                 )
             }
@@ -33,7 +35,7 @@ const ContactDataProfile: React.FC<Props> = ({
                 data.contact_instagram.public && (
                     <div className = 'contact-info'>
                         <RiInstagramFill className = 'icon instagram-icon'/>
-                        <span className = 'contact-text'>{data.contact_instagram.value}</span>
+                        {!isMobile && <span className = 'contact-text'>{data.contact_instagram.value}</span>}
                     </div>
                 )
             }
@@ -41,7 +43,7 @@ const ContactDataProfile: React.FC<Props> = ({
                 data.contact_snapchat.public && (
                     <div className = 'contact-info '>
                         <FaSnapchatSquare className = 'icon snapchat-icon'/>
-                        <span className = 'contact-text'>{data.contact_snapchat.value}</span>
+                        {!isMobile && <span className = 'contact-text'>{data.contact_snapchat.value}</span>}
                     </div>
                 )
             }
@@ -49,7 +51,7 @@ const ContactDataProfile: React.FC<Props> = ({
                 data.contact_x.public && (
                     <div className = 'contact-info '>
                         <FaSquareXTwitter className = 'icon twitter-icon'/>
-                        <span className = 'contact-text'>{data.contact_x.value}</span>
+                        {!isMobile && <span className = 'contact-text'>{data.contact_x.value}</span>}
                     </div>
                 )
             }
@@ -57,7 +59,7 @@ const ContactDataProfile: React.FC<Props> = ({
                 data.contact_phone.public && (
                     <div className = 'contact-info '>
                         <MdOutlinePhoneAndroid className = 'icon phone-icon'/>
-                        <span className = 'contact-text'>{data.contact_phone.value}</span>
+                        {!isMobile && <span className = 'contact-text'>{data.contact_phone.value}</span>}
                     </div>
                 )
             }
@@ -72,7 +74,6 @@ export default ContactDataProfile
 const ContactData = styled.div`
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid ${pr => pr.theme.color.red};
     padding-bottom: 2rem;
 
     .title-container {
@@ -85,14 +86,14 @@ const ContactData = styled.div`
     .data-container {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
-        padding: 3rem 3rem 0 3rem;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
     }
 
     .contact-info {
         display: flex;
         align-items: center;
-        gap: 1rem;
     }
     
     .contact-text {
@@ -104,6 +105,11 @@ const ContactData = styled.div`
     .icon {
         font-size: 1.5rem;
         margin-right: 0.5rem;
+
+
+        @media (max-width: ${pr => pr.theme.media.tablet}) {
+            font-size: 2rem;
+        }
     }
 
     .contact-text {

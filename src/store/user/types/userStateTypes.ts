@@ -1,3 +1,5 @@
+import { ClientProfileDetailsType } from '../user.reducer';
+
 export interface ContactDetailFull {
     public: boolean;
     value: string | null;
@@ -204,6 +206,7 @@ interface ObjectId {
     contactInfo: ContactInfo;
     profileImage: ProfileImageType;
     userImages: TattooImage[];
+    userDetails: ClientProfileDetailsType;
   }
 
 
