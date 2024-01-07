@@ -48,7 +48,7 @@ export default NavLoggedOut
 const LoggedOutNavContainer = styled.div`
     display: flex;
     align-items: center;
-    font-family: ${pr => pr.theme.font.family.primary};
+    font-family: ${pr => pr.theme.font.family.secondary};
 
     .link-container {
         display: flex;

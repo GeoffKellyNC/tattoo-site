@@ -96,7 +96,7 @@ const LoggedInNavContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
-    font-family: ${pr => pr.theme.font.family.primary};
+    font-family: ${pr => pr.theme.font.family.secondary};
 
     .user-container {
         display: flex;
