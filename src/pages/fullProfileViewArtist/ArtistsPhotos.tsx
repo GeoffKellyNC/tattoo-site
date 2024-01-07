@@ -44,7 +44,7 @@ const PhotosContainer = styled.div`
     gap: 5rem;
     width: 100%;
     margin: 2rem 0;
-    padding: 2rem 0;
+    padding: 2rem 1rem;
 
 
     @media (max-width: 768px) {

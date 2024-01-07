@@ -52,6 +52,7 @@ export interface UserFullProfile {
     other_1: ContactDetailFull;
     other_2: ContactDetailFull;
     profileImageUrl: string;
+    userImages: TattooImage[];
 }
 
 export interface UserFullProfileAction {
@@ -109,7 +110,6 @@ interface ObjectId {
   }
 
   export interface ContactInfo {
-    _id: string;
     user_unxid: string;
     contact_phone: { public: boolean; value: string | null };
     contact_instagram: { public: boolean; value: string | null };

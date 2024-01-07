@@ -524,6 +524,8 @@ export const getFullUserProfileDetails = (unxid: string) => async (dispatch: Dis
     try {
         const res = await axiosWithAuth().get(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/get-user-profile-by-id/${unxid}`)
 
+        console.log('Full Profile Details: ', res.data.data) //!REMOVE
+
 
         dispatch({
             type: userTypes.SET_VIEW_USER_PROFILE_DETAILS,

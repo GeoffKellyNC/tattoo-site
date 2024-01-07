@@ -72,7 +72,6 @@ const UserContainer = styled.div`
     align-items: center;
     width: 350px; 
     height: 450px;
-    margin: 1rem;
     padding: 1rem;
     color: ${props => props.theme.color.white};
     border: 1px solid ${props => props.theme.color.gray};

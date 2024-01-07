@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ContactInfo } from '../../store/user/types/userStateTypes'
 import styled from 'styled-components'
 import { useMobileCheck } from '../../hooks/isMobile';
@@ -17,8 +17,40 @@ interface Props {
 const ContactDataProfile: React.FC<Props> = ({
     data
 }) => {
+    const [showContactData, setShowContactData] = useState<boolean>(false)
+    const [contactOpen, setContactOpen] = useState<string>('')
 
     const isMobile = useMobileCheck()
+
+    const handleContactClick = (type: string) => {
+        if(!isMobile) return
+        switch(type){
+            case 'discord':
+                setShowContactData(!showContactData)
+                setContactOpen('discord')
+                break
+            case 'instagram':
+                setShowContactData(!showContactData)
+                setContactOpen('instagram')
+                break
+            case 'snapchat':
+                setShowContactData(!showContactData)
+                setContactOpen('snapchat')
+                break
+            case 'twitter':
+                setShowContactData(!showContactData)
+                setContactOpen('twitter')
+                break
+            case 'phone':
+                setShowContactData(!showContactData)
+                setContactOpen('phone')
+                break
+            default:
+                setShowContactData(false)
+                setContactOpen('')
+                break
+        }
+    }
 
   return (
     <ContactData>
@@ -26,40 +58,45 @@ const ContactDataProfile: React.FC<Props> = ({
             {
                 data.contact_discord.public && (
                     <div className = 'contact-info'>
-                        <IoLogoDiscord className = 'icon discord-icon'/>
+                        <IoLogoDiscord className = 'icon discord-icon' onClick = {() => handleContactClick('discord')}/>
                         {!isMobile && <span className = 'contact-text'>{data.contact_discord.value}</span>}
+                        {contactOpen === 'discord' && showContactData && <span className = 'contact-text'>{data.contact_discord.value}</span>}
                     </div>
                 )
             }
                     {
                 data.contact_instagram.public && (
                     <div className = 'contact-info'>
-                        <RiInstagramFill className = 'icon instagram-icon'/>
+                        <RiInstagramFill className = 'icon instagram-icon' onClick = {() => handleContactClick('instagram')}/>
                         {!isMobile && <span className = 'contact-text'>{data.contact_instagram.value}</span>}
+                        {contactOpen === 'instagram' && showContactData && <span className = 'contact-text'>{data.contact_instagram.value}</span>}
                     </div>
                 )
             }
             {
                 data.contact_snapchat.public && (
                     <div className = 'contact-info '>
-                        <FaSnapchatSquare className = 'icon snapchat-icon'/>
+                        <FaSnapchatSquare className = 'icon snapchat-icon' onClick = {() => handleContactClick('snapchat')}/>
                         {!isMobile && <span className = 'contact-text'>{data.contact_snapchat.value}</span>}
+                        {contactOpen === 'snapchat' && showContactData && <span className = 'contact-text'>{data.contact_snapchat.value}</span>}
                     </div>
                 )
             }
             {
                 data.contact_x.public && (
                     <div className = 'contact-info '>
-                        <FaSquareXTwitter className = 'icon twitter-icon'/>
+                        <FaSquareXTwitter className = 'icon twitter-icon' onClick = {() => handleContactClick('twitter')}/>
                         {!isMobile && <span className = 'contact-text'>{data.contact_x.value}</span>}
+                        {contactOpen === 'twitter' && showContactData && <span className = 'contact-text'>{data.contact_x.value}</span>}
                     </div>
                 )
             }
             {
                 data.contact_phone.public && (
                     <div className = 'contact-info '>
-                        <MdOutlinePhoneAndroid className = 'icon phone-icon'/>
+                        <MdOutlinePhoneAndroid className = 'icon phone-icon' onClick = {() => handleContactClick('phone')}/>
                         {!isMobile && <span className = 'contact-text'>{data.contact_phone.value}</span>}
+                        {contactOpen === 'phone' && showContactData && <span className = 'contact-text'>{data.contact_phone.value}</span>}
                     </div>
                 )
             }

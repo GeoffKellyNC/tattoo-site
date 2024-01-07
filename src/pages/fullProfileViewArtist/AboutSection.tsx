@@ -48,6 +48,7 @@ const Title = styled.span`
     font-family: ${(pr) => pr.theme.font.family.secondary};
     font-weight: 100;
     color: ${(pr) => pr.theme.color.red};
+    padding: 0 20px;
 
 `
 
@@ -58,6 +59,7 @@ const Paragraph = styled.p`
     margin-top: 10px;
     line-height: 1.5;
     text-align: justify;
+    padding: 0 20px;
 
 
 
