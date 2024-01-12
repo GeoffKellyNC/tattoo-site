@@ -30,7 +30,7 @@ import RotatingSquareLoader from './loading/RotatingSquare'
 import PricingPage from './pages/pricing/PricingPage'
 import ArtistViewActiveJob from './pages/artistsJobs/ArtistViewActiveJob'
 import UserAlertItems from './components/UserAlertItems'
-import BetaBanner from './pages/home/components/BetaBanner'
+// import BetaBanner from './pages/home/components/BetaBanner'
 import ArtistFullProfileView from './pages/fullProfileViewArtist/ArtistFullProfile'
 import VerifiedEmail from './pages/emailVerify/VerifiedEmail'
 import PrivacyPolicy from './pages/privacyPolicy/PrivacyPolicy'
@@ -225,7 +225,7 @@ const App: React.FC<Props>  = ({
       <UserAlertItems />
       <Notifications />
       {!isMobile ? <AppNav isMobile = { isMobile } /> : <MobileNav /> }
-      <BetaBanner />
+      {/* <BetaBanner /> */}
       { !appLoading ?(
       <Routes>
         <Route path='/' element={<Home />} />
