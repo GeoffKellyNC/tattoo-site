@@ -4,7 +4,7 @@ import { useNavigate, NavLink } from 'react-router-dom'
 import { UserData } from '../../store/user/user.reducer'
 import { ProfileImageType } from '../../store/user/types/userStateTypes'
 
-import createPortalSession from '../../api/userPortal'
+// import createPortalSession from '../../api/userPortal'
 
 import MobileNav from '../mobile/MobileNav'
 
@@ -38,10 +38,10 @@ const NavLoggedIn: React.FC<Props> = ({
         return
     }
 
-    const handleUserPortal = async () => {
-        await createPortalSession()
-        return 
-    }
+    // const handleUserPortal = async () => {
+    //     await createPortalSession()
+    //     return 
+    // }
 
     const howItWorksClick = () => {
         nav('/how-it-works')
@@ -61,7 +61,7 @@ const NavLoggedIn: React.FC<Props> = ({
                 <span className = 'link' onClick = {logoutUser}>Logout</span>
                 <span className = 'link' onClick = {howItWorksClick}>How It Works</span>
                 {
-                    accountType === 'artist' && <span className = 'link' onClick = {handleUserPortal}>User Portal</span>
+                    // accountType === 'artist' && <span className = 'link' onClick = {handleUserPortal}>User Portal</span>
                 }
                 {
                     accountType === 'artist' && (
