@@ -76,6 +76,11 @@ const PricingCard = styled.div`
     color: white;
 `;
 
+const SubText = styled.span`
+    font-size: 1rem;
+
+`
+
 const Section = styled.div`
     border-bottom: 2px solid #e2e2e2;
     padding: 20px;
@@ -100,6 +105,8 @@ const Price = styled(Section)`
     text-align: center;
     color: white;
     font-family: ${pr => pr.theme.font.family.secondary};
+    display: flex;
+    flex-direction: column;
 `;
 
 const Description = styled(Section)`
@@ -204,7 +211,12 @@ const PricingPage: React.FC = () => {
                 {/* Artist Card */}
                 <PricingCard>
                     <CardTitle type = 'artist' >Artist</CardTitle>
-                    <Price> Free Limited Time! </Price>
+                    <Price>
+                        Free Limited Time!
+                        <SubText> Sign up now. Free for life! </SubText>
+                    </Price>
+                    
+
                     <Description>
                         <ul>
                             <ListItem>Search for clients</ListItem>
