@@ -95,10 +95,11 @@ const CardTitle = styled(Section)<CardTitleProps>`
 
 const Price = styled(Section)`
     font-size: 36px;
-    font-weight: bold;
+    font-weight: 600;
     color: #332c2b;
     text-align: center;
     color: white;
+    font-family: ${pr => pr.theme.font.family.secondary};
 `;
 
 const Description = styled(Section)`
@@ -203,7 +204,7 @@ const PricingPage: React.FC = () => {
                 {/* Artist Card */}
                 <PricingCard>
                     <CardTitle type = 'artist' >Artist</CardTitle>
-                    <Price>$5.99/month</Price>
+                    <Price> Free Limited Time! </Price>
                     <Description>
                         <ul>
                             <ListItem>Search for clients</ListItem>

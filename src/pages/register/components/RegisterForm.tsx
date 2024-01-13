@@ -282,7 +282,7 @@ const RegisterForm: React.FC<RegisterProps> = ({
                 className = 'reg-input input-account-type'
             >
                 <option value = ''> Select Account Type </option>
-                <option value = 'artist'> Artist ($5.99/month) </option>
+                <option value = 'artist'> Artist </option>
                 <option value = 'client'> Client </option>
             </StyledSelect>
             <TOSContainer>
