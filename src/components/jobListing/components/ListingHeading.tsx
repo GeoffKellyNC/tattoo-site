@@ -25,5 +25,11 @@ export default ListingHeading
 
 const StyledListingHeading = styled.div`
 
+    .job-img {
+        width: 100%;
+        height: 10%;
+        object-fit: cover;
+        border-radius: 5px;
+    }
 
 `
