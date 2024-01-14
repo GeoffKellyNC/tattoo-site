@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { connect, ConnectedProps } from 'react-redux';
 import * as notifyActions from '../../store/notifications/notify.actions';
 import * as userActions from '../../store/user/user.actions';
+import ReactGA from 'react-ga';
 
 
 const linkdLogo = 'https://storage.googleapis.com/tattoo-user-uploaded-images/app-images/logo/linkd-logo.png'
@@ -40,6 +41,11 @@ const Login: React.FC<PropsFromRedux> = ({ loginUser, setNotification }) => {
 
     const onSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        ReactGA.event({
+            category: 'User',
+            action: 'Clicked Login Button',
+            label: 'Login'
+        });
         const loggedIn = await loginUser(formValues) as LoginReturnType;
     
         if (!loggedIn.state) {
@@ -81,7 +87,10 @@ const Login: React.FC<PropsFromRedux> = ({ loginUser, setNotification }) => {
                     placeholder='Password'
                 />
                 <button onClick={onSubmit} className='form-btn'> LOGIN </button>
-                <NavLink to = '/reset-password-user' className = 'reset-password-link'> Forgot Password? </NavLink>
+                <div className = 'link-container'>
+                    <NavLink to = '/reset-password-user' className = 'reset-password-link'> Forgot Password? </NavLink>
+                    <NavLink to = '/register' className = 'reset-password-link'> Register </NavLink>
+                </div>
             </div>
 
         </LoginStyled>
@@ -100,7 +109,7 @@ const LoginBackground = styled.div`
 
 
     @media (max-width: 768px) {
-        background: black;
+        // background: black;
     }
 
 
@@ -121,7 +130,12 @@ const LoginStyled = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     color: ${pr => pr.theme.color.white};
-    border: 1px solid #888;
+
+    @media (max-width: ${pr => pr.theme.media.tablet}) {
+        width: 90%;
+        padding: 20px;
+        background: rgba(0,0,0,0.9);
+    }
 
     input {
                 
@@ -186,7 +200,7 @@ const LoginStyled = styled.div`
             border-bottom: 1px solid #888;
 
             @media (max-width: 768px) {
-                font-size: ${pr => pr.theme.font.size.sm};
+                font-size: 2rem;
             }
         }
     }
@@ -217,24 +231,36 @@ const LoginStyled = styled.div`
         }
 
         .form-btn {
-  background-color: rgba(2, 2, 16, 0.8); // Soft green color for the button
-  border: none;
-  border-radius: 5px;
-  color: white;
-  font-family: ${({ theme }) => theme.font.family.secondary};
-    font-size: 2rem;
-  cursor: pointer;
-  font-weight: 500;
-  padding: 0.2em;
-  width: 100%;
-  transition: opacity 0.3s ease;
-  &:hover {
-    opacity: 0.8;
-    color: black;
-    background-color: #eeff00;
-  }
+            background-color: rgba(2, 2, 16, 0.8); // Soft green color for the button
+            border: 1px solid yellow;
+            border-radius: 5px;
+            color: white;
+            font-family: ${({ theme }) => theme.font.family.secondary};
+            font-size: 2rem;
+            cursor: pointer;
+            font-weight: 500;
+            padding: 0.2em;
+            width: 100%;
+            transition: opacity 0.3s ease;
+            &:hover {
+                opacity: 0.8;
+                color: black;
+                background-color: #eeff00;
+            }
+        }
+
+        .link-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            margin-bottom: 10px;
         }
     }
+
+    
+    
 `;
 
 

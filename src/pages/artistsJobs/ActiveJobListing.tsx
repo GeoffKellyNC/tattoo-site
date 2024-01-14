@@ -299,9 +299,9 @@ const JobBody = styled.div`
   }
 
   .job-title {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-family: ${pr => pr.theme.font.family.secondary};
-    font-weight: bold;
+    font-weight: 200;
     padding: 0.5rem;
     border-bottom: 1px solid ${pr => pr.theme.color.red};
 

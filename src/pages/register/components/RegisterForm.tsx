@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { RootState } from '../../../store/root.reducer'
 import styled from 'styled-components'
 import isValidUsername from '../../../util/BannedUserNameCheck'
+import ReactGA from 'react-ga'
 
 // Helpers
 import checkUserName from '../../../helpers/checkUserName'
@@ -195,6 +196,13 @@ const RegisterForm: React.FC<RegisterProps> = ({
 
     const onSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault()
+
+        ReactGA.event({
+            category: 'User',
+            action: 'Clicked Register Button',
+            label: 'User Registered'
+        })
+
         if(!acceptsTOS){
             setNotification('error', 'You must accept and agree to the Terms of Service to register')
             return

@@ -43,7 +43,9 @@ const EmailVerify: React.FC = () => {
 
   return (
     <EmailVerifyContainer>
-        <span> Enter your email address below. If there is a match an email with a reset link will be sent. </span>
+        <div className='title-container'>
+            <span> Enter your email address below. If there is a match an email with a reset link will be sent. Please allow up to 15 minutes for the email to be sent. </span>
+        </div>
         <input 
             type='text' 
             value={email} 
@@ -65,6 +67,71 @@ const EmailVerifyContainer = styled.div`
     align-items: center;
     justify-content: center;
     gap: 2rem;
-    font-family: ${pr => pr.theme.font.family.primary};
+    font-family: ${pr => pr.theme.font.family.secondary};
+    padding: 0 1rem;
+
+    .title-container {
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        font-family: ${pr => pr.theme.font.family.secondary};
+    }
+
+    span {
+        font-size: 1.5rem;
+        text-align: center;
+        width: 40%;
+        font-family: ${pr => pr.theme.font.family.secondary};
+
+        @media(max-width: ${pr => pr.theme.media.tablet}){
+            width: 100%;
+        }
+    }
+
+    input {
+        width: 20%;
+        height: 3rem;
+        border-radius: 5px;
+        border: 1px solid ${pr => pr.theme.color.red};
+        padding: 0 1rem;
+        font-size: 1.5rem;
+        font-family: ${pr => pr.theme.font.family.secondary};
+        background: ${pr => pr.theme.color.black};
+        color: ${pr => pr.theme.color.white};
+        cursor: pointer;
+
+
+        &:focus {
+            outline: none;
+        }
+
+        @media(max-width: ${pr => pr.theme.media.tablet}){
+            width: 100%;
+        }
+    }
+
+    button {
+        width: 20%;
+        height: 3rem;
+        border-radius: 5px;
+        border: 1px solid ${pr => pr.theme.color.red};
+        padding: 0 1rem;
+        font-size: 1.5rem;
+        font-family: ${pr => pr.theme.font.family.secondary};
+        background: ${pr => pr.theme.color.red};
+        color: ${pr => pr.theme.color.black};
+        cursor: pointer;
+
+        &:focus {
+            outline: none;
+        }
+
+        @media(max-width: ${pr => pr.theme.media.tablet}){
+            width: 100%;
+        }
+    }
 
 `
