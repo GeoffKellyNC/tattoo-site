@@ -195,8 +195,11 @@ const ConnectedActiveJobListing = connect(mapStateToProps, {
 export default ConnectedActiveJobListing
 
 
+
+
 const JobContainer = styled.div<{jobHasBid: boolean, bidSubmitted: boolean}>`
     width: 20%;
+    height: 100%;
     border-radius: 10px;
     transition: all 0.2s ease-in-out;
     background-color: #151718;
@@ -271,7 +274,7 @@ const JobHeader = styled.div`
 
   .job-img {
     width: 100%;
-    height: 250px;
+    height: 20%;
     object-fit: cover;
     border-radius: 10px 10px 0 0;
   }
@@ -289,6 +292,7 @@ const JobBody = styled.div`
   flex-direction: column;
   justify-content: space-between;
   font-family: sans-serif;
+  height: auto;
 
   .icons-container {
     display: flex;

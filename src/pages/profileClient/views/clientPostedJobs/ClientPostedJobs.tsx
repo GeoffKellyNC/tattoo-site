@@ -8,6 +8,7 @@ import { UserFullProfile } from '../../../../store/user/types/userStateTypes'
 
 import CreateJobForm from './CreateJobForm'
 import ActiveJobListing from '../../../artistsJobs/ActiveJobListing'
+import JobListing from '../../../../components/jobListing/JobListing'
 
 
 interface Props { 
@@ -53,7 +54,7 @@ const ClientPostedJobs: React.FC<Props> = ({
               <span className = 'no-jobs-text'> NO JOBS POSTED </span>
             </div>
           ) : (
-            userJobs.reverse().map((job: UserJobType, idx: number) => <ActiveJobListing key = {idx} job = {job} accountType= {accountType} clientCurrentBids = {clientCurrentBids} />)
+            userJobs.reverse().map((job: UserJobType, idx: number) => <JobListing key = {idx} job = {job} accountType= {accountType} clientCurrentBids = {clientCurrentBids} />)
           )
         }
         </div>
