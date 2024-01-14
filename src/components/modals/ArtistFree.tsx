@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom'
 
 import tattooPic from '../../assets/tattoo-modal.jpg'
 import linkdLogo from '../../assets/linkd-logo.png'
+import { useMobileCheck } from '../../hooks/isMobile'
 
 import { MdClose } from 'react-icons/md'
 
@@ -14,6 +15,9 @@ interface Props {
 const ArtistFree: React.FC<Props> = ({
     setShowModal
 }) => {
+
+    const isMobile = useMobileCheck()
+    
   return (
     <ModalBody>
         <MdClose 
@@ -21,7 +25,7 @@ const ArtistFree: React.FC<Props> = ({
             size = {'2rem'} 
             className = 'close-icon'
             onClick = {() => setShowModal(false)} />
-        <LeftSide>
+        <LeftSide isMobile = {isMobile}>
             <div className = 'header'>
                 <img src = {linkdLogo} alt = 'linkd logo' className = 'logo'/>
             </div>
@@ -45,7 +49,7 @@ const ArtistFree: React.FC<Props> = ({
                 <div className = 'line'></div>
             </div>
         </LeftSide>
-        <RightSide></RightSide>
+        { isMobile ? null : <RightSide />}
     </ModalBody>
   )
 }
@@ -73,20 +77,17 @@ const ModalBody = styled.div`
     .close-icon {
         position: absolute;
         top: 20px;
-        left: 20px;
+        left: 50px;
         cursor: pointer;
     }
 
 `
 
-const LeftSide = styled.div`
+const LeftSide = styled.div<{isMobile: boolean}>`
     background: rgba(0,0,0,0.9);
     height: 100%;
-    width: 50%;
-
-    @media(max-width: ${pr => pr.theme.media.tablet}){
-        width: 60%
-    }
+    width: ${pr => pr.isMobile ? '80%' : '50%'};
+    margin: ${pr => pr.isMobile ? '0 auto' : '0'};
 
     .logo {
         width: 50%;
