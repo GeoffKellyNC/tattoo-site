@@ -58,7 +58,6 @@ const ModalBody = styled.div`
     top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #fff;
     width: 100%;
     max-width: 900px;
     height: 100%;
@@ -81,7 +80,7 @@ const ModalBody = styled.div`
 `
 
 const LeftSide = styled.div`
-    background: ${pr => pr.theme.color.black};
+    background: rgba(0,0,0,0.9);
     height: 100%;
     width: 50%;
 
