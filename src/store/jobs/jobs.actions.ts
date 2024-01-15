@@ -249,7 +249,6 @@ export const getArtistDataForBid =  (artistId: string) => async (dispatch: Dispa
 
 export const clientAcceptBid = (job_id: string, artist_id: string) => async (dispatch: Dispatch): Promise<boolean> => {
     try {
-        console.log('Accepting Bid') //!REMOVE
         const res = await axiosWithAuth().post(`${BASE_URL}/jobs/accept-bid`, {job_id, artist_id})
 
         if (res.status !== 200){

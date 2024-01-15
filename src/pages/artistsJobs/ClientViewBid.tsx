@@ -1,9 +1,6 @@
 import React from 'react'
 import { JobBidType, UserJobType } from '../../store/jobs/ts-types/jobTypes';
-import { ArtistFullProfile } from '../../store/user/types/userStateTypes';
 import { Drawer } from 'antd';
-import * as jobActions from '../../store/jobs/jobs.actions';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 
@@ -13,7 +10,6 @@ interface Props {
     bidDrwaerOpen: boolean;
     setBidDrwaerOpen: React.Dispatch<React.SetStateAction<boolean>>;
     jobBids: JobBidType[];
-    getArtistDataForBid: (artistId: string) => Promise<ArtistFullProfile | boolean>;
     jobData: UserJobType;
 
 }
@@ -22,7 +18,6 @@ const ClientViewBid: React.FC<Props> = ({
     bidDrwaerOpen,
     setBidDrwaerOpen,
     jobBids,
-    getArtistDataForBid,
     jobData
 }) => {
   return (
@@ -44,7 +39,6 @@ const ClientViewBid: React.FC<Props> = ({
                         <Bid 
                             bidData = {bid} 
                             key = {idx} 
-                            getArtistDataForBid = {getArtistDataForBid}
                             jobData = {jobData} 
                             bidDrwaerOpen = {bidDrwaerOpen}/>
                         )
@@ -57,11 +51,8 @@ const ClientViewBid: React.FC<Props> = ({
 }
 
 
-const ConnectedClientViewBid = connect(null, {
-    getArtistDataForBid: jobActions.getArtistDataForBid
-})(ClientViewBid)
 
-export default ConnectedClientViewBid
+export default ClientViewBid
 
 
 const DrawerContainer = styled(Drawer)`

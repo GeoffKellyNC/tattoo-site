@@ -42,7 +42,7 @@ import { RiInstagramFill } from "react-icons/ri";
 
 
 
-interface Props {
+interface Props { 
     data: UserJobType,
     setJobOpen: React.Dispatch<React.SetStateAction<boolean>>,
     showButton?: boolean,
@@ -140,7 +140,7 @@ const FullJobModal: React.FC<Props> = ({
         return () => {
           document.removeEventListener("mousedown", handleClickOutside);
         };
-      }, [bidDrawerOpen, drawerOpen, setJobOpen]);
+      }, [ref, setJobOpen, drawerOpen, bidDrawerOpen]);
 
       const painTolerance = (tolerance: string | number) => {
         switch(tolerance){
@@ -213,6 +213,12 @@ const FullJobModal: React.FC<Props> = ({
             return
         }
 
+        const handleViewBidsClick = async (e) => {
+            console.log(`Viewing Bids for job ${data.job_id}`)
+            e.stopPropagation()
+            setBidDrawerOpen(true)
+        }
+
 
         
 
@@ -227,7 +233,7 @@ const FullJobModal: React.FC<Props> = ({
             </button>
         )}
         <div className = 'job-modal-header'>
-            <span className = 'job-title'>{data.job_title}</span>
+            <span className = 'job-title'>{data.job_title} - {data.job_id}</span>
             <div className = 'quick-info-section'>
                 <div className = 'location info-section'>
                     <IoLocationSharp color = '#ff54e2'  size = {'1.5rem'} className = 'icon' />
@@ -299,7 +305,7 @@ const FullJobModal: React.FC<Props> = ({
                         <div className = 'bid-count info-section'>
                             <FaMoneyBillAlt color = 'green' size =  {'1.5rem'} className = 'icon' />
                             <span className = 'quick-text'> Job has {jobBids.length} bids! </span>
-                            <button onClick = {() => setBidDrawerOpen(true)} className = 'make-bid-btn quick-text'> View Bids </button>
+                            <button onClick = {(e) => handleViewBidsClick(e)} className = 'make-bid-btn quick-text'> View Bids </button>
                         </div>
                     )
                 }
@@ -414,7 +420,7 @@ const FullJobModal: React.FC<Props> = ({
                 </AcceptedBidContainer>
             )
         }
-        <ModalBody>
+        <ModalBody> 
             <div className = 'desc body-section'>
                 <p className = 'desc-text'> {data.job_desc}  </p>
             </div>

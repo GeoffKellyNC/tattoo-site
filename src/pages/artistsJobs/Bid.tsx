@@ -33,8 +33,8 @@ const Bid: React.FC<Props> = ({
 
     const getArtistData = useCallback(async () => {
         try {
-            const artistData = await getArtistDataForBid(bidData.artist_id)
-            setArtistData(artistData)
+            setArtistData(await getArtistDataForBid(bidData.artist_id))
+
             setGettingArtistData(false)
             
         } catch (error) {
@@ -44,9 +44,10 @@ const Bid: React.FC<Props> = ({
     }, [bidData, getArtistDataForBid])
 
 
+
     useEffect(() => {
         getArtistData()
-    }, [getArtistData, bidDrwaerOpen, jobData.owner_user_name])
+    }, [getArtistData])
 
     const acceptBid = async () => {
         await clientAcceptBid(jobData.job_id, bidData.artist_id)
@@ -96,7 +97,8 @@ const Bid: React.FC<Props> = ({
 }
 
 const ConnectedBid = connect(null, {
-    clientAcceptBid: jobActions.clientAcceptBid
+    clientAcceptBid: jobActions.clientAcceptBid,
+    getArtistDataForBid: jobActions.getArtistDataForBid
 })(Bid)
 export default ConnectedBid
 
