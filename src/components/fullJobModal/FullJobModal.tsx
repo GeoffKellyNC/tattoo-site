@@ -232,8 +232,11 @@ const FullJobModal: React.FC<Props> = ({
                 <IoClose size={'2rem'}/>
             </button>
         )}
+        <JobId>
+            <span className = 'job-id'> {data.job_id} </span>
+        </JobId>
         <div className = 'job-modal-header'>
-            <span className = 'job-title'>{data.job_title} - {data.job_id}</span>
+            <span className = 'job-title'> {data.job_title} </span>
             <div className = 'quick-info-section'>
                 <div className = 'location info-section'>
                     <IoLocationSharp color = '#ff54e2'  size = {'1.5rem'} className = 'icon' />
@@ -820,6 +823,22 @@ const AcceptedBidContainer = styled.div`
 
     
 
+
+
+`
+
+const JobId = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 1rem;
+    margin-top: -2.5rem;
+
+    .job-id {
+        font-size: 1rem;
+        font-family: ${pr => pr.theme.font.family.secondary};
+        color: #f55963;
+    }
 
 
 `
