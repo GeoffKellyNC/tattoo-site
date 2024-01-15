@@ -11,6 +11,7 @@ const Header: React.FC = () => {
     const [showModal, setShowModal] = useState(true);
     return (
         <HeaderContainer>
+            <Overlay />
             {showModal && <ArtistFree setShowModal={setShowModal} />}
             <Background />
             <LogoContainer>
@@ -22,6 +23,16 @@ const Header: React.FC = () => {
 };
 
 export default Header;
+
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); 
+  z-index: 1; 
+`;
 
 const HeaderContainer = styled.header`
     position: relative;
@@ -65,6 +76,7 @@ const Tagline = styled.span`
     font-size: ${({ theme }) => theme.font.size.l};
     position: relative;
     top: 32%;
+    z-index: 10;
 
 
 
