@@ -23,7 +23,6 @@ const Bid: React.FC<Props> = ({
     bidData,
     getArtistDataForBid,
     jobData,
-    bidDrwaerOpen,
     clientAcceptBid
 }) => {
     const [artistData, setArtistData] = useState<any>(null)

@@ -25,7 +25,7 @@ const ClientPostedJobs: React.FC<Props> = ({
   userData
 }) => {
 
-  // const reversedJobs = [...userJobs].reverse()
+  const reversedJobs = [...userJobs].reverse()
 
   return (
     <StyledClientPostedJobs>
@@ -56,7 +56,7 @@ const ClientPostedJobs: React.FC<Props> = ({
               <span className = 'no-jobs-text'> NO JOBS POSTED </span>
             </div>
           ) : (
-            userJobs.map((job: UserJobType, idx: number) => <ActiveJobListing key = {idx} job = {job} accountType= {accountType} clientCurrentBids = {clientCurrentBids} />)
+            reversedJobs.map((job: UserJobType, idx: number) => <ActiveJobListing key = {idx} job = {job} accountType= {accountType} clientCurrentBids = {clientCurrentBids} />)
           )
         }
         </div>
