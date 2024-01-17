@@ -68,23 +68,22 @@ type LoginReturnType = { state: boolean; unxid: string | null } | boolean;
 export const registerUser = (data: RegisterTypes) => async (dispatch: Dispatch<NotifyAction>): Promise<RegisterReturnType> => {
     try {
 
-        await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/register`, data);
-        // const registerRes = await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/register`, data);
+        const registerRes = await axios.post(`${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/user/register`, data);
 
-        // const unxid = registerRes.data.data;
+        const unxid = registerRes.data.data;
 
 
-        // if(data.account_type === 'artist') {
-        //     const redirect = await axios.post(
-        //         `${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/stripe/create-checkout-session?unxid=${unxid}`,
-        //         {
-        //           lookup_key: "artist_monthly"
-        //         });
+        if(data.account_type === 'artist') {
+            const redirect = await axios.post(
+                `${import.meta.env.VITE_REACT_APP_API_ENDPOINT}/stripe/create-checkout-session?unxid=${unxid}`,
+                {
+                  lookup_key: "artist_monthly"
+                });
 
-        //         window.location.href = redirect.data.data;
+                window.location.href = redirect.data.data;
 
-        //         return
-        // }
+                return
+        }
 
         dispatch({
             type: notifyTypes.SET_NOTIFY,

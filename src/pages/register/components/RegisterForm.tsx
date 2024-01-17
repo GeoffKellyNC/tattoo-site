@@ -213,7 +213,7 @@ const RegisterForm: React.FC<RegisterProps> = ({
             setNotification('success', 'Registration Successful! Please check your email to verify your account')
             await registerUser(formValues)
             setFormValues(initFormValues)
-            if(formValues.account_type === 'client' || formValues.account_type === 'artist'){
+            if(formValues.account_type === 'client'){
                 nav('/login')
                 return
             }
