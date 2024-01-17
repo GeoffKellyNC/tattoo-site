@@ -34,9 +34,9 @@ const ArtistFree: React.FC<Props> = ({
                 <div className = 'line'></div>
             </div>
             <div className = 'text-container'>
-                <h2> Artists Sign up for Free!</h2>
-                <h3> Limited Time </h3>
-                <h4> Use code: <span className = 'code-text'> LINKDWELCOME2024 </span> </h4>
+                <h2> Artists get 6 months FREE!</h2>
+                <h3> Limited Time. Sign up today </h3>
+                <h4> Use code: <span className = 'code-text'> LINKDWELCOME06 </span> </h4>
                 <p>
                     To celebrate our launch and new artists to the platform, we are offering free sign up for a limited time. 
                     <span className = 'for-life-text'>It lasts for life!</span>
