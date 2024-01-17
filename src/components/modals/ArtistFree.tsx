@@ -36,8 +36,10 @@ const ArtistFree: React.FC<Props> = ({
             <div className = 'text-container'>
                 <h2> Artists Sign up for Free!</h2>
                 <h3> Limited Time </h3>
+                <h4> Use code: <span className = 'code-text'> LINKDWELCOME2024 </span> </h4>
                 <p>
-                    To celebrate our launch and new artists to the platform, we are offering free sign up for a limited time. It lasts for life!
+                    To celebrate our launch and new artists to the platform, we are offering free sign up for a limited time. 
+                    <span className = 'for-life-text'>It lasts for life!</span>
                 </p>
                 <NavLink to = '/register' className = 'sign-up-btn'>
                     Sign Up 
@@ -116,16 +118,40 @@ const LeftSide = styled.div<{isMobile: boolean}>`
             color: ${pr => pr.theme.color.white};
             font-size: ${pr => pr.theme.font.size.l};
             text-align: center;
+            margin-top: -1rem;
 
             @media(max-width: ${pr => pr.theme.media.tablet}){
                 font-size: ${pr => pr.theme.font.size.m};
             }
         }
 
+        h4 {
+            color: ${pr => pr.theme.color.white};
+            font-size: ${pr => pr.theme.font.size.l};
+            text-align: center;
+            margin-top: -1rem;
+
+            @media(max-width: ${pr => pr.theme.media.tablet}){
+                font-size: ${pr => pr.theme.font.size.m};
+            }
+
+            .code-text {
+                color: ${pr => pr.theme.color.red};
+            }
+        }
+
         p {
             color: ${pr => pr.theme.color.white};
-            font-size: ${pr => pr.theme.font.size.m};
+            font-size: 1.4rem;
             text-align: center;
+            width: 80%;
+            margin: 20px 5px;
+
+            .for-life-text {
+                color: #FFD700;
+                font-weight: 600;
+                padding-left: 3px;
+            }
 
             @media(max-width: ${pr => pr.theme.media.tablet}){
                 font-size: ${pr => pr.theme.font.size.s};
