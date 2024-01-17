@@ -39,7 +39,6 @@ const ArtistFree: React.FC<Props> = ({
                 <h4> Use code: <span className = 'code-text'> LINKDWELCOME06 </span> </h4>
                 <p>
                     To celebrate our launch and new artists to the platform, we are offering free sign up for a limited time. 
-                    <span className = 'for-life-text'>It lasts for life!</span>
                 </p>
                 <NavLink to = '/register' className = 'sign-up-btn'>
                     Sign Up 
